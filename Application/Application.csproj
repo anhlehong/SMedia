@@ -16,6 +16,7 @@
       <PackageReference Include="Mapster" Version="7.4.0" />
       <PackageReference Include="Mapster.DependencyInjection" Version="1.0.1" />
       <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.3" />
+      <PackageReference Include="Microsoft.AspNetCore.WebSockets" Version="2.2.1" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.3" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.3">
         <PrivateAssets>all</PrivateAssets>
@@ -31,6 +32,8 @@
       <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.13" />
       <PackageReference Include="NETCore.MailKit" Version="2.1.0" />
       <PackageReference Include="Newtonsoft.Json.Bson" Version="1.0.3" />
+      <PackageReference Include="Serilog.AspNetCore" Version="8.0.3" />
+      <PackageReference Include="Serilog.Sinks.Console" Version="5.0.0" />
       <PackageReference Include="StackExchange.Redis" Version="2.8.37" />
       <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.5.0" />
     </ItemGroup>
