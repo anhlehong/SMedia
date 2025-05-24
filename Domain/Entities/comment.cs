@@ -3,25 +3,25 @@ using System.Collections.Generic;
 
 namespace Domain.Entities;
 
-public partial class comment
+public partial class Comment
 {
-    public string comment_id { get; set; } = null!;
+    public Guid CommentId { get; set; }
 
-    public string post_id { get; set; } = null!;
+    public Guid PostId { get; set; }
 
-    public string user_id { get; set; } = null!;
+    public Guid UserId { get; set; }
 
-    public string? parent_comment_id { get; set; }
+    public Guid? ParentCommentId { get; set; }
 
-    public string content { get; set; } = null!;
+    public string Content { get; set; } = null!;
 
-    public DateTime? posted_at { get; set; }
+    public DateTime? PostedAt { get; set; }
 
-    public virtual ICollection<comment> Inverseparent_comment { get; set; } = new List<comment>();
+    public virtual ICollection<Comment> ChildComments { get; set; } = new List<Comment>();
 
-    public virtual comment? parent_comment { get; set; }
+    public virtual Comment? ParentComment { get; set; }
 
-    public virtual post post { get; set; } = null!;
+    public virtual Post Post { get; set; } = null!;
 
-    public virtual user user { get; set; } = null!;
+    public virtual User User { get; set; } = null!;
 }

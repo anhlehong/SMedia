@@ -3,29 +3,29 @@ using System.Collections.Generic;
 
 namespace Domain.Entities;
 
-public partial class notification
+public partial class Notification
 {
-    public string notification_id { get; set; } = null!;
+    public Guid NotificationId { get; set; }
 
-    public string user_id { get; set; } = null!;
+    public Guid UserId { get; set; }
 
-    public string type { get; set; } = null!;
+    public string Type { get; set; } = null!;
 
-    public string related_user_id { get; set; } = null!;
+    public Guid RelatedUserId { get; set; }
 
-    public string? related_post_id { get; set; }
+    public Guid? RelatedPostId { get; set; }
 
-    public string? related_message_id { get; set; }
+    public Guid? RelatedMessageId { get; set; }
 
-    public DateTime? posted_at { get; set; }
+    public DateTime? NotifiedAt { get; set; }
 
-    public bool? is_read { get; set; }
+    public bool? IsRead { get; set; }
 
-    public virtual message? related_message { get; set; }
+    public virtual Message? RelatedMessage { get; set; }
 
-    public virtual post? related_post { get; set; }
+    public virtual Post? RelatedPost { get; set; }
 
-    public virtual user related_user { get; set; } = null!;
+    public virtual User RelatedUser { get; set; } = null!;
 
-    public virtual user user { get; set; } = null!;
+    public virtual User User { get; set; } = null!;
 }

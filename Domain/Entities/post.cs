@@ -3,23 +3,31 @@ using System.Collections.Generic;
 
 namespace Domain.Entities;
 
-public partial class post
+public partial class Post
 {
-    public string post_id { get; set; } = null!;
+    public Guid PostId { get; set; }
 
-    public string user_id { get; set; } = null!;
+    public Guid UserId { get; set; }
 
-    public string content { get; set; } = null!;
+    public string Content { get; set; } = null!;
 
-    public string? status { get; set; }
+    public DateTime? PostedAt { get; set; }
 
-    public DateTime? posted_at { get; set; }
+    public Guid? GroupId { get; set; }
 
-    public virtual ICollection<comment> comments { get; set; } = new List<comment>();
+    public bool? IsApproved { get; set; }
 
-    public virtual ICollection<notification> notifications { get; set; } = new List<notification>();
+    public bool? IsVisible { get; set; }
 
-    public virtual ICollection<post_vote> post_votes { get; set; } = new List<post_vote>();
+    public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
-    public virtual user user { get; set; } = null!;
+    public virtual Group? Group { get; set; }
+
+    public virtual ICollection<Media> Media { get; set; } = new List<Media>();
+
+    public virtual ICollection<Notification> Notifications { get; set; } = new List<Notification>();
+
+    public virtual ICollection<PostVote> PostVotes { get; set; } = new List<PostVote>();
+
+    public virtual User User { get; set; } = null!;
 }

@@ -1,120 +1,78 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using Application.DTOs;
 using DotNetEnv;
-using Infrastructure.Data;
-using Application.Interfaces.ServiceInterfaces;
-using Application.Services;
-using Application.Interfaces.RepositoryInterfaces;
-using Infrastructure.Repositories;
-using Mapster;
-
+using SMedia.Configuration;
+using Serilog;
+using SMedia.Extensions;
 Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
+// Tắt tất cả logger mặc định
+builder.Logging.ClearProviders();
+
+// Cấu hình Serilog
+builder.Host.UseSerilog((context, configuration) =>
 {
-    options.DocInclusionPredicate((_, _) => true);
-    options.CustomOperationIds(e => e.ActionDescriptor.RouteValues["action"]);
-    options.OperationFilter<RemoveDefaultResponse>();
-
-    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        Description = "Nhập token JWT: Bearer {token}",
-        Name = "Authorization",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.ApiKey,
-        Scheme = "Bearer"
-    });
-
-    options.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            Array.Empty<string>()
-        }
-    });
+    configuration
+        .WriteTo.Console(
+            outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}")
+        .WriteTo.File("logs/log-.txt",
+            rollingInterval: RollingInterval.Day,
+            outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}")
+        .MinimumLevel.Information()
+        .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Fatal)
+        .MinimumLevel.Override("Microsoft.AspNetCore", Serilog.Events.LogEventLevel.Fatal)
+        .MinimumLevel.Override("Microsoft.EntityFrameworkCore", Serilog.Events.LogEventLevel.Fatal)
+        .MinimumLevel.Override("System", Serilog.Events.LogEventLevel.Fatal)
+        .Enrich.FromLogContext();
 });
 
-// Đọc cấu hình JWT từ .env
-var jwtConfig = new JwtConfiguration
+// Tắt log EF Core chi tiết
+builder.Services.AddLogging(logging =>
 {
-    Issuer = Env.GetString("JWT_ISSUER") ?? throw new InvalidOperationException("JWT_ISSUER is not set in .env"),
-    Audience = Env.GetString("JWT_AUDIENCE") ?? throw new InvalidOperationException("JWT_AUDIENCE is not set in .env"),
-    Key = Env.GetString("JWT_KEY") ?? throw new InvalidOperationException("JWT_KEY is not set in .env")
-};
+    logging.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.None);
+    logging.AddFilter("Microsoft.EntityFrameworkCore.Infrastructure", LogLevel.None);
+    logging.AddFilter("Microsoft.AspNetCore", LogLevel.None);
+    logging.AddFilter("System", LogLevel.None);
+});
 
-// Đăng ký JwtConfiguration như một singleton
-builder.Services.AddSingleton(jwtConfig);
 
-// Cấu hình JWT Authentication
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
+builder.Services.AddApplicationServices();
+// builder.Services.AddWebSocketServices();
+
+//Cho phép website khác truy cập vào API
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy =>
         {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = jwtConfig.Issuer,
-            ValidAudience = jwtConfig.Audience,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.Key))
-        };
-    });
-
-builder.Services.AddAuthorization();
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(Env.GetString("CONNECTION_STRING")));
-
-builder.Services.AddMemoryCache();
-
-// Đọc cấu hình email từ .env
-var emailConfig = new EmailConfiguration
-{
-    SmtpServer = Env.GetString("EMAIL_SMTP_SERVER") ?? throw new InvalidOperationException("EMAIL_SMTP_SERVER is not set in .env"),
-    Port = int.TryParse(Env.GetString("EMAIL_PORT"), out var port) ? port : throw new InvalidOperationException("EMAIL_PORT is not set or invalid in .env"),
-    SenderEmail = Env.GetString("EMAIL_SENDER_EMAIL") ?? throw new InvalidOperationException("EMAIL_SENDER_EMAIL is not set in .env"),
-    Password = Env.GetString("EMAIL_PASSWORD") ?? throw new InvalidOperationException("EMAIL_PASSWORD is not set in .env"),
-    SenderName = Env.GetString("EMAIL_SENDER_NAME") ?? throw new InvalidOperationException("EMAIL_SENDER_NAME is not set in .env")
-};
-
-// Đăng ký EmailConfiguration như một singleton
-builder.Services.AddSingleton(emailConfig);
-
-// Đăng ký Services
-builder.Services.AddScoped<IEmailService, EmailService>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
-
-// Đăng ký Repositories
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-
-// Thêm dịch vụ Mapster
-builder.Services.AddMapster();
-// Gọi cấu hình ánh xạ
-MapsterConfig.RegisterMappings();
+            policy.WithOrigins(Env.GetString("FQDN_FRONTEND"))
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "SMedia API V1");
+        options.RoutePrefix = "swagger";
+        options.DocumentTitle = "SMedia API Documentation";
+        options.DefaultModelsExpandDepth(-1); // Hide schemas section by default
+        options.DisplayRequestDuration();
+        options.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None); // Collapse operations by default
+    });
 }
+
+app.UseCustomHttpLogging();
+app.UseWebSockets(); // Kích hoạt WebSocket middleware
+// app.UseWebSocketHandler(); // Xử lý các yêu cầu WebSocket tại /ws
+
+// Đăng ký middleware
+app.UseMiddleware<RequestResponseLoggingMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();

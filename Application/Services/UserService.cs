@@ -31,7 +31,7 @@ public class UserService : IUserService
 
     public async Task<Alert?> Register(RegisterDto registerDto)
     {
-        var newUser = registerDto.Adapt<user>();
+        var newUser = registerDto.Adapt<User>();
         await _userRepository.Create(newUser);
 
         return new Alert()
@@ -52,5 +52,22 @@ public class UserService : IUserService
         {
             Token = token
         };
+    }
+    // ---------------------------------------------------------------------------------------------------------------
+    public async Task<UserDto> UpdateUserAsync(Guid userId, UserUpdateDto updateDto)
+    {
+        var user = await _userRepository.GetByIdAsync(userId)
+                   ?? throw new KeyNotFoundException("Người dùng không tồn tại");
+
+        updateDto.Adapt(user); // Sử dụng Mapster để ánh xạ, chỉ cập nhật các thuộc tính không null
+        await _userRepository.UpdateAsync(user);
+        return user.Adapt<UserDto>();
+    }
+
+    public async Task<UserDto> GetUserByIdAsync(Guid userId)
+    {
+        var user = await _userRepository.GetByIdAsync(userId)
+                   ?? throw new KeyNotFoundException("Người dùng không tồn tại");
+        return user.Adapt<UserDto>();
     }
 }
