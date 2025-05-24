@@ -160,28 +160,28 @@ public static class MapsterConfig
 
 //         --------------------------------------------------------------------
         // Ánh xạ cho MessageDto -> message
-        TypeAdapterConfig<MessageDto, message>.NewConfig()
-            .Map(dest => dest.message_id, src => src.message_id ?? Guid.NewGuid().ToString()) // Tạo mới message_id nếu null
-            .Map(dest => dest.sender_id, src => src.sender_id)
-            .Map(dest => dest.receiver_id, src => src.receiver_id)
-            .Map(dest => dest.group_chat_id, src => src.group_chat_id)
-            .Map(dest => dest.content, src => src.content)
-            .Map(dest => dest.media_type, src => src.media_type)
-            .Map(dest => dest.media_url, src => src.media_url)
-            .Map(dest => dest.sent_time, src => src.sent_time ?? DateTime.UtcNow) // Gán mặc định nếu null
-            .Map(dest => dest.is_read, src => src.is_read ?? false); // Gán mặc định nếu null
-
-        // Ánh xạ cho message -> MessageDto
-        TypeAdapterConfig<message, MessageDto>.NewConfig()
-            .Map(dest => dest.message_id, src => src.message_id)
-            .Map(dest => dest.sender_id, src => src.sender_id)
-            .Map(dest => dest.receiver_id, src => src.receiver_id)
-            .Map(dest => dest.group_chat_id, src => src.group_chat_id)
-            .Map(dest => dest.content, src => src.content)
-            .Map(dest => dest.media_type, src => src.media_type)
-            .Map(dest => dest.media_url, src => src.media_url)
-            .Map(dest => dest.sent_time, src => src.sent_time)
-            .Map(dest => dest.is_read, src => src.is_read);
+        // TypeAdapterConfig<MessageDto, message>.NewConfig()
+        //     .Map(dest => dest.message_id, src => src.message_id ?? Guid.NewGuid().ToString()) // Tạo mới message_id nếu null
+        //     .Map(dest => dest.sender_id, src => src.sender_id)
+        //     .Map(dest => dest.receiver_id, src => src.receiver_id)
+        //     .Map(dest => dest.group_chat_id, src => src.group_chat_id)
+        //     .Map(dest => dest.content, src => src.content)
+        //     .Map(dest => dest.media_type, src => src.media_type)
+        //     .Map(dest => dest.media_url, src => src.media_url)
+        //     .Map(dest => dest.sent_time, src => src.sent_time ?? DateTime.UtcNow) // Gán mặc định nếu null
+        //     .Map(dest => dest.is_read, src => src.is_read ?? false); // Gán mặc định nếu null
+        //
+        // // Ánh xạ cho message -> MessageDto
+        // TypeAdapterConfig<message, MessageDto>.NewConfig()
+        //     .Map(dest => dest.message_id, src => src.message_id)
+        //     .Map(dest => dest.sender_id, src => src.sender_id)
+        //     .Map(dest => dest.receiver_id, src => src.receiver_id)
+        //     .Map(dest => dest.group_chat_id, src => src.group_chat_id)
+        //     .Map(dest => dest.content, src => src.content)
+        //     .Map(dest => dest.media_type, src => src.media_type)
+        //     .Map(dest => dest.media_url, src => src.media_url)
+        //     .Map(dest => dest.sent_time, src => src.sent_time)
+        //     .Map(dest => dest.is_read, src => src.is_read);
 
 
         // không được xóa ------------------------------------------------------------------------------------------------------------
