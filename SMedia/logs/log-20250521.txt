@@ -1,0 +1,900 @@
+[15:39:00 INF] HTTP GET /api/Search/users?query=anh&skip=0&take=10 received from ::1
+[15:39:00 INF] Request: URL: http://localhost:5295/api/Search/users?query=anh&skip=0&take=10
+Authenticated: Yes
+Path Parameters:
+  action: SearchUsers
+  controller: Search
+Query Parameters:
+  query: anh
+  skip: 0
+  take: 10
+[15:39:02 ERR] Error: Unable to resolve service for type 'Application.Interfaces.ServiceInterfaces.ISearchService' while attempting to activate 'Presentation.Controllers.SearchController'.
+[15:39:02 INF] Response (Duration: 2102ms): API: GET /api/Search/users
+StatusCode: 500
+[15:47:48 INF] HTTP GET /api/Search/users?query=anh&skip=0&take=10 received from ::1
+[15:47:48 INF] Request: URL: http://localhost:5295/api/Search/users?query=anh&skip=0&take=10
+Authenticated: Yes
+Path Parameters:
+  action: SearchUsers
+  controller: Search
+Query Parameters:
+  query: anh
+  skip: 0
+  take: 10
+[15:47:48 ERR] Error: Unable to resolve service for type 'Application.Interfaces.ServiceInterfaces.ISearchService' while attempting to activate 'Presentation.Controllers.SearchController'.
+[15:47:48 INF] Response (Duration: 113ms): API: GET /api/Search/users
+StatusCode: 500
+[15:50:34 INF] HTTP GET /api/Search/users?query=anh&skip=0&take=10 received from ::1
+[15:50:35 INF] Request: URL: http://localhost:5295/api/Search/users?query=anh&skip=0&take=10
+Authenticated: Yes
+Path Parameters:
+  action: SearchUsers
+  controller: Search
+Query Parameters:
+  query: anh
+  skip: 0
+  take: 10
+[15:50:41 INF] Response (Duration: 6332ms): API: GET /api/Search/users
+StatusCode: 200
+Body:
+[
+  {
+    "userId": "f49cbe12-04fe-499a-aa6c-3d6e1a6f6d56",
+    "username": "anh01",
+    "email": "anh.anhle012345@gmail.com",
+    "fullName": "Anh Deadline",
+    "intro": null,
+    "image": "https://res.cloudinary.com/dapvvdxw7/image/upload/v1747159636/avatar_l2rwth.jpg",
+    "joinedAt": "2025-05-18T16:18:35.0465017"
+  },
+  {
+    "userId": "e60a6ec4-2820-4aec-933d-d763d81b7cb2",
+    "username": "anhwork",
+    "email": "anhlehongwork@gmail.com",
+    "fullName": "Anh Le Work",
+    "intro": null,
+    "image": "https://res.cloudinary.com/dapvvdxw7/image/upload/v1747159636/avatar_l2rwth.jpg",
+    "joinedAt": "2025-05-18T16:57:28.1960772"
+  }
+]
+[15:50:41 INF] HTTP 200 returned for GET /api/Search/users
+[15:50:55 INF] HTTP GET /api/Search/users?query=anh.anhle012345&skip=0&take=10 received from ::1
+[15:50:55 INF] Request: URL: http://localhost:5295/api/Search/users?query=anh.anhle012345&skip=0&take=10
+Authenticated: Yes
+Path Parameters:
+  action: SearchUsers
+  controller: Search
+Query Parameters:
+  query: anh.anhle012345
+  skip: 0
+  take: 10
+[15:50:56 INF] Response (Duration: 638ms): API: GET /api/Search/users
+StatusCode: 200
+Body:
+[
+  {
+    "userId": "f49cbe12-04fe-499a-aa6c-3d6e1a6f6d56",
+    "username": "anh01",
+    "email": "anh.anhle012345@gmail.com",
+    "fullName": "Anh Deadline",
+    "intro": null,
+    "image": "https://res.cloudinary.com/dapvvdxw7/image/upload/v1747159636/avatar_l2rwth.jpg",
+    "joinedAt": "2025-05-18T16:18:35.0465017"
+  }
+]
+[15:50:56 INF] HTTP 200 returned for GET /api/Search/users
+[15:53:54 INF] HTTP GET /api/Search/random-users?count=5 received from ::1
+[15:53:54 INF] Request: URL: http://localhost:5295/api/Search/random-users?count=5
+Authenticated: Yes
+Path Parameters:
+  action: GetRandomUsers
+  controller: Search
+Query Parameters:
+  count: 5
+[15:53:54 INF] Response (Duration: 257ms): API: GET /api/Search/random-users
+StatusCode: 200
+Body:
+[
+  {
+    "userId": "4b516857-e734-40fe-887a-b3e9e3b1392a",
+    "username": "4801104017",
+    "email": "4801104017@student.hcmue.edu.vn",
+    "fullName": null,
+    "intro": null,
+    "image": "https://res.cloudinary.com/dapvvdxw7/image/upload/v1747159636/avatar_l2rwth.jpg",
+    "joinedAt": "2025-05-20T07:37:51.1590691"
+  },
+  {
+    "userId": "f49cbe12-04fe-499a-aa6c-3d6e1a6f6d56",
+    "username": "anh01",
+    "email": "anh.anhle012345@gmail.com",
+    "fullName": "Anh Deadline",
+    "intro": null,
+    "image": "https://res.cloudinary.com/dapvvdxw7/image/upload/v1747159636/avatar_l2rwth.jpg",
+    "joinedAt": "2025-05-18T16:18:35.0465017"
+  },
+  {
+    "userId": "e60a6ec4-2820-4aec-933d-d763d81b7cb2",
+    "username": "anhwork",
+    "email": "anhlehongwork@gmail.com",
+    "fullName": "Anh Le Work",
+    "intro": null,
+    "image": "https://res.cloudinary.com/dapvvdxw7/image/upload/v1747159636/avatar_l2rwth.jpg",
+    "joinedAt": "2025-05-18T16:57:28.1960772"
+  }
+]
+[15:53:54 INF] HTTP 200 returned for GET /api/Search/random-users
+[15:54:20 INF] HTTP POST /api/Search/advanced-users?skip=0&take=10 received from ::1
+[15:54:21 INF] Request Body: {
+  "query": "anh",
+  "gender": "",
+  "joinedAfter": "",
+  "status": "string"
+}
+[15:54:21 INF] Request: URL: http://localhost:5295/api/Search/advanced-users?skip=0&take=10
+Authenticated: Yes
+Path Parameters:
+  action: AdvancedSearchUsers
+  controller: Search
+Query Parameters:
+  skip: 0
+  take: 10
+Body:
+{
+  "query": "anh",
+  "gender": "",
+  "joinedAfter": "",
+  "status": "string"
+}
+[15:54:21 INF] Response (Duration: 103ms): API: POST /api/Search/advanced-users
+StatusCode: 400
+Body:
+{"type":"https://tools.ietf.org/html/rfc9110#section-15.5.1","title":"One or more validation errors occurred.","status":400,"errors":{"searchDto":["The searchDto field is required."],"$.joinedAfter":["The JSON value could not be converted to System.Nullable`1[System.DateTime]. Path: $.joinedAfter | LineNumber: 3 | BytePositionInLine: 19."]},"traceId":"00-7edf980dd8e4307ef31230b06a215467-be18e40e5d6b1960-00"}
+[15:54:21 INF] HTTP 400 returned for POST /api/Search/advanced-users
+[15:54:30 INF] HTTP POST /api/Search/advanced-users?skip=0&take=10 received from ::1
+[15:54:30 INF] Request Body: {
+  "query": "anh",
+  "gender": "",
+  "joinedAfter": "",
+  "status": ""
+}
+[15:54:30 INF] Request: URL: http://localhost:5295/api/Search/advanced-users?skip=0&take=10
+Authenticated: Yes
+Path Parameters:
+  action: AdvancedSearchUsers
+  controller: Search
+Query Parameters:
+  skip: 0
+  take: 10
+Body:
+{
+  "query": "anh",
+  "gender": "",
+  "joinedAfter": "",
+  "status": ""
+}
+[15:54:30 INF] Response (Duration: 9ms): API: POST /api/Search/advanced-users
+StatusCode: 400
+Body:
+{"type":"https://tools.ietf.org/html/rfc9110#section-15.5.1","title":"One or more validation errors occurred.","status":400,"errors":{"searchDto":["The searchDto field is required."],"$.joinedAfter":["The JSON value could not be converted to System.Nullable`1[System.DateTime]. Path: $.joinedAfter | LineNumber: 3 | BytePositionInLine: 19."]},"traceId":"00-e70d1e239aed4f7e760a6104824066d6-52facf08f44252cc-00"}
+[15:54:30 INF] HTTP 400 returned for POST /api/Search/advanced-users
+[15:55:35 INF] HTTP POST /api/Search/advanced-users?skip=0&take=10 received from ::1
+[15:55:35 INF] Request Body: {
+        Query: 'john',
+        Gender: 'Male',
+        JoinedAfter: '2024-01-01T00:00:00Z',
+        Status: 'Active'
+      }
+[15:55:35 INF] Request: URL: http://localhost:5295/api/Search/advanced-users?skip=0&take=10
+Authenticated: Yes
+Path Parameters:
+  action: AdvancedSearchUsers
+  controller: Search
+Query Parameters:
+  skip: 0
+  take: 10
+Body:
+{
+        Query: 'john',
+        Gender: 'Male',
+        JoinedAfter: '2024-01-01T00:00:00Z',
+        Status: 'Active'
+      }
+[15:55:35 INF] Response (Duration: 10ms): API: POST /api/Search/advanced-users
+StatusCode: 400
+Body:
+{"type":"https://tools.ietf.org/html/rfc9110#section-15.5.1","title":"One or more validation errors occurred.","status":400,"errors":{"$":["'Q' is an invalid start of a property name. Expected a '\"'. Path: $ | LineNumber: 1 | BytePositionInLine: 8."],"searchDto":["The searchDto field is required."]},"traceId":"00-37fc9597663df2299de92f35ecbc49fc-6481829ec661bd5f-00"}
+[15:55:35 INF] HTTP 400 returned for POST /api/Search/advanced-users
+[15:56:08 INF] HTTP POST /api/Search/advanced-users?skip=0&take=10 received from ::1
+[15:56:08 INF] Request Body: {
+  "Query": "john",
+  "Gender": "Male",
+  "JoinedAfter": "2024-01-01T00:00:00Z",
+  "Status": "Active"
+}
+[15:56:08 INF] Request: URL: http://localhost:5295/api/Search/advanced-users?skip=0&take=10
+Authenticated: Yes
+Path Parameters:
+  action: AdvancedSearchUsers
+  controller: Search
+Query Parameters:
+  skip: 0
+  take: 10
+Body:
+{
+  "Query": "john",
+  "Gender": "Male",
+  "JoinedAfter": "2024-01-01T00:00:00Z",
+  "Status": "Active"
+}
+[15:56:09 INF] Response (Duration: 625ms): API: POST /api/Search/advanced-users
+StatusCode: 200
+Body:
+[]
+[15:56:09 INF] HTTP 200 returned for POST /api/Search/advanced-users
+[15:56:14 INF] HTTP POST /api/Search/advanced-users?skip=0&take=10 received from ::1
+[15:56:14 INF] Request Body: {
+  "Query": "john",
+  "Gender": "Male",
+  "JoinedAfter": "2024-01-01T00:00:00Z",
+  "Status": ""
+}
+[15:56:14 INF] Request: URL: http://localhost:5295/api/Search/advanced-users?skip=0&take=10
+Authenticated: Yes
+Path Parameters:
+  action: AdvancedSearchUsers
+  controller: Search
+Query Parameters:
+  skip: 0
+  take: 10
+Body:
+{
+  "Query": "john",
+  "Gender": "Male",
+  "JoinedAfter": "2024-01-01T00:00:00Z",
+  "Status": ""
+}
+[15:56:15 INF] Response (Duration: 578ms): API: POST /api/Search/advanced-users
+StatusCode: 200
+Body:
+[]
+[15:56:15 INF] HTTP 200 returned for POST /api/Search/advanced-users
+[15:56:20 INF] HTTP POST /api/Search/advanced-users?skip=0&take=10 received from ::1
+[15:56:20 INF] Request Body: {
+  "Query": "john",
+  "Gender": "Male",
+  "JoinedAfter": "",
+  "Status": ""
+}
+[15:56:20 INF] Request: URL: http://localhost:5295/api/Search/advanced-users?skip=0&take=10
+Authenticated: Yes
+Path Parameters:
+  action: AdvancedSearchUsers
+  controller: Search
+Query Parameters:
+  skip: 0
+  take: 10
+Body:
+{
+  "Query": "john",
+  "Gender": "Male",
+  "JoinedAfter": "",
+  "Status": ""
+}
+[15:56:20 INF] Response (Duration: 12ms): API: POST /api/Search/advanced-users
+StatusCode: 400
+Body:
+{"type":"https://tools.ietf.org/html/rfc9110#section-15.5.1","title":"One or more validation errors occurred.","status":400,"errors":{"searchDto":["The searchDto field is required."],"$.JoinedAfter":["The JSON value could not be converted to System.Nullable`1[System.DateTime]. Path: $.JoinedAfter | LineNumber: 3 | BytePositionInLine: 19."]},"traceId":"00-0319c4b92d70ddead14319f0f664985b-0573641693e49225-00"}
+[15:56:20 INF] HTTP 400 returned for POST /api/Search/advanced-users
+[15:56:26 INF] HTTP POST /api/Search/advanced-users?skip=0&take=10 received from ::1
+[15:56:26 INF] Request Body: {
+  "Query": "john",
+  "Gender": "Male",
+  "JoinedAfter": "2012",
+  "Status": ""
+}
+[15:56:26 INF] Request: URL: http://localhost:5295/api/Search/advanced-users?skip=0&take=10
+Authenticated: Yes
+Path Parameters:
+  action: AdvancedSearchUsers
+  controller: Search
+Query Parameters:
+  skip: 0
+  take: 10
+Body:
+{
+  "Query": "john",
+  "Gender": "Male",
+  "JoinedAfter": "2012",
+  "Status": ""
+}
+[15:56:26 INF] Response (Duration: 8ms): API: POST /api/Search/advanced-users
+StatusCode: 400
+Body:
+{"type":"https://tools.ietf.org/html/rfc9110#section-15.5.1","title":"One or more validation errors occurred.","status":400,"errors":{"searchDto":["The searchDto field is required."],"$.JoinedAfter":["The JSON value could not be converted to System.Nullable`1[System.DateTime]. Path: $.JoinedAfter | LineNumber: 3 | BytePositionInLine: 23."]},"traceId":"00-aa4d70ffae58d325aec2a9153922cf12-2c24ca5d13088ffc-00"}
+[15:56:26 INF] HTTP 400 returned for POST /api/Search/advanced-users
+[15:56:32 INF] HTTP POST /api/Search/advanced-users?skip=0&take=10 received from ::1
+[15:56:32 INF] Request Body: {
+  "Query": "john",
+  "Gender": "Male",
+  "JoinedAfter": "2024-01-01T00:00:00Z",
+  "Status": ""
+}
+[15:56:32 INF] Request: URL: http://localhost:5295/api/Search/advanced-users?skip=0&take=10
+Authenticated: Yes
+Path Parameters:
+  action: AdvancedSearchUsers
+  controller: Search
+Query Parameters:
+  skip: 0
+  take: 10
+Body:
+{
+  "Query": "john",
+  "Gender": "Male",
+  "JoinedAfter": "2024-01-01T00:00:00Z",
+  "Status": ""
+}
+[15:56:32 INF] Response (Duration: 554ms): API: POST /api/Search/advanced-users
+StatusCode: 200
+Body:
+[]
+[15:56:32 INF] HTTP 200 returned for POST /api/Search/advanced-users
+[15:56:42 INF] HTTP POST /api/Search/advanced-users?skip=0&take=10 received from ::1
+[15:56:42 INF] Request Body: {
+  "Query": "john"
+}
+[15:56:42 INF] Request: URL: http://localhost:5295/api/Search/advanced-users?skip=0&take=10
+Authenticated: Yes
+Path Parameters:
+  action: AdvancedSearchUsers
+  controller: Search
+Query Parameters:
+  skip: 0
+  take: 10
+Body:
+{
+  "Query": "john"
+}
+[15:56:42 INF] Response (Duration: 551ms): API: POST /api/Search/advanced-users
+StatusCode: 200
+Body:
+[]
+[15:56:42 INF] HTTP 200 returned for POST /api/Search/advanced-users
+[15:56:50 INF] HTTP POST /api/Search/advanced-users?skip=0&take=10 received from ::1
+[15:56:50 INF] Request Body: {
+  "Status": ""
+}
+[15:56:50 INF] Request: URL: http://localhost:5295/api/Search/advanced-users?skip=0&take=10
+Authenticated: Yes
+Path Parameters:
+  action: AdvancedSearchUsers
+  controller: Search
+Query Parameters:
+  skip: 0
+  take: 10
+Body:
+{
+  "Status": ""
+}
+[15:56:50 INF] Response (Duration: 56ms): API: POST /api/Search/advanced-users
+StatusCode: 200
+Body:
+[
+  {
+    "userId": "4b516857-e734-40fe-887a-b3e9e3b1392a",
+    "username": "4801104017",
+    "email": "4801104017@student.hcmue.edu.vn",
+    "fullName": null,
+    "intro": null,
+    "image": "https://res.cloudinary.com/dapvvdxw7/image/upload/v1747159636/avatar_l2rwth.jpg",
+    "joinedAt": "2025-05-20T07:37:51.1590691"
+  },
+  {
+    "userId": "f49cbe12-04fe-499a-aa6c-3d6e1a6f6d56",
+    "username": "anh01",
+    "email": "anh.anhle012345@gmail.com",
+    "fullName": "Anh Deadline",
+    "intro": null,
+    "image": "https://res.cloudinary.com/dapvvdxw7/image/upload/v1747159636/avatar_l2rwth.jpg",
+    "joinedAt": "2025-05-18T16:18:35.0465017"
+  },
+  {
+    "userId": "e60a6ec4-2820-4aec-933d-d763d81b7cb2",
+    "username": "anhwork",
+    "email": "anhlehongwork@gmail.com",
+    "fullName": "Anh Le Work",
+    "intro": null,
+    "image": "https://res.cloudinary.com/dapvvdxw7/image/upload/v1747159636/avatar_l2rwth.jpg",
+    "joinedAt": "2025-05-18T16:57:28.1960772"
+  }
+]
+[15:56:50 INF] HTTP 200 returned for POST /api/Search/advanced-users
+[15:56:59 INF] HTTP POST /api/Search/advanced-users?skip=0&take=10 received from ::1
+[15:56:59 INF] Request Body: {
+  "Status": "Active"
+}
+[15:56:59 INF] Request: URL: http://localhost:5295/api/Search/advanced-users?skip=0&take=10
+Authenticated: Yes
+Path Parameters:
+  action: AdvancedSearchUsers
+  controller: Search
+Query Parameters:
+  skip: 0
+  take: 10
+Body:
+{
+  "Status": "Active"
+}
+[15:56:59 INF] Response (Duration: 63ms): API: POST /api/Search/advanced-users
+StatusCode: 200
+Body:
+[
+  {
+    "userId": "4b516857-e734-40fe-887a-b3e9e3b1392a",
+    "username": "4801104017",
+    "email": "4801104017@student.hcmue.edu.vn",
+    "fullName": null,
+    "intro": null,
+    "image": "https://res.cloudinary.com/dapvvdxw7/image/upload/v1747159636/avatar_l2rwth.jpg",
+    "joinedAt": "2025-05-20T07:37:51.1590691"
+  },
+  {
+    "userId": "f49cbe12-04fe-499a-aa6c-3d6e1a6f6d56",
+    "username": "anh01",
+    "email": "anh.anhle012345@gmail.com",
+    "fullName": "Anh Deadline",
+    "intro": null,
+    "image": "https://res.cloudinary.com/dapvvdxw7/image/upload/v1747159636/avatar_l2rwth.jpg",
+    "joinedAt": "2025-05-18T16:18:35.0465017"
+  },
+  {
+    "userId": "e60a6ec4-2820-4aec-933d-d763d81b7cb2",
+    "username": "anhwork",
+    "email": "anhlehongwork@gmail.com",
+    "fullName": "Anh Le Work",
+    "intro": null,
+    "image": "https://res.cloudinary.com/dapvvdxw7/image/upload/v1747159636/avatar_l2rwth.jpg",
+    "joinedAt": "2025-05-18T16:57:28.1960772"
+  }
+]
+[15:56:59 INF] HTTP 200 returned for POST /api/Search/advanced-users
+[15:59:20 INF] HTTP GET /api/Search/users?skip=0&take=10 received from ::1
+[15:59:20 INF] Request: URL: http://localhost:5295/api/Search/users?skip=0&take=10
+Authenticated: Yes
+Path Parameters:
+  action: SearchUsers
+  controller: Search
+Query Parameters:
+  skip: 0
+  take: 10
+[15:59:20 INF] Response (Duration: 139ms): API: GET /api/Search/users
+StatusCode: 401
+[15:59:20 INF] HTTP 401 returned for GET /api/Search/users
+[15:59:24 INF] HTTP GET /api/Search/users?query=anh&skip=0&take=10 received from ::1
+[15:59:24 INF] Request: URL: http://localhost:5295/api/Search/users?query=anh&skip=0&take=10
+Authenticated: Yes
+Path Parameters:
+  action: SearchUsers
+  controller: Search
+Query Parameters:
+  query: anh
+  skip: 0
+  take: 10
+[15:59:24 INF] Response (Duration: 8ms): API: GET /api/Search/users
+StatusCode: 401
+[15:59:24 INF] HTTP 401 returned for GET /api/Search/users
+[15:59:41 INF] HTTP GET /api/Search/users?query=anh&skip=0&take=10 received from ::1
+[15:59:41 INF] Request: URL: http://localhost:5295/api/Search/users?query=anh&skip=0&take=10
+Authenticated: Yes
+Token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZjQ5Y2JlMTItMDRmZS00OTlhLWFhNmMtM2Q2ZTFhNmY2ZDU2IiwidXNlcm5hbWUiOiJhbmgwMSIsImltYWdlIjoiaHR0cHM6Ly9yZXMuY2xvdWRpbmFyeS5jb20vZGFwdnZkeHc3L2ltYWdlL3VwbG9hZC92MTc0NzE1OTYzNi9hdmF0YXJfbDJyd3RoLmpwZyIsImV4cCI6MTc1MDE3OTU0OSwiaXNzIjoiTXlBcHAiLCJhdWQiOiJNeUNsaWVudEFwcCJ9.VREJ_Vsv0nRg8O-ZVhx7ZAcgi5NNk6A1x2LV-r50bdc
+Path Parameters:
+  action: SearchUsers
+  controller: Search
+Query Parameters:
+  query: anh
+  skip: 0
+  take: 10
+[15:59:46 INF] Response (Duration: 4944ms): API: GET /api/Search/users
+StatusCode: 200
+Body:
+[
+  {
+    "userId": "f49cbe12-04fe-499a-aa6c-3d6e1a6f6d56",
+    "username": "anh01",
+    "email": "anh.anhle012345@gmail.com",
+    "fullName": "Anh Deadline",
+    "intro": null,
+    "image": "https://res.cloudinary.com/dapvvdxw7/image/upload/v1747159636/avatar_l2rwth.jpg",
+    "joinedAt": "2025-05-18T16:18:35.0465017"
+  },
+  {
+    "userId": "e60a6ec4-2820-4aec-933d-d763d81b7cb2",
+    "username": "anhwork",
+    "email": "anhlehongwork@gmail.com",
+    "fullName": "Anh Le Work",
+    "intro": null,
+    "image": "https://res.cloudinary.com/dapvvdxw7/image/upload/v1747159636/avatar_l2rwth.jpg",
+    "joinedAt": "2025-05-18T16:57:28.1960772"
+  }
+]
+[15:59:46 INF] HTTP 200 returned for GET /api/Search/users
+[16:01:29 INF] HTTP GET /api/Users/e60a6ec4-2820-4aec-933d-d763d81b7cb2 received from ::1
+[16:01:29 INF] Request: URL: http://localhost:5295/api/Users/e60a6ec4-2820-4aec-933d-d763d81b7cb2
+Authenticated: Yes
+Token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZjQ5Y2JlMTItMDRmZS00OTlhLWFhNmMtM2Q2ZTFhNmY2ZDU2IiwidXNlcm5hbWUiOiJhbmgwMSIsImltYWdlIjoiaHR0cHM6Ly9yZXMuY2xvdWRpbmFyeS5jb20vZGFwdnZkeHc3L2ltYWdlL3VwbG9hZC92MTc0NzE1OTYzNi9hdmF0YXJfbDJyd3RoLmpwZyIsImV4cCI6MTc1MDE3OTU0OSwiaXNzIjoiTXlBcHAiLCJhdWQiOiJNeUNsaWVudEFwcCJ9.VREJ_Vsv0nRg8O-ZVhx7ZAcgi5NNk6A1x2LV-r50bdc
+Path Parameters:
+  action: GetUser
+  controller: Users
+  userId: e60a6ec4-2820-4aec-933d-d763d81b7cb2
+[16:01:31 INF] Response (Duration: 1589ms): API: GET /api/Users/e60a6ec4-2820-4aec-933d-d763d81b7cb2
+StatusCode: 200
+Body:
+{
+  "userId": "e60a6ec4-2820-4aec-933d-d763d81b7cb2",
+  "username": "anhwork",
+  "email": "anhlehongwork@gmail.com",
+  "fullName": "Anh Le Work",
+  "intro": null,
+  "image": "https://res.cloudinary.com/dapvvdxw7/image/upload/v1747159636/avatar_l2rwth.jpg",
+  "joinedAt": "2025-05-18T16:57:28.1960772"
+}
+[16:01:31 INF] HTTP 200 returned for GET /api/Users/e60a6ec4-2820-4aec-933d-d763d81b7cb2
+[16:03:24 INF] HTTP PUT /api/Users/e60a6ec4-2820-4aec-933d-d763d81b7cb2 received from ::1
+[16:03:24 INF] Request Body: {
+
+  "gender": "Feeeeee"
+}
+[16:03:24 INF] Request: URL: http://localhost:5295/api/Users/e60a6ec4-2820-4aec-933d-d763d81b7cb2
+Authenticated: Yes
+Token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZTYwYTZlYzQtMjgyMC00YWVjLTkzM2QtZDc2M2Q4MWI3Y2IyIiwidXNlcm5hbWUiOiJhbmh3b3JrIiwiaW1hZ2UiOiJodHRwczovL3Jlcy5jbG91ZGluYXJ5LmNvbS9kYXB2dmR4dzcvaW1hZ2UvdXBsb2FkL3YxNzQ3MTU5NjM2L2F2YXRhcl9sMnJ3dGguanBnIiwiZXhwIjoxNzUwMzIxMzQ3LCJpc3MiOiJNeUFwcCIsImF1ZCI6Ik15Q2xpZW50QXBwIn0.sB6Pp93I6RRsRBWhIWmQKffKMxSJy99_U4sR6HXnACs
+Path Parameters:
+  action: UpdateUser
+  controller: Users
+  userId: e60a6ec4-2820-4aec-933d-d763d81b7cb2
+Body:
+{
+  "gender": "Feeeeee"
+}
+[16:03:25 INF] Response (Duration: 1342ms): API: PUT /api/Users/e60a6ec4-2820-4aec-933d-d763d81b7cb2
+StatusCode: 200
+Body:
+{
+  "userId": "e60a6ec4-2820-4aec-933d-d763d81b7cb2",
+  "username": "anhwork",
+  "email": "anhlehongwork@gmail.com",
+  "fullName": "Anh Le Work",
+  "intro": null,
+  "image": "https://res.cloudinary.com/dapvvdxw7/image/upload/v1747159636/avatar_l2rwth.jpg",
+  "joinedAt": "2025-05-18T16:57:28.1960772"
+}
+[16:03:25 INF] HTTP 200 returned for PUT /api/Users/e60a6ec4-2820-4aec-933d-d763d81b7cb2
+[16:04:01 INF] HTTP PUT /api/Users/e60a6ec4-2820-4aec-933d-d763d81b7cb2 received from ::1
+[16:04:01 INF] Request Body: {
+  intro: "heluuu uuu"
+}
+[16:04:01 INF] Request: URL: http://localhost:5295/api/Users/e60a6ec4-2820-4aec-933d-d763d81b7cb2
+Authenticated: Yes
+Token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZTYwYTZlYzQtMjgyMC00YWVjLTkzM2QtZDc2M2Q4MWI3Y2IyIiwidXNlcm5hbWUiOiJhbmh3b3JrIiwiaW1hZ2UiOiJodHRwczovL3Jlcy5jbG91ZGluYXJ5LmNvbS9kYXB2dmR4dzcvaW1hZ2UvdXBsb2FkL3YxNzQ3MTU5NjM2L2F2YXRhcl9sMnJ3dGguanBnIiwiZXhwIjoxNzUwMzIxMzQ3LCJpc3MiOiJNeUFwcCIsImF1ZCI6Ik15Q2xpZW50QXBwIn0.sB6Pp93I6RRsRBWhIWmQKffKMxSJy99_U4sR6HXnACs
+Path Parameters:
+  action: UpdateUser
+  controller: Users
+  userId: e60a6ec4-2820-4aec-933d-d763d81b7cb2
+Body:
+{
+  intro: "heluuu uuu"
+}
+[16:04:02 INF] Response (Duration: 65ms): API: PUT /api/Users/e60a6ec4-2820-4aec-933d-d763d81b7cb2
+StatusCode: 400
+Body:
+{"type":"https://tools.ietf.org/html/rfc9110#section-15.5.1","title":"One or more validation errors occurred.","status":400,"errors":{"$":["'i' is an invalid start of a property name. Expected a '\"'. Path: $ | LineNumber: 1 | BytePositionInLine: 2."],"updateDto":["The updateDto field is required."]},"traceId":"00-8f5651582f2a1cef79282bb541c69795-3b8a41f35f2082e2-00"}
+[16:04:02 INF] HTTP 400 returned for PUT /api/Users/e60a6ec4-2820-4aec-933d-d763d81b7cb2
+[16:04:46 INF] HTTP PUT /api/Users/e60a6ec4-2820-4aec-933d-d763d81b7cb2 received from ::1
+[16:04:46 INF] Request Body: {
+"intro" : "hellooo"
+}
+[16:04:46 INF] Request: URL: http://localhost:5295/api/Users/e60a6ec4-2820-4aec-933d-d763d81b7cb2
+Authenticated: Yes
+Token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZTYwYTZlYzQtMjgyMC00YWVjLTkzM2QtZDc2M2Q4MWI3Y2IyIiwidXNlcm5hbWUiOiJhbmh3b3JrIiwiaW1hZ2UiOiJodHRwczovL3Jlcy5jbG91ZGluYXJ5LmNvbS9kYXB2dmR4dzcvaW1hZ2UvdXBsb2FkL3YxNzQ3MTU5NjM2L2F2YXRhcl9sMnJ3dGguanBnIiwiZXhwIjoxNzUwMzIxMzQ3LCJpc3MiOiJNeUFwcCIsImF1ZCI6Ik15Q2xpZW50QXBwIn0.sB6Pp93I6RRsRBWhIWmQKffKMxSJy99_U4sR6HXnACs
+Path Parameters:
+  action: UpdateUser
+  controller: Users
+  userId: e60a6ec4-2820-4aec-933d-d763d81b7cb2
+Body:
+{
+  "intro": "hellooo"
+}
+[16:04:47 INF] Response (Duration: 696ms): API: PUT /api/Users/e60a6ec4-2820-4aec-933d-d763d81b7cb2
+StatusCode: 200
+Body:
+{
+  "userId": "e60a6ec4-2820-4aec-933d-d763d81b7cb2",
+  "username": "anhwork",
+  "email": "anhlehongwork@gmail.com",
+  "fullName": "Anh Le Work",
+  "intro": "hellooo",
+  "image": "https://res.cloudinary.com/dapvvdxw7/image/upload/v1747159636/avatar_l2rwth.jpg",
+  "joinedAt": "2025-05-18T16:57:28.1960772"
+}
+[16:04:47 INF] HTTP 200 returned for PUT /api/Users/e60a6ec4-2820-4aec-933d-d763d81b7cb2
+[16:17:48 INF] HTTP POST /api/user-posts received from ::1
+[16:17:48 INF] Request Body: {
+  "content": "Post time VN",
+  "media": [
+    {
+      "mediaUrl": "string",
+      "mediaType": "string"
+    }
+  ]
+}
+[16:17:48 INF] Request: URL: http://localhost:5295/api/user-posts
+Authenticated: Yes
+Token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZTYwYTZlYzQtMjgyMC00YWVjLTkzM2QtZDc2M2Q4MWI3Y2IyIiwidXNlcm5hbWUiOiJhbmh3b3JrIiwiaW1hZ2UiOiJodHRwczovL3Jlcy5jbG91ZGluYXJ5LmNvbS9kYXB2dmR4dzcvaW1hZ2UvdXBsb2FkL3YxNzQ3MTU5NjM2L2F2YXRhcl9sMnJ3dGguanBnIiwiZXhwIjoxNzUwMzIxMzQ3LCJpc3MiOiJNeUFwcCIsImF1ZCI6Ik15Q2xpZW50QXBwIn0.sB6Pp93I6RRsRBWhIWmQKffKMxSJy99_U4sR6HXnACs
+Path Parameters:
+  action: CreateUserPost
+  controller: UserPosts
+Body:
+{
+  "content": "Post time VN",
+  "media": [
+    {
+      "mediaUrl": "string",
+      "mediaType": "string"
+    }
+  ]
+}
+[16:17:50 INF] Response (Duration: 2237ms): API: POST /api/user-posts
+StatusCode: 201
+Body:
+{
+  "postId": "e06c9529-0cfd-406c-97ac-71c384658089",
+  "userId": "e60a6ec4-2820-4aec-933d-d763d81b7cb2",
+  "content": "Post time VN",
+  "postedAt": "2025-05-21T16:17:48.5733341",
+  "groupId": null,
+  "isApproved": true,
+  "isVisible": true,
+  "media": [
+    {
+      "mediaId": "9ccbd880-0456-4982-becf-3633d6da3f71",
+      "mediaUrl": "string",
+      "mediaType": "string",
+      "uploadedAt": "2025-05-21T16:17:50.3854734",
+      "uploadedBy": "e60a6ec4-2820-4aec-933d-d763d81b7cb2"
+    }
+  ],
+  "voteCount": 0,
+  "isVotedByCurrentUser": false,
+  "commentCount": 0
+}
+[16:17:50 INF] HTTP 201 returned for POST /api/user-posts
+[16:40:27 INF] HTTP GET /.well-known/appspecific/com.chrome.devtools.json received from ::1
+[16:40:27 INF] Request: URL: https://localhost:44357/.well-known/appspecific/com.chrome.devtools.json
+Authenticated: Yes
+[16:40:27 INF] Response (Duration: 77ms): API: GET /.well-known/appspecific/com.chrome.devtools.json
+StatusCode: 404
+[16:40:27 INF] HTTP 404 returned for GET /.well-known/appspecific/com.chrome.devtools.json
+[16:57:59 INF] HTTP GET /api/Comments/post/2fd6bcdf-b41c-42f6-8d3a-7b538f0b1657?skip=0&take=10&nested=false received from ::1
+[16:57:59 INF] Request: URL: https://localhost:44357/api/Comments/post/2fd6bcdf-b41c-42f6-8d3a-7b538f0b1657?skip=0&take=10&nested=false
+Authenticated: Yes
+Path Parameters:
+  action: GetCommentsByPost
+  controller: Comments
+  postId: 2fd6bcdf-b41c-42f6-8d3a-7b538f0b1657
+Query Parameters:
+  skip: 0
+  take: 10
+  nested: false
+[16:57:59 INF] Response (Duration: 97ms): API: GET /api/Comments/post/2fd6bcdf-b41c-42f6-8d3a-7b538f0b1657
+StatusCode: 401
+[16:57:59 INF] HTTP 401 returned for GET /api/Comments/post/2fd6bcdf-b41c-42f6-8d3a-7b538f0b1657
+[16:59:31 INF] HTTP GET /api/Comments/post/2fd6bcdf-b41c-42f6-8d3a-7b538f0b1657?skip=0&take=10&nested=false received from ::1
+[16:59:31 INF] Request: URL: http://localhost:5295/api/Comments/post/2fd6bcdf-b41c-42f6-8d3a-7b538f0b1657?skip=0&take=10&nested=false
+Authenticated: Yes
+Path Parameters:
+  action: GetCommentsByPost
+  controller: Comments
+  postId: 2fd6bcdf-b41c-42f6-8d3a-7b538f0b1657
+Query Parameters:
+  skip: 0
+  take: 10
+  nested: false
+[16:59:31 INF] Response (Duration: 37ms): API: GET /api/Comments/post/2fd6bcdf-b41c-42f6-8d3a-7b538f0b1657
+StatusCode: 401
+[16:59:31 INF] HTTP 401 returned for GET /api/Comments/post/2fd6bcdf-b41c-42f6-8d3a-7b538f0b1657
+[17:05:30 INF] HTTP GET /api/Comments/post/2fd6bcdf-b41c-42f6-8d3a-7b538f0b1657?skip=0&take=10&nested=false received from ::1
+[17:05:30 INF] Request: URL: http://localhost:5295/api/Comments/post/2fd6bcdf-b41c-42f6-8d3a-7b538f0b1657?skip=0&take=10&nested=false
+Authenticated: Yes
+Token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZTYwYTZlYzQtMjgyMC00YWVjLTkzM2QtZDc2M2Q4MWI3Y2IyIiwidXNlcm5hbWUiOiJhbmh3b3JrIiwiaW1hZ2UiOiJodHRwczovL3Jlcy5jbG91ZGluYXJ5LmNvbS9kYXB2dmR4dzcvaW1hZ2UvdXBsb2FkL3YxNzQ3MTU5NjM2L2F2YXRhcl9sMnJ3dGguanBnIiwiZXhwIjoxNzUwMzIxMzQ3LCJpc3MiOiJNeUFwcCIsImF1ZCI6Ik15Q2xpZW50QXBwIn0.sB6Pp93I6RRsRBWhIWmQKffKMxSJy99_U4sR6HXnACs
+Path Parameters:
+  action: GetCommentsByPost
+  controller: Comments
+  postId: 2fd6bcdf-b41c-42f6-8d3a-7b538f0b1657
+Query Parameters:
+  skip: 0
+  take: 10
+  nested: false
+[17:05:33 INF] Response (Duration: 3118ms): API: GET /api/Comments/post/2fd6bcdf-b41c-42f6-8d3a-7b538f0b1657
+StatusCode: 200
+Body:
+[
+  {
+    "commentId": "018b1f44-d32f-43e1-9dcf-a245e4264355",
+    "postId": "2fd6bcdf-b41c-42f6-8d3a-7b538f0b1657",
+    "userId": "4b516857-e734-40fe-887a-b3e9e3b1392a",
+    "username": "4801104017",
+    "parentCommentId": null,
+    "content": "hello ",
+    "postedAt": "2025-05-21T08:39:12.0833146",
+    "childComments": []
+  },
+  {
+    "commentId": "dbf0fd3a-5120-4d98-8099-6d6dbe94f8c9",
+    "postId": "2fd6bcdf-b41c-42f6-8d3a-7b538f0b1657",
+    "userId": "4b516857-e734-40fe-887a-b3e9e3b1392a",
+    "username": "4801104017",
+    "parentCommentId": null,
+    "content": "Hello 3",
+    "postedAt": "2025-05-21T08:34:20.7428391",
+    "childComments": []
+  },
+  {
+    "commentId": "df6d53de-4c5a-411a-9847-91b1451cabca",
+    "postId": "2fd6bcdf-b41c-42f6-8d3a-7b538f0b1657",
+    "userId": "4b516857-e734-40fe-887a-b3e9e3b1392a",
+    "username": "4801104017",
+    "parentCommentId": null,
+    "content": "Hello 2",
+    "postedAt": "2025-05-21T08:32:50.1129265",
+    "childComments": []
+  },
+  {
+    "commentId": "b1e3ba27-5db5-4fe7-8ff2-215990905ab9",
+    "postId": "2fd6bcdf-b41c-42f6-8d3a-7b538f0b1657",
+    "userId": "4b516857-e734-40fe-887a-b3e9e3b1392a",
+    "username": "4801104017",
+    "parentCommentId": null,
+    "content": "Hello",
+    "postedAt": "2025-05-21T08:31:07.6158936",
+    "childComments": []
+  },
+  {
+    "commentId": "0923ca06-1c48-41ee-bcaa-92b2ba77c699",
+    "postId": "2fd6bcdf-b41c-42f6-8d3a-7b538f0b1657",
+    "userId": "4b516857-e734-40fe-887a-b3e9e3b1392a",
+    "username": "4801104017",
+    "parentCommentId": null,
+    "content": "Hello",
+    "postedAt": "2025-05-21T08:04:51.2989547",
+    "childComments": []
+  },
+  {
+    "commentId": "cfb42c0e-2eb3-452c-b042-8af1b4ff6c81",
+    "postId": "2fd6bcdf-b41c-42f6-8d3a-7b538f0b1657",
+    "userId": "4b516857-e734-40fe-887a-b3e9e3b1392a",
+    "username": "4801104017",
+    "parentCommentId": null,
+    "content": "Hello",
+    "postedAt": "2025-05-21T08:04:09.9226532",
+    "childComments": []
+  },
+  {
+    "commentId": "1ce299de-898c-42c1-bf16-e7e9cd16d480",
+    "postId": "2fd6bcdf-b41c-42f6-8d3a-7b538f0b1657",
+    "userId": "4b516857-e734-40fe-887a-b3e9e3b1392a",
+    "username": "4801104017",
+    "parentCommentId": null,
+    "content": "Hello",
+    "postedAt": "2025-05-21T07:53:36.8832745",
+    "childComments": []
+  },
+  {
+    "commentId": "81ea8d80-2409-4dbe-910a-d1ba6e6cf96d",
+    "postId": "2fd6bcdf-b41c-42f6-8d3a-7b538f0b1657",
+    "userId": "4b516857-e734-40fe-887a-b3e9e3b1392a",
+    "username": "4801104017",
+    "parentCommentId": null,
+    "content": "hello",
+    "postedAt": "2025-05-21T07:51:33.6422057",
+    "childComments": []
+  }
+]
+[17:05:33 INF] HTTP 200 returned for GET /api/Comments/post/2fd6bcdf-b41c-42f6-8d3a-7b538f0b1657
+[17:05:39 INF] HTTP GET /api/Comments/post/2fd6bcdf-b41c-42f6-8d3a-7b538f0b1657?skip=0&take=10&nested=true received from ::1
+[17:05:39 INF] Request: URL: http://localhost:5295/api/Comments/post/2fd6bcdf-b41c-42f6-8d3a-7b538f0b1657?skip=0&take=10&nested=true
+Authenticated: Yes
+Token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZTYwYTZlYzQtMjgyMC00YWVjLTkzM2QtZDc2M2Q4MWI3Y2IyIiwidXNlcm5hbWUiOiJhbmh3b3JrIiwiaW1hZ2UiOiJodHRwczovL3Jlcy5jbG91ZGluYXJ5LmNvbS9kYXB2dmR4dzcvaW1hZ2UvdXBsb2FkL3YxNzQ3MTU5NjM2L2F2YXRhcl9sMnJ3dGguanBnIiwiZXhwIjoxNzUwMzIxMzQ3LCJpc3MiOiJNeUFwcCIsImF1ZCI6Ik15Q2xpZW50QXBwIn0.sB6Pp93I6RRsRBWhIWmQKffKMxSJy99_U4sR6HXnACs
+Path Parameters:
+  action: GetCommentsByPost
+  controller: Comments
+  postId: 2fd6bcdf-b41c-42f6-8d3a-7b538f0b1657
+Query Parameters:
+  skip: 0
+  take: 10
+  nested: true
+[17:05:44 INF] Response (Duration: 5359ms): API: GET /api/Comments/post/2fd6bcdf-b41c-42f6-8d3a-7b538f0b1657
+StatusCode: 200
+Body:
+[
+  {
+    "commentId": "018b1f44-d32f-43e1-9dcf-a245e4264355",
+    "postId": "2fd6bcdf-b41c-42f6-8d3a-7b538f0b1657",
+    "userId": "4b516857-e734-40fe-887a-b3e9e3b1392a",
+    "username": "4801104017",
+    "parentCommentId": null,
+    "content": "hello ",
+    "postedAt": "2025-05-21T08:39:12.0833146",
+    "childComments": []
+  },
+  {
+    "commentId": "dbf0fd3a-5120-4d98-8099-6d6dbe94f8c9",
+    "postId": "2fd6bcdf-b41c-42f6-8d3a-7b538f0b1657",
+    "userId": "4b516857-e734-40fe-887a-b3e9e3b1392a",
+    "username": "4801104017",
+    "parentCommentId": null,
+    "content": "Hello 3",
+    "postedAt": "2025-05-21T08:34:20.7428391",
+    "childComments": []
+  },
+  {
+    "commentId": "df6d53de-4c5a-411a-9847-91b1451cabca",
+    "postId": "2fd6bcdf-b41c-42f6-8d3a-7b538f0b1657",
+    "userId": "4b516857-e734-40fe-887a-b3e9e3b1392a",
+    "username": "4801104017",
+    "parentCommentId": null,
+    "content": "Hello 2",
+    "postedAt": "2025-05-21T08:32:50.1129265",
+    "childComments": []
+  },
+  {
+    "commentId": "b1e3ba27-5db5-4fe7-8ff2-215990905ab9",
+    "postId": "2fd6bcdf-b41c-42f6-8d3a-7b538f0b1657",
+    "userId": "4b516857-e734-40fe-887a-b3e9e3b1392a",
+    "username": "4801104017",
+    "parentCommentId": null,
+    "content": "Hello",
+    "postedAt": "2025-05-21T08:31:07.6158936",
+    "childComments": []
+  },
+  {
+    "commentId": "0923ca06-1c48-41ee-bcaa-92b2ba77c699",
+    "postId": "2fd6bcdf-b41c-42f6-8d3a-7b538f0b1657",
+    "userId": "4b516857-e734-40fe-887a-b3e9e3b1392a",
+    "username": "4801104017",
+    "parentCommentId": null,
+    "content": "Hello",
+    "postedAt": "2025-05-21T08:04:51.2989547",
+    "childComments": []
+  },
+  {
+    "commentId": "cfb42c0e-2eb3-452c-b042-8af1b4ff6c81",
+    "postId": "2fd6bcdf-b41c-42f6-8d3a-7b538f0b1657",
+    "userId": "4b516857-e734-40fe-887a-b3e9e3b1392a",
+    "username": "4801104017",
+    "parentCommentId": null,
+    "content": "Hello",
+    "postedAt": "2025-05-21T08:04:09.9226532",
+    "childComments": []
+  },
+  {
+    "commentId": "1ce299de-898c-42c1-bf16-e7e9cd16d480",
+    "postId": "2fd6bcdf-b41c-42f6-8d3a-7b538f0b1657",
+    "userId": "4b516857-e734-40fe-887a-b3e9e3b1392a",
+    "username": "4801104017",
+    "parentCommentId": null,
+    "content": "Hello",
+    "postedAt": "2025-05-21T07:53:36.8832745",
+    "childComments": []
+  },
+  {
+    "commentId": "81ea8d80-2409-4dbe-910a-d1ba6e6cf96d",
+    "postId": "2fd6bcdf-b41c-42f6-8d3a-7b538f0b1657",
+    "userId": "4b516857-e734-40fe-887a-b3e9e3b1392a",
+    "username": "4801104017",
+    "parentCommentId": null,
+    "content": "hello",
+    "postedAt": "2025-05-21T07:51:33.6422057",
+    "childComments": []
+  }
+]
+[17:05:44 INF] HTTP 200 returned for GET /api/Comments/post/2fd6bcdf-b41c-42f6-8d3a-7b538f0b1657

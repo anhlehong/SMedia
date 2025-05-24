@@ -22,700 +22,734 @@ namespace Infrastructure.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Domain.Entities.comment", b =>
+            modelBuilder.Entity("Domain.Entities.Comment", b =>
                 {
-                    b.Property<string>("comment_id")
-                        .HasMaxLength(36)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(36)");
+                    b.Property<Guid>("CommentId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("content")
+                    b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("parent_comment_id")
-                        .HasMaxLength(36)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(36)");
+                    b.Property<Guid?>("ParentCommentId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("post_id")
-                        .IsRequired()
-                        .HasMaxLength(36)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(36)");
+                    b.Property<Guid>("PostId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime?>("posted_at")
+                    b.Property<DateTime?>("PostedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("user_id")
-                        .IsRequired()
-                        .HasMaxLength(36)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(36)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("comment_id")
-                        .HasName("PK__comments__E79576872D4BCFF3");
+                    b.HasKey("CommentId")
+                        .HasName("PK__Comments__C3B4DFCADA3C829A");
 
-                    b.HasIndex(new[] { "parent_comment_id" }, "idx_comments_parent_comment_id");
+                    b.HasIndex(new[] { "ParentCommentId" }, "IDX_Comments_ParentCommentId");
 
-                    b.HasIndex(new[] { "post_id" }, "idx_comments_post_id");
+                    b.HasIndex(new[] { "PostId", "PostedAt" }, "IDX_Comments_PostId_PostedAt");
 
-                    b.HasIndex(new[] { "user_id" }, "idx_comments_user_id");
+                    b.HasIndex(new[] { "UserId" }, "IDX_Comments_UserId");
 
-                    b.ToTable("comments");
+                    b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("Domain.Entities.group_chat", b =>
+            modelBuilder.Entity("Domain.Entities.Group", b =>
                 {
-                    b.Property<string>("group_chat_id")
-                        .HasMaxLength(36)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(36)");
+                    b.Property<Guid>("GroupId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("created_by")
-                        .IsRequired()
-                        .HasMaxLength(36)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(36)");
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("group_name")
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("GroupName")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<DateTime?>("started_at")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("group_chat_id")
-                        .HasName("PK__group_ch__C4565A197B17399A");
-
-                    b.HasIndex(new[] { "created_by" }, "idx_group_chats_created_by");
-
-                    b.ToTable("group_chats");
-                });
-
-            modelBuilder.Entity("Domain.Entities.group_chat_member", b =>
-                {
-                    b.Property<string>("group_chat_id")
-                        .HasMaxLength(36)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(36)");
-
-                    b.Property<string>("user_id")
-                        .HasMaxLength(36)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(36)");
-
-                    b.Property<DateTime?>("joined_time")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("group_chat_id", "user_id")
-                        .HasName("PK__group_ch__2FCDB96954BC89A1");
-
-                    b.HasIndex(new[] { "user_id" }, "idx_group_chat_members_user_id");
-
-                    b.ToTable("group_chat_members");
-                });
-
-            modelBuilder.Entity("Domain.Entities.message", b =>
-                {
-                    b.Property<string>("message_id")
-                        .HasMaxLength(36)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(36)");
-
-                    b.Property<string>("content")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("group_chat_id")
-                        .HasMaxLength(36)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(36)");
-
-                    b.Property<bool?>("is_read")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("media_type")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("media_url")
+                    b.Property<string>("Image")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<string>("receiver_id")
-                        .HasMaxLength(36)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(36)");
-
-                    b.Property<string>("sender_id")
-                        .IsRequired()
-                        .HasMaxLength(36)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(36)");
-
-                    b.Property<DateTime?>("sent_time")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("message_id")
-                        .HasName("PK__messages__0BBF6EE642C374DA");
-
-                    b.HasIndex(new[] { "group_chat_id" }, "idx_messages_group_chat_id");
-
-                    b.HasIndex(new[] { "receiver_id" }, "idx_messages_receiver_id");
-
-                    b.HasIndex(new[] { "sender_id" }, "idx_messages_sender_id");
-
-                    b.HasIndex(new[] { "sent_time" }, "idx_messages_sent_time");
-
-                    b.ToTable("messages");
-                });
-
-            modelBuilder.Entity("Domain.Entities.notification", b =>
-                {
-                    b.Property<string>("notification_id")
-                        .HasMaxLength(36)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(36)");
-
-                    b.Property<bool?>("is_read")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("posted_at")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("related_message_id")
-                        .HasMaxLength(36)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(36)");
-
-                    b.Property<string>("related_post_id")
-                        .HasMaxLength(36)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(36)");
-
-                    b.Property<string>("related_user_id")
-                        .IsRequired()
-                        .HasMaxLength(36)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(36)");
-
-                    b.Property<string>("type")
+                    b.Property<string>("Visibility")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("user_id")
-                        .IsRequired()
-                        .HasMaxLength(36)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(36)");
+                    b.HasKey("GroupId")
+                        .HasName("PK__Groups__149AF36AA95CDC58");
 
-                    b.HasKey("notification_id")
-                        .HasName("PK__notifica__E059842F3BEEC7F2");
+                    b.HasIndex(new[] { "CreatedBy" }, "IDX_Groups_CreatedBy");
 
-                    b.HasIndex("related_message_id");
+                    b.HasIndex(new[] { "Visibility" }, "IDX_Groups_Visibility");
 
-                    b.HasIndex("related_post_id");
-
-                    b.HasIndex("related_user_id");
-
-                    b.HasIndex(new[] { "posted_at" }, "idx_notifications_posted_at");
-
-                    b.HasIndex(new[] { "type" }, "idx_notifications_type");
-
-                    b.HasIndex(new[] { "user_id" }, "idx_notifications_user_id");
-
-                    b.ToTable("notifications");
+                    b.ToTable("Groups");
                 });
 
-            modelBuilder.Entity("Domain.Entities.post", b =>
+            modelBuilder.Entity("Domain.Entities.GroupChat", b =>
                 {
-                    b.Property<string>("post_id")
-                        .HasMaxLength(36)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(36)");
+                    b.Property<Guid>("GroupChatId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("content")
+                    b.Property<string>("ChatName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ImageUrl")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<DateTime?>("StartedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("GroupChatId")
+                        .HasName("PK__GroupCha__C9AA2EA1E855EB61");
+
+                    b.HasIndex(new[] { "CreatedBy" }, "IDX_GroupChats_CreatedBy");
+
+                    b.ToTable("GroupChats");
+                });
+
+            modelBuilder.Entity("Domain.Entities.GroupChatMember", b =>
+                {
+                    b.Property<Guid>("GroupChatId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("JoinedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Role")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Status")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("GroupChatId", "UserId")
+                        .HasName("PK__GroupCha__18D2A2654B9D4A10");
+
+                    b.HasIndex(new[] { "GroupChatId", "Role" }, "IDX_GroupChatMembers_GroupChatId_Role");
+
+                    b.HasIndex(new[] { "UserId" }, "IDX_GroupChatMembers_UserId");
+
+                    b.ToTable("GroupChatMembers");
+                });
+
+            modelBuilder.Entity("Domain.Entities.GroupMember", b =>
+                {
+                    b.Property<Guid>("GroupId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("JoinedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Status")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("GroupId", "UserId")
+                        .HasName("PK__GroupMem__C5E27FAE9537C213");
+
+                    b.HasIndex(new[] { "GroupId", "Role" }, "IDX_GroupMembers_GroupId_Role");
+
+                    b.HasIndex(new[] { "Status" }, "IDX_GroupMembers_Status");
+
+                    b.HasIndex(new[] { "UserId" }, "IDX_GroupMembers_UserId");
+
+                    b.ToTable("GroupMembers");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Media", b =>
+                {
+                    b.Property<Guid>("MediaId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("MediaType")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("MediaUrl")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<Guid?>("MessageId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("PostId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UploadedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UploadedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("MediaId")
+                        .HasName("PK__Media__B2C2B5CF58E00B9C");
+
+                    b.HasIndex(new[] { "MessageId" }, "IDX_Media_MessageId");
+
+                    b.HasIndex(new[] { "PostId" }, "IDX_Media_PostId");
+
+                    b.HasIndex(new[] { "UploadedAt" }, "IDX_Media_UploadedAt");
+
+                    b.HasIndex(new[] { "UploadedBy" }, "IDX_Media_UploadedBy");
+
+                    b.ToTable("Media");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Message", b =>
+                {
+                    b.Property<Guid>("MessageId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("GroupChatId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool?>("IsRead")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<bool?>("IsVisible")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
+
+                    b.Property<Guid?>("ReceiverId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("SenderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("SentAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("MessageId")
+                        .HasName("PK__Messages__C87C0C9CBE070AB4");
+
+                    b.HasIndex(new[] { "GroupChatId", "SentAt" }, "IDX_Messages_GroupChatId_SentTime");
+
+                    b.HasIndex(new[] { "IsVisible" }, "IDX_Messages_IsVisible");
+
+                    b.HasIndex(new[] { "ReceiverId" }, "IDX_Messages_ReceiverId");
+
+                    b.HasIndex(new[] { "SenderId" }, "IDX_Messages_SenderId");
+
+                    b.ToTable("Messages");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Notification", b =>
+                {
+                    b.Property<Guid>("NotificationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool?>("IsRead")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("NotifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("RelatedMessageId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("RelatedPostId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RelatedUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("NotificationId")
+                        .HasName("PK__Notifica__20CF2E1204857B05");
+
+                    b.HasIndex("RelatedMessageId");
+
+                    b.HasIndex("RelatedPostId");
+
+                    b.HasIndex("RelatedUserId");
+
+                    b.HasIndex(new[] { "Type" }, "IDX_Notifications_Type");
+
+                    b.HasIndex(new[] { "UserId", "NotifiedAt" }, "IDX_Notifications_UserId_PostedAt");
+
+                    b.ToTable("Notifications");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Post", b =>
+                {
+                    b.Property<Guid>("PostId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("posted_at")
+                    b.Property<Guid?>("GroupId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool?>("IsApproved")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<bool?>("IsVisible")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
+
+                    b.Property<DateTime?>("PostedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("status")
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("PostId")
+                        .HasName("PK__Posts__AA126018B80AE7C9");
+
+                    b.HasIndex(new[] { "GroupId", "IsApproved", "PostedAt" }, "IDX_Posts_GroupId_IsApproved_PostedAt");
+
+                    b.HasIndex(new[] { "IsVisible" }, "IDX_Posts_IsVisible");
+
+                    b.HasIndex(new[] { "PostedAt" }, "IDX_Posts_PostedAt");
+
+                    b.HasIndex(new[] { "UserId", "PostedAt" }, "IDX_Posts_UserId_PostedAt");
+
+                    b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("Domain.Entities.PostVote", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PostId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("VoteType")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("user_id")
-                        .IsRequired()
-                        .HasMaxLength(36)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(36)");
-
-                    b.HasKey("post_id")
-                        .HasName("PK__posts__3ED78766278CA679");
-
-                    b.HasIndex(new[] { "user_id", "posted_at" }, "idx_posts_user_id_posted_at");
-
-                    b.ToTable("posts");
-                });
-
-            modelBuilder.Entity("Domain.Entities.post_vote", b =>
-                {
-                    b.Property<string>("user_id")
-                        .HasMaxLength(36)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(36)");
-
-                    b.Property<string>("post_id")
-                        .HasMaxLength(36)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(36)");
-
-                    b.Property<string>("vote_type")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime?>("voted_time")
+                    b.Property<DateTime?>("VotedAt")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("user_id", "post_id")
-                        .HasName("PK__post_vot__CA534F79D639C874");
+                    b.HasKey("UserId", "PostId")
+                        .HasName("PK__PostVote__8D29EA4D9834C106");
 
-                    b.HasIndex(new[] { "post_id" }, "idx_post_votes_post_id");
+                    b.HasIndex(new[] { "PostId" }, "IDX_PostVotes_PostId");
 
-                    b.ToTable("post_votes");
+                    b.HasIndex(new[] { "UserId" }, "IDX_PostVotes_UserId");
+
+                    b.ToTable("PostVotes");
                 });
 
-            modelBuilder.Entity("Domain.Entities.user", b =>
+            modelBuilder.Entity("Domain.Entities.User", b =>
                 {
-                    b.Property<string>("user_id")
-                        .HasMaxLength(36)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(36)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateOnly?>("birthday")
+                    b.Property<DateOnly?>("Birthday")
                         .HasColumnType("date");
 
-                    b.Property<string>("deleted_user_email")
+                    b.Property<string>("DeletedUserEmail")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("email")
+                    b.Property<string>("Email")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("full_name")
+                    b.Property<string>("FullName")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("gender")
+                    b.Property<string>("Gender")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("image")
+                    b.Property<string>("Image")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<string>("intro")
+                    b.Property<string>("Intro")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("joined_at")
+                    b.Property<DateTime?>("JoinedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("password_hash")
+                    b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<string>("status")
+                    b.Property<string>("Status")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("username")
+                    b.Property<string>("Username")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("user_id")
-                        .HasName("PK__users__B9BE370FDF963B05");
+                    b.HasKey("UserId")
+                        .HasName("PK__Users__1788CC4C89A5FCDE");
 
-                    b.HasIndex(new[] { "email" }, "UQ__users__AB6E616450DAD1D1")
-                        .IsUnique()
-                        .HasFilter("[email] IS NOT NULL");
+                    b.HasIndex(new[] { "Status", "JoinedAt" }, "IDX_Users_Status_JoinedAt");
 
-                    b.HasIndex(new[] { "username" }, "UQ__users__F3DBC57275435824")
+                    b.HasIndex(new[] { "Username" }, "UQ__Users__536C85E4E68D6526")
                         .IsUnique();
 
-                    b.HasIndex(new[] { "joined_at" }, "idx_users_joined_at");
+                    b.HasIndex(new[] { "Email" }, "UQ__Users__A9D10534C261CDB1")
+                        .IsUnique()
+                        .HasFilter("[Email] IS NOT NULL");
 
-                    b.HasIndex(new[] { "status" }, "idx_users_status");
-
-                    b.ToTable("users");
+                    b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Domain.Entities.user_block", b =>
+            modelBuilder.Entity("Domain.Entities.UserFollow", b =>
                 {
-                    b.Property<string>("blocker_id")
-                        .HasMaxLength(36)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(36)");
+                    b.Property<Guid>("FollowerId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("blocked_id")
-                        .HasMaxLength(36)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(36)");
+                    b.Property<Guid>("FollowedId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime?>("blocked_time")
+                    b.Property<DateTime?>("FollowedAt")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("blocker_id", "blocked_id")
-                        .HasName("PK__user_blo__638690F315B6A534");
+                    b.HasKey("FollowerId", "FollowedId")
+                        .HasName("PK__UserFoll__F7A5FC9F1E4BC56C");
 
-                    b.HasIndex("blocked_id");
+                    b.HasIndex(new[] { "FollowedId" }, "IDX_UserFollows_FollowedId");
 
-                    b.HasIndex(new[] { "blocker_id" }, "idx_user_blocks_blocker_id");
+                    b.HasIndex(new[] { "FollowerId" }, "IDX_UserFollows_FollowerId");
 
-                    b.ToTable("user_blocks");
+                    b.ToTable("UserFollows");
                 });
 
-            modelBuilder.Entity("Domain.Entities.user_follow", b =>
+            modelBuilder.Entity("Domain.Entities.Comment", b =>
                 {
-                    b.Property<string>("follower_id")
-                        .HasMaxLength(36)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(36)");
+                    b.HasOne("Domain.Entities.Comment", "ParentComment")
+                        .WithMany("ChildComments")
+                        .HasForeignKey("ParentCommentId")
+                        .HasConstraintName("FK_Comments_ParentCommentId");
 
-                    b.Property<string>("followed_id")
-                        .HasMaxLength(36)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(36)");
+                    b.HasOne("Domain.Entities.Post", "Post")
+                        .WithMany("Comments")
+                        .HasForeignKey("PostId")
+                        .IsRequired()
+                        .HasConstraintName("FK_Comments_PostId");
 
-                    b.Property<DateTime?>("followed_time")
-                        .HasColumnType("datetime2");
+                    b.HasOne("Domain.Entities.User", "User")
+                        .WithMany("Comments")
+                        .HasForeignKey("UserId")
+                        .IsRequired()
+                        .HasConstraintName("FK_Comments_UserId");
 
-                    b.HasKey("follower_id", "followed_id")
-                        .HasName("PK__user_fol__838707A392C5B5CF");
+                    b.Navigation("ParentComment");
 
-                    b.HasIndex(new[] { "followed_id" }, "idx_user_follows_followed_id");
+                    b.Navigation("Post");
 
-                    b.ToTable("user_follows");
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Domain.Entities.video_call", b =>
+            modelBuilder.Entity("Domain.Entities.Group", b =>
                 {
-                    b.Property<string>("call_id")
-                        .HasMaxLength(36)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(36)");
-
-                    b.Property<string>("caller_id")
+                    b.HasOne("Domain.Entities.User", "Creator")
+                        .WithMany("Groups")
+                        .HasForeignKey("CreatedBy")
                         .IsRequired()
-                        .HasMaxLength(36)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(36)");
+                        .HasConstraintName("FK_Groups_CreatedBy");
 
-                    b.Property<DateTime?>("end_time")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("group_chat_id")
-                        .HasMaxLength(36)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(36)");
-
-                    b.Property<string>("receiver_id")
-                        .HasMaxLength(36)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(36)");
-
-                    b.Property<DateTime?>("start_time")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("status")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("call_id")
-                        .HasName("PK__video_ca__427DCE6882AA82CC");
-
-                    b.HasIndex("receiver_id");
-
-                    b.HasIndex(new[] { "caller_id" }, "idx_video_calls_caller_id");
-
-                    b.HasIndex(new[] { "group_chat_id" }, "idx_video_calls_group_chat_id");
-
-                    b.HasIndex(new[] { "start_time" }, "idx_video_calls_start_time");
-
-                    b.ToTable("video_calls");
+                    b.Navigation("Creator");
                 });
 
-            modelBuilder.Entity("Domain.Entities.comment", b =>
+            modelBuilder.Entity("Domain.Entities.GroupChat", b =>
                 {
-                    b.HasOne("Domain.Entities.comment", "parent_comment")
-                        .WithMany("Inverseparent_comment")
-                        .HasForeignKey("parent_comment_id")
-                        .HasConstraintName("fk_comments_parent_comment_id");
-
-                    b.HasOne("Domain.Entities.post", "post")
-                        .WithMany("comments")
-                        .HasForeignKey("post_id")
+                    b.HasOne("Domain.Entities.User", "Creator")
+                        .WithMany("GroupChats")
+                        .HasForeignKey("CreatedBy")
                         .IsRequired()
-                        .HasConstraintName("fk_comments_post_id");
+                        .HasConstraintName("FK_GroupChats_CreatedBy");
 
-                    b.HasOne("Domain.Entities.user", "user")
-                        .WithMany("comments")
-                        .HasForeignKey("user_id")
-                        .IsRequired()
-                        .HasConstraintName("fk_comments_user_id");
-
-                    b.Navigation("parent_comment");
-
-                    b.Navigation("post");
-
-                    b.Navigation("user");
+                    b.Navigation("Creator");
                 });
 
-            modelBuilder.Entity("Domain.Entities.group_chat", b =>
+            modelBuilder.Entity("Domain.Entities.GroupChatMember", b =>
                 {
-                    b.HasOne("Domain.Entities.user", "created_byNavigation")
-                        .WithMany("group_chats")
-                        .HasForeignKey("created_by")
+                    b.HasOne("Domain.Entities.GroupChat", "GroupChat")
+                        .WithMany("GroupChatMembers")
+                        .HasForeignKey("GroupChatId")
                         .IsRequired()
-                        .HasConstraintName("fk_group_chats_created_by");
+                        .HasConstraintName("FK_GroupChatMembers_GroupChatId");
 
-                    b.Navigation("created_byNavigation");
+                    b.HasOne("Domain.Entities.User", "User")
+                        .WithMany("GroupChatMembers")
+                        .HasForeignKey("UserId")
+                        .IsRequired()
+                        .HasConstraintName("FK_GroupChatMembers_UserId");
+
+                    b.Navigation("GroupChat");
+
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Domain.Entities.group_chat_member", b =>
+            modelBuilder.Entity("Domain.Entities.GroupMember", b =>
                 {
-                    b.HasOne("Domain.Entities.group_chat", "group_chat")
-                        .WithMany("group_chat_members")
-                        .HasForeignKey("group_chat_id")
+                    b.HasOne("Domain.Entities.Group", "Group")
+                        .WithMany("GroupMembers")
+                        .HasForeignKey("GroupId")
                         .IsRequired()
-                        .HasConstraintName("fk_group_chat_members_group_chat_id");
+                        .HasConstraintName("FK_GroupMembers_GroupId");
 
-                    b.HasOne("Domain.Entities.user", "user")
-                        .WithMany("group_chat_members")
-                        .HasForeignKey("user_id")
+                    b.HasOne("Domain.Entities.User", "User")
+                        .WithMany("GroupMembers")
+                        .HasForeignKey("UserId")
                         .IsRequired()
-                        .HasConstraintName("fk_group_chat_members_user_id");
+                        .HasConstraintName("FK_GroupMembers_UserId");
 
-                    b.Navigation("group_chat");
+                    b.Navigation("Group");
 
-                    b.Navigation("user");
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Domain.Entities.message", b =>
+            modelBuilder.Entity("Domain.Entities.Media", b =>
                 {
-                    b.HasOne("Domain.Entities.group_chat", "group_chat")
-                        .WithMany("messages")
-                        .HasForeignKey("group_chat_id")
-                        .HasConstraintName("fk_messages_group_chat_id");
+                    b.HasOne("Domain.Entities.Message", "Message")
+                        .WithMany("Media")
+                        .HasForeignKey("MessageId")
+                        .HasConstraintName("FK_Media_MessageId");
 
-                    b.HasOne("Domain.Entities.user", "receiver")
-                        .WithMany("messagereceivers")
-                        .HasForeignKey("receiver_id")
-                        .HasConstraintName("fk_messages_receiver_id");
+                    b.HasOne("Domain.Entities.Post", "Post")
+                        .WithMany("Media")
+                        .HasForeignKey("PostId")
+                        .HasConstraintName("FK_Media_PostId");
 
-                    b.HasOne("Domain.Entities.user", "sender")
-                        .WithMany("messagesenders")
-                        .HasForeignKey("sender_id")
+                    b.HasOne("Domain.Entities.User", "UploadedByNavigation")
+                        .WithMany("UploadedMedia")
+                        .HasForeignKey("UploadedBy")
                         .IsRequired()
-                        .HasConstraintName("fk_messages_sender_id");
+                        .HasConstraintName("FK_Media_UploadedBy");
 
-                    b.Navigation("group_chat");
+                    b.Navigation("Message");
 
-                    b.Navigation("receiver");
+                    b.Navigation("Post");
 
-                    b.Navigation("sender");
+                    b.Navigation("UploadedByNavigation");
                 });
 
-            modelBuilder.Entity("Domain.Entities.notification", b =>
+            modelBuilder.Entity("Domain.Entities.Message", b =>
                 {
-                    b.HasOne("Domain.Entities.message", "related_message")
-                        .WithMany("notifications")
-                        .HasForeignKey("related_message_id")
-                        .HasConstraintName("fk_notifications_related_message_id");
+                    b.HasOne("Domain.Entities.GroupChat", "GroupChat")
+                        .WithMany("Messages")
+                        .HasForeignKey("GroupChatId")
+                        .HasConstraintName("FK_Messages_GroupChatId");
 
-                    b.HasOne("Domain.Entities.post", "related_post")
-                        .WithMany("notifications")
-                        .HasForeignKey("related_post_id")
-                        .HasConstraintName("fk_notifications_related_post_id");
+                    b.HasOne("Domain.Entities.User", "Receiver")
+                        .WithMany("ReceivedMessages")
+                        .HasForeignKey("ReceiverId")
+                        .HasConstraintName("FK_Messages_ReceiverId");
 
-                    b.HasOne("Domain.Entities.user", "related_user")
-                        .WithMany("notificationrelated_users")
-                        .HasForeignKey("related_user_id")
+                    b.HasOne("Domain.Entities.User", "Sender")
+                        .WithMany("SentMessages")
+                        .HasForeignKey("SenderId")
                         .IsRequired()
-                        .HasConstraintName("fk_notifications_related_user_id");
+                        .HasConstraintName("FK_Messages_SenderId");
 
-                    b.HasOne("Domain.Entities.user", "user")
-                        .WithMany("notificationusers")
-                        .HasForeignKey("user_id")
-                        .IsRequired()
-                        .HasConstraintName("fk_notifications_user_id");
+                    b.Navigation("GroupChat");
 
-                    b.Navigation("related_message");
+                    b.Navigation("Receiver");
 
-                    b.Navigation("related_post");
-
-                    b.Navigation("related_user");
-
-                    b.Navigation("user");
+                    b.Navigation("Sender");
                 });
 
-            modelBuilder.Entity("Domain.Entities.post", b =>
+            modelBuilder.Entity("Domain.Entities.Notification", b =>
                 {
-                    b.HasOne("Domain.Entities.user", "user")
-                        .WithMany("posts")
-                        .HasForeignKey("user_id")
+                    b.HasOne("Domain.Entities.Message", "RelatedMessage")
+                        .WithMany("Notifications")
+                        .HasForeignKey("RelatedMessageId")
+                        .HasConstraintName("FK_Notifications_RelatedMessageId");
+
+                    b.HasOne("Domain.Entities.Post", "RelatedPost")
+                        .WithMany("Notifications")
+                        .HasForeignKey("RelatedPostId")
+                        .HasConstraintName("FK_Notifications_RelatedPostId");
+
+                    b.HasOne("Domain.Entities.User", "RelatedUser")
+                        .WithMany("CreatedNotifications")
+                        .HasForeignKey("RelatedUserId")
                         .IsRequired()
-                        .HasConstraintName("fk_posts_user_id");
+                        .HasConstraintName("FK_Notifications_RelatedUserId");
 
-                    b.Navigation("user");
-                });
-
-            modelBuilder.Entity("Domain.Entities.post_vote", b =>
-                {
-                    b.HasOne("Domain.Entities.post", "post")
-                        .WithMany("post_votes")
-                        .HasForeignKey("post_id")
+                    b.HasOne("Domain.Entities.User", "User")
+                        .WithMany("ReceivedNotifications")
+                        .HasForeignKey("UserId")
                         .IsRequired()
-                        .HasConstraintName("fk_post_votes_post_id");
+                        .HasConstraintName("FK_Notifications_UserId");
 
-                    b.HasOne("Domain.Entities.user", "user")
-                        .WithMany("post_votes")
-                        .HasForeignKey("user_id")
+                    b.Navigation("RelatedMessage");
+
+                    b.Navigation("RelatedPost");
+
+                    b.Navigation("RelatedUser");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Post", b =>
+                {
+                    b.HasOne("Domain.Entities.Group", "Group")
+                        .WithMany("Posts")
+                        .HasForeignKey("GroupId")
+                        .HasConstraintName("FK_Posts_GroupId");
+
+                    b.HasOne("Domain.Entities.User", "User")
+                        .WithMany("Posts")
+                        .HasForeignKey("UserId")
                         .IsRequired()
-                        .HasConstraintName("fk_post_votes_user_id");
+                        .HasConstraintName("FK_Posts_UserId");
 
-                    b.Navigation("post");
+                    b.Navigation("Group");
 
-                    b.Navigation("user");
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Domain.Entities.user_block", b =>
+            modelBuilder.Entity("Domain.Entities.PostVote", b =>
                 {
-                    b.HasOne("Domain.Entities.user", "blocked")
-                        .WithMany("user_blockblockeds")
-                        .HasForeignKey("blocked_id")
+                    b.HasOne("Domain.Entities.Post", "Post")
+                        .WithMany("PostVotes")
+                        .HasForeignKey("PostId")
                         .IsRequired()
-                        .HasConstraintName("fk_user_blocks_blocked_id");
+                        .HasConstraintName("FK_PostVotes_PostId");
 
-                    b.HasOne("Domain.Entities.user", "blocker")
-                        .WithMany("user_blockblockers")
-                        .HasForeignKey("blocker_id")
+                    b.HasOne("Domain.Entities.User", "User")
+                        .WithMany("PostVotes")
+                        .HasForeignKey("UserId")
                         .IsRequired()
-                        .HasConstraintName("fk_user_blocks_blocker_id");
+                        .HasConstraintName("FK_PostVotes_UserId");
 
-                    b.Navigation("blocked");
+                    b.Navigation("Post");
 
-                    b.Navigation("blocker");
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Domain.Entities.user_follow", b =>
+            modelBuilder.Entity("Domain.Entities.UserFollow", b =>
                 {
-                    b.HasOne("Domain.Entities.user", "followed")
-                        .WithMany("user_followfolloweds")
-                        .HasForeignKey("followed_id")
+                    b.HasOne("Domain.Entities.User", "Followed")
+                        .WithMany("Followers")
+                        .HasForeignKey("FollowedId")
                         .IsRequired()
-                        .HasConstraintName("fk_user_follows_followed_id");
+                        .HasConstraintName("FK_UserFollows_FollowedId");
 
-                    b.HasOne("Domain.Entities.user", "follower")
-                        .WithMany("user_followfollowers")
-                        .HasForeignKey("follower_id")
+                    b.HasOne("Domain.Entities.User", "Follower")
+                        .WithMany("Followings")
+                        .HasForeignKey("FollowerId")
                         .IsRequired()
-                        .HasConstraintName("fk_user_follows_follower_id");
+                        .HasConstraintName("FK_UserFollows_FollowerId");
 
-                    b.Navigation("followed");
+                    b.Navigation("Followed");
 
-                    b.Navigation("follower");
+                    b.Navigation("Follower");
                 });
 
-            modelBuilder.Entity("Domain.Entities.video_call", b =>
+            modelBuilder.Entity("Domain.Entities.Comment", b =>
                 {
-                    b.HasOne("Domain.Entities.user", "caller")
-                        .WithMany("video_callcallers")
-                        .HasForeignKey("caller_id")
-                        .IsRequired()
-                        .HasConstraintName("fk_video_calls_caller_id");
-
-                    b.HasOne("Domain.Entities.group_chat", "group_chat")
-                        .WithMany("video_calls")
-                        .HasForeignKey("group_chat_id")
-                        .HasConstraintName("fk_video_calls_group_chat_id");
-
-                    b.HasOne("Domain.Entities.user", "receiver")
-                        .WithMany("video_callreceivers")
-                        .HasForeignKey("receiver_id")
-                        .HasConstraintName("fk_video_calls_receiver_id");
-
-                    b.Navigation("caller");
-
-                    b.Navigation("group_chat");
-
-                    b.Navigation("receiver");
+                    b.Navigation("ChildComments");
                 });
 
-            modelBuilder.Entity("Domain.Entities.comment", b =>
+            modelBuilder.Entity("Domain.Entities.Group", b =>
                 {
-                    b.Navigation("Inverseparent_comment");
+                    b.Navigation("GroupMembers");
+
+                    b.Navigation("Posts");
                 });
 
-            modelBuilder.Entity("Domain.Entities.group_chat", b =>
+            modelBuilder.Entity("Domain.Entities.GroupChat", b =>
                 {
-                    b.Navigation("group_chat_members");
+                    b.Navigation("GroupChatMembers");
 
-                    b.Navigation("messages");
-
-                    b.Navigation("video_calls");
+                    b.Navigation("Messages");
                 });
 
-            modelBuilder.Entity("Domain.Entities.message", b =>
+            modelBuilder.Entity("Domain.Entities.Message", b =>
                 {
-                    b.Navigation("notifications");
+                    b.Navigation("Media");
+
+                    b.Navigation("Notifications");
                 });
 
-            modelBuilder.Entity("Domain.Entities.post", b =>
+            modelBuilder.Entity("Domain.Entities.Post", b =>
                 {
-                    b.Navigation("comments");
+                    b.Navigation("Comments");
 
-                    b.Navigation("notifications");
+                    b.Navigation("Media");
 
-                    b.Navigation("post_votes");
+                    b.Navigation("Notifications");
+
+                    b.Navigation("PostVotes");
                 });
 
-            modelBuilder.Entity("Domain.Entities.user", b =>
+            modelBuilder.Entity("Domain.Entities.User", b =>
                 {
-                    b.Navigation("comments");
+                    b.Navigation("Comments");
 
-                    b.Navigation("group_chat_members");
+                    b.Navigation("CreatedNotifications");
 
-                    b.Navigation("group_chats");
+                    b.Navigation("Followers");
 
-                    b.Navigation("messagereceivers");
+                    b.Navigation("Followings");
 
-                    b.Navigation("messagesenders");
+                    b.Navigation("GroupChatMembers");
 
-                    b.Navigation("notificationrelated_users");
+                    b.Navigation("GroupChats");
 
-                    b.Navigation("notificationusers");
+                    b.Navigation("GroupMembers");
 
-                    b.Navigation("post_votes");
+                    b.Navigation("Groups");
 
-                    b.Navigation("posts");
+                    b.Navigation("PostVotes");
 
-                    b.Navigation("user_blockblockeds");
+                    b.Navigation("Posts");
 
-                    b.Navigation("user_blockblockers");
+                    b.Navigation("ReceivedMessages");
 
-                    b.Navigation("user_followfolloweds");
+                    b.Navigation("ReceivedNotifications");
 
-                    b.Navigation("user_followfollowers");
+                    b.Navigation("SentMessages");
 
-                    b.Navigation("video_callcallers");
-
-                    b.Navigation("video_callreceivers");
+                    b.Navigation("UploadedMedia");
                 });
 #pragma warning restore 612, 618
         }

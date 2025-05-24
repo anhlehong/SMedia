@@ -1,10 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
-
-    <PropertyGroup>
+<Project Sdk="Microsoft.NET.Sdk.Web">    <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <NoWarn>$(NoWarn);1591</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>
@@ -34,6 +34,7 @@
         <PackageReference Include="Serilog.Sinks.Console" Version="5.0.0" />
         <PackageReference Include="StackExchange.Redis" Version="2.8.37" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="8.0.3" />
     </ItemGroup>
 
     <ItemGroup>
@@ -46,11 +47,6 @@
       <ProjectReference Include="..\Application\Application.csproj" />
       <ProjectReference Include="..\Domain\Domain.csproj" />
       <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Configuration\" />
-      <Folder Include="WebSocketHandlers\" />
     </ItemGroup>
 
 </Project>

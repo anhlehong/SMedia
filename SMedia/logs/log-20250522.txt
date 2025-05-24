@@ -1,0 +1,372 @@
+[08:36:12 INF] HTTP GET /api/Users/f49cbe12-04fe-499a-aa6c-3d6e1a6f6d56 received from ::1
+[08:36:12 INF] Request: URL: http://localhost:5295/api/Users/f49cbe12-04fe-499a-aa6c-3d6e1a6f6d56
+Authenticated: Yes
+Token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZTYwYTZlYzQtMjgyMC00YWVjLTkzM2QtZDc2M2Q4MWI3Y2IyIiwidXNlcm5hbWUiOiJhbmh3b3JrIiwiaW1hZ2UiOiJodHRwczovL3Jlcy5jbG91ZGluYXJ5LmNvbS9kYXB2dmR4dzcvaW1hZ2UvdXBsb2FkL3YxNzQ3MTU5NjM2L2F2YXRhcl9sMnJ3dGguanBnIiwiZXhwIjoxNzUwMzIxMzQ3LCJpc3MiOiJNeUFwcCIsImF1ZCI6Ik15Q2xpZW50QXBwIn0.sB6Pp93I6RRsRBWhIWmQKffKMxSJy99_U4sR6HXnACs
+Path Parameters:
+  action: GetUser
+  controller: Users
+  userId: f49cbe12-04fe-499a-aa6c-3d6e1a6f6d56
+[08:36:20 INF] Response (Duration: 7537ms): API: GET /api/Users/f49cbe12-04fe-499a-aa6c-3d6e1a6f6d56
+StatusCode: 200
+Body:
+{
+  "userId": "f49cbe12-04fe-499a-aa6c-3d6e1a6f6d56",
+  "username": "anh01",
+  "email": "anh.anhle012345@gmail.com",
+  "fullName": "Anh Deadline",
+  "intro": null,
+  "image": "https://res.cloudinary.com/dapvvdxw7/image/upload/v1747159636/avatar_l2rwth.jpg",
+  "joinedAt": "2025-05-18T16:18:35.0465017"
+}
+[08:36:20 INF] HTTP 200 returned for GET /api/Users/f49cbe12-04fe-499a-aa6c-3d6e1a6f6d56
+[08:43:02 INF] HTTP GET /api/Search/random-users?count=5 received from ::1
+[08:43:03 INF] Request: URL: http://localhost:5295/api/Search/random-users?count=5
+Authenticated: Yes
+Path Parameters:
+  action: GetRandomUsers
+  controller: Search
+Query Parameters:
+  count: 5
+[08:43:03 INF] Response (Duration: 131ms): API: GET /api/Search/random-users
+StatusCode: 401
+[08:43:03 INF] HTTP 401 returned for GET /api/Search/random-users
+[09:48:08 INF] HTTP GET /api/Search/users?query=anh&page=1&pageSize=10 received from ::1
+[09:48:08 INF] Request: URL: http://localhost:5295/api/Search/users?query=anh&page=1&pageSize=10
+Authenticated: Yes
+Path Parameters:
+  action: SearchUsers
+  controller: Search
+Query Parameters:
+  query: anh
+  page: 1
+  pageSize: 10
+[09:48:08 INF] Response (Duration: 141ms): API: GET /api/Search/users
+StatusCode: 401
+[09:48:08 INF] HTTP 401 returned for GET /api/Search/users
+[09:48:29 INF] HTTP GET /api/Search/users?query=anh&page=1&pageSize=10 received from ::1
+[09:48:29 INF] Request: URL: http://localhost:5295/api/Search/users?query=anh&page=1&pageSize=10
+Authenticated: Yes
+Token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZTYwYTZlYzQtMjgyMC00YWVjLTkzM2QtZDc2M2Q4MWI3Y2IyIiwidXNlcm5hbWUiOiJhbmh3b3JrIiwiaW1hZ2UiOiJodHRwczovL3Jlcy5jbG91ZGluYXJ5LmNvbS9kYXB2dmR4dzcvaW1hZ2UvdXBsb2FkL3YxNzQ3MTU5NjM2L2F2YXRhcl9sMnJ3dGguanBnIiwiZXhwIjoxNzUwMzIxMzQ3LCJpc3MiOiJNeUFwcCIsImF1ZCI6Ik15Q2xpZW50QXBwIn0.sB6Pp93I6RRsRBWhIWmQKffKMxSJy99_U4sR6HXnACs
+Path Parameters:
+  action: SearchUsers
+  controller: Search
+Query Parameters:
+  query: anh
+  page: 1
+  pageSize: 10
+[09:48:35 INF] Response (Duration: 6381ms): API: GET /api/Search/users
+StatusCode: 200
+Body:
+[
+  {
+    "userId": "f49cbe12-04fe-499a-aa6c-3d6e1a6f6d56",
+    "username": "anh01",
+    "email": "anh.anhle012345@gmail.com",
+    "fullName": "Anh Deadline",
+    "intro": null,
+    "image": "https://res.cloudinary.com/dapvvdxw7/image/upload/v1747159636/avatar_l2rwth.jpg",
+    "joinedAt": "2025-05-18T16:18:35.0465017"
+  },
+  {
+    "userId": "e60a6ec4-2820-4aec-933d-d763d81b7cb2",
+    "username": "anhwork",
+    "email": "anhlehongwork@gmail.com",
+    "fullName": "Anh Le Work",
+    "intro": "hellooo",
+    "image": "https://res.cloudinary.com/dapvvdxw7/image/upload/v1747159636/avatar_l2rwth.jpg",
+    "joinedAt": "2025-05-18T16:57:28.1960772"
+  }
+]
+[09:48:35 INF] HTTP 200 returned for GET /api/Search/users
+[19:58:14 INF] HTTP GET /api/groups?page=1&pageSize=10 received from ::1
+[19:58:14 INF] Request: URL: http://localhost:5295/api/groups?page=1&pageSize=10
+Authenticated: Yes
+Token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZTYwYTZlYzQtMjgyMC00YWVjLTkzM2QtZDc2M2Q4MWI3Y2IyIiwidXNlcm5hbWUiOiJhbmh3b3JrIiwiaW1hZ2UiOiJodHRwczovL3Jlcy5jbG91ZGluYXJ5LmNvbS9kYXB2dmR4dzcvaW1hZ2UvdXBsb2FkL3YxNzQ3MTU5NjM2L2F2YXRhcl9sMnJ3dGguanBnIiwiZXhwIjoxNzUwMzIxMzQ3LCJpc3MiOiJNeUFwcCIsImF1ZCI6Ik15Q2xpZW50QXBwIn0.sB6Pp93I6RRsRBWhIWmQKffKMxSJy99_U4sR6HXnACs
+Path Parameters:
+  action: GetGroups
+  controller: Groups
+Query Parameters:
+  page: 1
+  pageSize: 10
+[19:58:24 INF] Response (Duration: 9451ms): API: GET /api/groups
+StatusCode: 200
+Body:
+[
+  {
+    "groupId": "d366435a-856f-4547-896a-d00b2b9ecfc1",
+    "groupName": "9",
+    "visibility": "Public",
+    "createdBy": "4b516857-e734-40fe-887a-b3e9e3b1392a",
+    "createdAt": "2025-05-22T11:35:23.8008869",
+    "image": null,
+    "memberCount": 1
+  },
+  {
+    "groupId": "e04a3ff7-2b32-4c71-a9e0-4d8ae62fbd6a",
+    "groupName": "8",
+    "visibility": "Public",
+    "createdBy": "4b516857-e734-40fe-887a-b3e9e3b1392a",
+    "createdAt": "2025-05-22T11:31:13.2308624",
+    "image": null,
+    "memberCount": 1
+  },
+  {
+    "groupId": "940832e4-7d05-4e23-8616-0345fec659dc",
+    "groupName": "7",
+    "visibility": "Public",
+    "createdBy": "4b516857-e734-40fe-887a-b3e9e3b1392a",
+    "createdAt": "2025-05-22T11:30:15.3984644",
+    "image": null,
+    "memberCount": 1
+  },
+  {
+    "groupId": "051c91c2-9cc5-4204-bc3d-647b83634410",
+    "groupName": "6",
+    "visibility": "Public",
+    "createdBy": "4b516857-e734-40fe-887a-b3e9e3b1392a",
+    "createdAt": "2025-05-22T11:27:07.5640573",
+    "image": null,
+    "memberCount": 1
+  },
+  {
+    "groupId": "84046027-233b-404e-a18b-6084f671be72",
+    "groupName": "1",
+    "visibility": "Public",
+    "createdBy": "4b516857-e734-40fe-887a-b3e9e3b1392a",
+    "createdAt": "2025-05-22T11:23:36.270681",
+    "image": "https://socialmediastoragebinh.blob.core.windows.net/user-uploads/1747887789683-boy.jpg",
+    "memberCount": 1
+  },
+  {
+    "groupId": "9fefeff2-8702-4ba8-9067-9833ce44b75a",
+    "groupName": "2",
+    "visibility": "Public",
+    "createdBy": "4b516857-e734-40fe-887a-b3e9e3b1392a",
+    "createdAt": "2025-05-22T11:22:00.8971561",
+    "image": "https://socialmediastoragebinh.blob.core.windows.net/user-uploads/1747887698273-boy.jpg",
+    "memberCount": 1
+  },
+  {
+    "groupId": "c43c9e2b-b0b6-406f-ba78-523763b4db4f",
+    "groupName": "5",
+    "visibility": "Public",
+    "createdBy": "4b516857-e734-40fe-887a-b3e9e3b1392a",
+    "createdAt": "2025-05-22T11:19:11.7141966",
+    "image": "https://socialmediastoragebinh.blob.core.windows.net/user-uploads/1747887520780-boy.jpg",
+    "memberCount": 1
+  },
+  {
+    "groupId": "e66266ca-7c6c-4c4e-ace4-ef863a064a05",
+    "groupName": "5",
+    "visibility": "Public",
+    "createdBy": "4b516857-e734-40fe-887a-b3e9e3b1392a",
+    "createdAt": "2025-05-22T11:19:11.7127385",
+    "image": "https://socialmediastoragebinh.blob.core.windows.net/user-uploads/1747887520620-boy.jpg",
+    "memberCount": 1
+  },
+  {
+    "groupId": "ee3e1065-e968-4634-8c4d-983a6ec298b5",
+    "groupName": "5",
+    "visibility": "Public",
+    "createdBy": "4b516857-e734-40fe-887a-b3e9e3b1392a",
+    "createdAt": "2025-05-22T11:19:04.8750227",
+    "image": "https://socialmediastoragebinh.blob.core.windows.net/user-uploads/1747887519851-boy.jpg",
+    "memberCount": 1
+  },
+  {
+    "groupId": "fc2ed03c-29e4-46f0-8042-29d45dcc4fff",
+    "groupName": "5",
+    "visibility": "Public",
+    "createdBy": "4b516857-e734-40fe-887a-b3e9e3b1392a",
+    "createdAt": "2025-05-22T11:19:02.1866491",
+    "image": "https://socialmediastoragebinh.blob.core.windows.net/user-uploads/1747887520305-boy.jpg",
+    "memberCount": 1
+  }
+]
+[19:58:24 INF] HTTP 200 returned for GET /api/groups
+[20:00:20 INF] HTTP GET /api/groups/e987b062-0e01-457e-b738-019939850622 received from ::1
+[20:00:20 INF] Request: URL: http://localhost:5295/api/groups/e987b062-0e01-457e-b738-019939850622
+Authenticated: Yes
+Token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZTYwYTZlYzQtMjgyMC00YWVjLTkzM2QtZDc2M2Q4MWI3Y2IyIiwidXNlcm5hbWUiOiJhbmh3b3JrIiwiaW1hZ2UiOiJodHRwczovL3Jlcy5jbG91ZGluYXJ5LmNvbS9kYXB2dmR4dzcvaW1hZ2UvdXBsb2FkL3YxNzQ3MTU5NjM2L2F2YXRhcl9sMnJ3dGguanBnIiwiZXhwIjoxNzUwMzIxMzQ3LCJpc3MiOiJNeUFwcCIsImF1ZCI6Ik15Q2xpZW50QXBwIn0.sB6Pp93I6RRsRBWhIWmQKffKMxSJy99_U4sR6HXnACs
+Path Parameters:
+  action: GetGroupById
+  controller: Groups
+  groupId: e987b062-0e01-457e-b738-019939850622
+[20:00:20 INF] Response (Duration: 83ms): API: GET /api/groups/e987b062-0e01-457e-b738-019939850622
+StatusCode: 200
+Body:
+{
+  "groupId": "e987b062-0e01-457e-b738-019939850622",
+  "groupName": "Test group",
+  "visibility": "Public",
+  "createdBy": "4b516857-e734-40fe-887a-b3e9e3b1392a",
+  "createdAt": "2025-05-22T10:45:48.9890448",
+  "image": null,
+  "memberCount": 1
+}
+[20:00:20 INF] HTTP 200 returned for GET /api/groups/e987b062-0e01-457e-b738-019939850622
+[21:02:24 INF] HTTP GET /api/group-members/fe61b36e-3e22-4268-9397-8e4a288f4a12/is-member-group received from ::1
+[21:02:24 INF] Request: URL: http://localhost:5295/api/group-members/fe61b36e-3e22-4268-9397-8e4a288f4a12/is-member-group
+Authenticated: Yes
+Token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZTYwYTZlYzQtMjgyMC00YWVjLTkzM2QtZDc2M2Q4MWI3Y2IyIiwidXNlcm5hbWUiOiJhbmh3b3JrIiwiaW1hZ2UiOiJodHRwczovL3Jlcy5jbG91ZGluYXJ5LmNvbS9kYXB2dmR4dzcvaW1hZ2UvdXBsb2FkL3YxNzQ3MTU5NjM2L2F2YXRhcl9sMnJ3dGguanBnIiwiZXhwIjoxNzUwMzIxMzQ3LCJpc3MiOiJNeUFwcCIsImF1ZCI6Ik15Q2xpZW50QXBwIn0.sB6Pp93I6RRsRBWhIWmQKffKMxSJy99_U4sR6HXnACs
+Path Parameters:
+  action: IsMemberOfGroup
+  controller: GroupMembers
+  groupId: fe61b36e-3e22-4268-9397-8e4a288f4a12
+[21:02:26 INF] Response (Duration: 2102ms): API: GET /api/group-members/fe61b36e-3e22-4268-9397-8e4a288f4a12/is-member-group
+StatusCode: 200
+Body:
+true
+[21:02:26 INF] HTTP 200 returned for GET /api/group-members/fe61b36e-3e22-4268-9397-8e4a288f4a12/is-member-group
+[21:02:37 INF] HTTP GET /api/group-members/fe61b36e-3e22-4268-9397-8e4a288f4a11/is-member-group received from ::1
+[21:02:37 INF] Request: URL: http://localhost:5295/api/group-members/fe61b36e-3e22-4268-9397-8e4a288f4a11/is-member-group
+Authenticated: Yes
+Token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZTYwYTZlYzQtMjgyMC00YWVjLTkzM2QtZDc2M2Q4MWI3Y2IyIiwidXNlcm5hbWUiOiJhbmh3b3JrIiwiaW1hZ2UiOiJodHRwczovL3Jlcy5jbG91ZGluYXJ5LmNvbS9kYXB2dmR4dzcvaW1hZ2UvdXBsb2FkL3YxNzQ3MTU5NjM2L2F2YXRhcl9sMnJ3dGguanBnIiwiZXhwIjoxNzUwMzIxMzQ3LCJpc3MiOiJNeUFwcCIsImF1ZCI6Ik15Q2xpZW50QXBwIn0.sB6Pp93I6RRsRBWhIWmQKffKMxSJy99_U4sR6HXnACs
+Path Parameters:
+  action: IsMemberOfGroup
+  controller: GroupMembers
+  groupId: fe61b36e-3e22-4268-9397-8e4a288f4a11
+[21:02:37 ERR] Error: Group not found.
+[21:02:37 INF] Response (Duration: 135ms): API: GET /api/group-members/fe61b36e-3e22-4268-9397-8e4a288f4a11/is-member-group
+StatusCode: 500
+[21:03:38 INF] HTTP GET /api/group-members/b95737b5-0f01-4855-9f36-75d4bf3ed384/is-member-group received from ::1
+[21:03:38 INF] Request: URL: http://localhost:5295/api/group-members/b95737b5-0f01-4855-9f36-75d4bf3ed384/is-member-group
+Authenticated: Yes
+Token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZTYwYTZlYzQtMjgyMC00YWVjLTkzM2QtZDc2M2Q4MWI3Y2IyIiwidXNlcm5hbWUiOiJhbmh3b3JrIiwiaW1hZ2UiOiJodHRwczovL3Jlcy5jbG91ZGluYXJ5LmNvbS9kYXB2dmR4dzcvaW1hZ2UvdXBsb2FkL3YxNzQ3MTU5NjM2L2F2YXRhcl9sMnJ3dGguanBnIiwiZXhwIjoxNzUwMzIxMzQ3LCJpc3MiOiJNeUFwcCIsImF1ZCI6Ik15Q2xpZW50QXBwIn0.sB6Pp93I6RRsRBWhIWmQKffKMxSJy99_U4sR6HXnACs
+Path Parameters:
+  action: IsMemberOfGroup
+  controller: GroupMembers
+  groupId: b95737b5-0f01-4855-9f36-75d4bf3ed384
+[21:03:38 INF] Response (Duration: 219ms): API: GET /api/group-members/b95737b5-0f01-4855-9f36-75d4bf3ed384/is-member-group
+StatusCode: 200
+Body:
+true
+[21:03:38 INF] HTTP 200 returned for GET /api/group-members/b95737b5-0f01-4855-9f36-75d4bf3ed384/is-member-group
+[21:03:40 INF] HTTP GET /api/group-members/b95737b5-0f01-4855-9f36-75d4bf3ed384/is-member-group received from ::1
+[21:03:40 INF] Request: URL: http://localhost:5295/api/group-members/b95737b5-0f01-4855-9f36-75d4bf3ed384/is-member-group
+Authenticated: Yes
+Token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZTYwYTZlYzQtMjgyMC00YWVjLTkzM2QtZDc2M2Q4MWI3Y2IyIiwidXNlcm5hbWUiOiJhbmh3b3JrIiwiaW1hZ2UiOiJodHRwczovL3Jlcy5jbG91ZGluYXJ5LmNvbS9kYXB2dmR4dzcvaW1hZ2UvdXBsb2FkL3YxNzQ3MTU5NjM2L2F2YXRhcl9sMnJ3dGguanBnIiwiZXhwIjoxNzUwMzIxMzQ3LCJpc3MiOiJNeUFwcCIsImF1ZCI6Ik15Q2xpZW50QXBwIn0.sB6Pp93I6RRsRBWhIWmQKffKMxSJy99_U4sR6HXnACs
+Path Parameters:
+  action: IsMemberOfGroup
+  controller: GroupMembers
+  groupId: b95737b5-0f01-4855-9f36-75d4bf3ed384
+[21:03:41 INF] Response (Duration: 88ms): API: GET /api/group-members/b95737b5-0f01-4855-9f36-75d4bf3ed384/is-member-group
+StatusCode: 200
+Body:
+true
+[21:03:41 INF] HTTP 200 returned for GET /api/group-members/b95737b5-0f01-4855-9f36-75d4bf3ed384/is-member-group
+[21:03:51 INF] HTTP GET /api/group-members/8dfe7cbb-8867-4a71-9a42-2dc8397c2ba6/is-member-group received from ::1
+[21:03:51 INF] Request: URL: http://localhost:5295/api/group-members/8dfe7cbb-8867-4a71-9a42-2dc8397c2ba6/is-member-group
+Authenticated: Yes
+Token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZTYwYTZlYzQtMjgyMC00YWVjLTkzM2QtZDc2M2Q4MWI3Y2IyIiwidXNlcm5hbWUiOiJhbmh3b3JrIiwiaW1hZ2UiOiJodHRwczovL3Jlcy5jbG91ZGluYXJ5LmNvbS9kYXB2dmR4dzcvaW1hZ2UvdXBsb2FkL3YxNzQ3MTU5NjM2L2F2YXRhcl9sMnJ3dGguanBnIiwiZXhwIjoxNzUwMzIxMzQ3LCJpc3MiOiJNeUFwcCIsImF1ZCI6Ik15Q2xpZW50QXBwIn0.sB6Pp93I6RRsRBWhIWmQKffKMxSJy99_U4sR6HXnACs
+Path Parameters:
+  action: IsMemberOfGroup
+  controller: GroupMembers
+  groupId: 8dfe7cbb-8867-4a71-9a42-2dc8397c2ba6
+[21:03:51 INF] Response (Duration: 92ms): API: GET /api/group-members/8dfe7cbb-8867-4a71-9a42-2dc8397c2ba6/is-member-group
+StatusCode: 200
+Body:
+false
+[21:03:51 INF] HTTP 200 returned for GET /api/group-members/8dfe7cbb-8867-4a71-9a42-2dc8397c2ba6/is-member-group
+[21:28:40 INF] HTTP GET /api/group-members/8dfe7cbb-8867-4a71-9a42-2dc8397c2ba6/members received from ::1
+[21:28:40 INF] Request: URL: http://localhost:5295/api/group-members/8dfe7cbb-8867-4a71-9a42-2dc8397c2ba6/members
+Authenticated: Yes
+Path Parameters:
+  action: GetGroupMembers
+  controller: GroupMembers
+  groupId: 8dfe7cbb-8867-4a71-9a42-2dc8397c2ba6
+[21:28:40 INF] Response (Duration: 30ms): API: GET /api/group-members/8dfe7cbb-8867-4a71-9a42-2dc8397c2ba6/members
+StatusCode: 401
+[21:28:40 INF] HTTP 401 returned for GET /api/group-members/8dfe7cbb-8867-4a71-9a42-2dc8397c2ba6/members
+[21:29:19 INF] HTTP GET /api/group-members/8dfe7cbb-8867-4a71-9a42-2dc8397c2ba6/members received from ::1
+[21:29:19 INF] Request: URL: http://localhost:5295/api/group-members/8dfe7cbb-8867-4a71-9a42-2dc8397c2ba6/members
+Authenticated: Yes
+Token: Bearer eyJ1c2VyX2lkIjoiZTYwYTZlYzQtMjgyMC00YWVjLTkzM2QtZDc2M2Q4MWI3Y2IyIiwidXNlcm5hbWUiOiJhbmh3b3JrIiwiaW1hZ2UiOiJodHRwczovL3Jlcy5jbG91ZGluYXJ5LmNvbS9kYXB2dmR4dzcvaW1hZ2UvdXBsb2FkL3YxNzQ3MTU5NjM2L2F2YXRhcl9sMnJ3dGguanBnIiwiZXhwIjoxNzUwMzIxMzQ3LCJpc3MiOiJNeUFwcCIsImF1ZCI6Ik15Q2xpZW50QXBwIn0
+Path Parameters:
+  action: GetGroupMembers
+  controller: GroupMembers
+  groupId: 8dfe7cbb-8867-4a71-9a42-2dc8397c2ba6
+[21:29:19 INF] Response (Duration: 70ms): API: GET /api/group-members/8dfe7cbb-8867-4a71-9a42-2dc8397c2ba6/members
+StatusCode: 401
+[21:29:19 INF] HTTP 401 returned for GET /api/group-members/8dfe7cbb-8867-4a71-9a42-2dc8397c2ba6/members
+[21:29:21 INF] HTTP GET /api/group-members/8dfe7cbb-8867-4a71-9a42-2dc8397c2ba6/members received from ::1
+[21:29:21 INF] Request: URL: http://localhost:5295/api/group-members/8dfe7cbb-8867-4a71-9a42-2dc8397c2ba6/members
+Authenticated: Yes
+Token: Bearer eyJ1c2VyX2lkIjoiZTYwYTZlYzQtMjgyMC00YWVjLTkzM2QtZDc2M2Q4MWI3Y2IyIiwidXNlcm5hbWUiOiJhbmh3b3JrIiwiaW1hZ2UiOiJodHRwczovL3Jlcy5jbG91ZGluYXJ5LmNvbS9kYXB2dmR4dzcvaW1hZ2UvdXBsb2FkL3YxNzQ3MTU5NjM2L2F2YXRhcl9sMnJ3dGguanBnIiwiZXhwIjoxNzUwMzIxMzQ3LCJpc3MiOiJNeUFwcCIsImF1ZCI6Ik15Q2xpZW50QXBwIn0
+Path Parameters:
+  action: GetGroupMembers
+  controller: GroupMembers
+  groupId: 8dfe7cbb-8867-4a71-9a42-2dc8397c2ba6
+[21:29:21 INF] Response (Duration: 11ms): API: GET /api/group-members/8dfe7cbb-8867-4a71-9a42-2dc8397c2ba6/members
+StatusCode: 401
+[21:29:21 INF] HTTP 401 returned for GET /api/group-members/8dfe7cbb-8867-4a71-9a42-2dc8397c2ba6/members
+[21:29:22 INF] HTTP GET /api/group-members/8dfe7cbb-8867-4a71-9a42-2dc8397c2ba6/members received from ::1
+[21:29:22 INF] Request: URL: http://localhost:5295/api/group-members/8dfe7cbb-8867-4a71-9a42-2dc8397c2ba6/members
+Authenticated: Yes
+Token: Bearer eyJ1c2VyX2lkIjoiZTYwYTZlYzQtMjgyMC00YWVjLTkzM2QtZDc2M2Q4MWI3Y2IyIiwidXNlcm5hbWUiOiJhbmh3b3JrIiwiaW1hZ2UiOiJodHRwczovL3Jlcy5jbG91ZGluYXJ5LmNvbS9kYXB2dmR4dzcvaW1hZ2UvdXBsb2FkL3YxNzQ3MTU5NjM2L2F2YXRhcl9sMnJ3dGguanBnIiwiZXhwIjoxNzUwMzIxMzQ3LCJpc3MiOiJNeUFwcCIsImF1ZCI6Ik15Q2xpZW50QXBwIn0
+Path Parameters:
+  action: GetGroupMembers
+  controller: GroupMembers
+  groupId: 8dfe7cbb-8867-4a71-9a42-2dc8397c2ba6
+[21:29:22 INF] Response (Duration: 7ms): API: GET /api/group-members/8dfe7cbb-8867-4a71-9a42-2dc8397c2ba6/members
+StatusCode: 401
+[21:29:22 INF] HTTP 401 returned for GET /api/group-members/8dfe7cbb-8867-4a71-9a42-2dc8397c2ba6/members
+[21:30:57 INF] HTTP GET /api/group-members/e987b062-0e01-457e-b738-019939850622/members received from ::1
+[21:30:57 INF] Request: URL: http://localhost:5295/api/group-members/e987b062-0e01-457e-b738-019939850622/members
+Authenticated: Yes
+Path Parameters:
+  action: GetGroupMembers
+  controller: GroupMembers
+  groupId: e987b062-0e01-457e-b738-019939850622
+[21:30:57 INF] Response (Duration: 82ms): API: GET /api/group-members/e987b062-0e01-457e-b738-019939850622/members
+StatusCode: 401
+[21:30:57 INF] HTTP 401 returned for GET /api/group-members/e987b062-0e01-457e-b738-019939850622/members
+[21:31:18 INF] HTTP GET /api/group-members/e987b062-0e01-457e-b738-019939850622/members received from ::1
+[21:31:18 INF] Request: URL: http://localhost:5295/api/group-members/e987b062-0e01-457e-b738-019939850622/members
+Authenticated: Yes
+Token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZTYwYTZlYzQtMjgyMC00YWVjLTkzM2QtZDc2M2Q4MWI3Y2IyIiwidXNlcm5hbWUiOiJhbmh3b3JrIiwiaW1hZ2UiOiJodHRwczovL3Jlcy5jbG91ZGluYXJ5LmNvbS9kYXB2dmR4dzcvaW1hZ2UvdXBsb2FkL3YxNzQ3MTU5NjM2L2F2YXRhcl9sMnJ3dGguanBnIiwiZXhwIjoxNzUwMzIxMzQ3LCJpc3MiOiJNeUFwcCIsImF1ZCI6Ik15Q2xpZW50QXBwIn0.sB6Pp93I6RRsRBWhIWmQKffKMxSJy99_U4sR6HXnACs
+Path Parameters:
+  action: GetGroupMembers
+  controller: GroupMembers
+  groupId: e987b062-0e01-457e-b738-019939850622
+[21:31:23 INF] Response (Duration: 5026ms): API: GET /api/group-members/e987b062-0e01-457e-b738-019939850622/members
+StatusCode: 200
+Body:
+[
+  {
+    "groupId": "e987b062-0e01-457e-b738-019939850622",
+    "userId": "4b516857-e734-40fe-887a-b3e9e3b1392a",
+    "role": "Admin",
+    "joinedAt": "2025-05-22T03:45:49.8267016",
+    "status": "Active"
+  }
+]
+[21:31:23 INF] HTTP 200 returned for GET /api/group-members/e987b062-0e01-457e-b738-019939850622/members
+[21:31:44 INF] HTTP GET /api/group-members/b95737b5-0f01-4855-9f36-75d4bf3ed384/members received from ::1
+[21:31:44 INF] Request: URL: http://localhost:5295/api/group-members/b95737b5-0f01-4855-9f36-75d4bf3ed384/members
+Authenticated: Yes
+Token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZTYwYTZlYzQtMjgyMC00YWVjLTkzM2QtZDc2M2Q4MWI3Y2IyIiwidXNlcm5hbWUiOiJhbmh3b3JrIiwiaW1hZ2UiOiJodHRwczovL3Jlcy5jbG91ZGluYXJ5LmNvbS9kYXB2dmR4dzcvaW1hZ2UvdXBsb2FkL3YxNzQ3MTU5NjM2L2F2YXRhcl9sMnJ3dGguanBnIiwiZXhwIjoxNzUwMzIxMzQ3LCJpc3MiOiJNeUFwcCIsImF1ZCI6Ik15Q2xpZW50QXBwIn0.sB6Pp93I6RRsRBWhIWmQKffKMxSJy99_U4sR6HXnACs
+Path Parameters:
+  action: GetGroupMembers
+  controller: GroupMembers
+  groupId: b95737b5-0f01-4855-9f36-75d4bf3ed384
+[21:31:44 INF] Response (Duration: 143ms): API: GET /api/group-members/b95737b5-0f01-4855-9f36-75d4bf3ed384/members
+StatusCode: 200
+Body:
+[
+  {
+    "groupId": "b95737b5-0f01-4855-9f36-75d4bf3ed384",
+    "userId": "f49cbe12-04fe-499a-aa6c-3d6e1a6f6d56",
+    "role": "Admin",
+    "joinedAt": "2025-05-20T07:51:17.8624229",
+    "status": "Active"
+  },
+  {
+    "groupId": "b95737b5-0f01-4855-9f36-75d4bf3ed384",
+    "userId": "e60a6ec4-2820-4aec-933d-d763d81b7cb2",
+    "role": "Member",
+    "joinedAt": "2025-05-20T08:25:57.5434956",
+    "status": "Active"
+  }
+]
+[21:31:44 INF] HTTP 200 returned for GET /api/group-members/b95737b5-0f01-4855-9f36-75d4bf3ed384/members

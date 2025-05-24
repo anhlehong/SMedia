@@ -16,353 +16,317 @@ public partial class ApplicationDbContext : DbContext
     {
     }
 
-    public virtual DbSet<comment> comments { get; set; }
+    public virtual DbSet<Comment> Comments { get; set; }
 
-    public virtual DbSet<group_chat> group_chats { get; set; }
+    public virtual DbSet<Group> Groups { get; set; }
 
-    public virtual DbSet<group_chat_member> group_chat_members { get; set; }
+    public virtual DbSet<GroupChat> GroupChats { get; set; }
 
-    public virtual DbSet<message> messages { get; set; }
+    public virtual DbSet<GroupChatMember> GroupChatMembers { get; set; }
 
-    public virtual DbSet<notification> notifications { get; set; }
+    public virtual DbSet<GroupMember> GroupMembers { get; set; }
 
-    public virtual DbSet<post> posts { get; set; }
+    public virtual DbSet<Media> Media { get; set; }
 
-    public virtual DbSet<post_vote> post_votes { get; set; }
+    public virtual DbSet<Message> Messages { get; set; }
 
-    public virtual DbSet<user> users { get; set; }
+    public virtual DbSet<Notification> Notifications { get; set; }
 
-    public virtual DbSet<user_block> user_blocks { get; set; }
+    public virtual DbSet<Post> Posts { get; set; }
 
-    public virtual DbSet<user_follow> user_follows { get; set; }
+    public virtual DbSet<PostVote> PostVotes { get; set; }
 
-    public virtual DbSet<video_call> video_calls { get; set; }
+    public virtual DbSet<User> Users { get; set; }
+
+    public virtual DbSet<UserFollow> UserFollows { get; set; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<comment>(entity =>
+        modelBuilder.Entity<Comment>(entity =>
         {
-            entity.HasKey(e => e.comment_id).HasName("PK__comments__E79576872D4BCFF3");
+            entity.HasKey(e => e.CommentId).HasName("PK__Comments__C3B4DFCADA3C829A");
 
-            entity.HasIndex(e => e.parent_comment_id, "idx_comments_parent_comment_id");
+            entity.HasIndex(e => e.ParentCommentId, "IDX_Comments_ParentCommentId");
 
-            entity.HasIndex(e => e.post_id, "idx_comments_post_id");
+            entity.HasIndex(e => new { e.PostId, e.PostedAt }, "IDX_Comments_PostId_PostedAt");
 
-            entity.HasIndex(e => e.user_id, "idx_comments_user_id");
+            entity.HasIndex(e => e.UserId, "IDX_Comments_UserId");
 
-            entity.Property(e => e.comment_id)
-                .HasMaxLength(36)
-                .IsUnicode(false);
-            entity.Property(e => e.parent_comment_id)
-                .HasMaxLength(36)
-                .IsUnicode(false);
-            entity.Property(e => e.post_id)
-                .HasMaxLength(36)
-                .IsUnicode(false);
-            entity.Property(e => e.user_id)
-                .HasMaxLength(36)
-                .IsUnicode(false);
+            entity.Property(e => e.CommentId).ValueGeneratedNever();
 
-            entity.HasOne(d => d.parent_comment).WithMany(p => p.Inverseparent_comment)
-                .HasForeignKey(d => d.parent_comment_id)
-                .HasConstraintName("fk_comments_parent_comment_id");
+            entity.HasOne(d => d.ParentComment).WithMany(p => p.ChildComments)
+                .HasForeignKey(d => d.ParentCommentId)
+                .HasConstraintName("FK_Comments_ParentCommentId");
 
-            entity.HasOne(d => d.post).WithMany(p => p.comments)
-                .HasForeignKey(d => d.post_id)
+            entity.HasOne(d => d.Post).WithMany(p => p.Comments)
+                .HasForeignKey(d => d.PostId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_comments_post_id");
+                .HasConstraintName("FK_Comments_PostId");
 
-            entity.HasOne(d => d.user).WithMany(p => p.comments)
-                .HasForeignKey(d => d.user_id)
+            entity.HasOne(d => d.User).WithMany(p => p.Comments)
+                .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_comments_user_id");
+                .HasConstraintName("FK_Comments_UserId");
         });
 
-        modelBuilder.Entity<group_chat>(entity =>
+        modelBuilder.Entity<Group>(entity =>
         {
-            entity.HasKey(e => e.group_chat_id).HasName("PK__group_ch__C4565A197B17399A");
+            entity.HasKey(e => e.GroupId).HasName("PK__Groups__149AF36AA95CDC58");
 
-            entity.HasIndex(e => e.created_by, "idx_group_chats_created_by");
+            entity.HasIndex(e => e.CreatedBy, "IDX_Groups_CreatedBy");
 
-            entity.Property(e => e.group_chat_id)
-                .HasMaxLength(36)
-                .IsUnicode(false);
-            entity.Property(e => e.created_by)
-                .HasMaxLength(36)
-                .IsUnicode(false);
-            entity.Property(e => e.group_name).HasMaxLength(100);
+            entity.HasIndex(e => e.Visibility, "IDX_Groups_Visibility");
 
-            entity.HasOne(d => d.created_byNavigation).WithMany(p => p.group_chats)
-                .HasForeignKey(d => d.created_by)
+            entity.Property(e => e.GroupId).ValueGeneratedNever();
+            entity.Property(e => e.GroupName).HasMaxLength(100);
+            entity.Property(e => e.Image).HasMaxLength(255);
+            entity.Property(e => e.Visibility).HasMaxLength(50);
+
+            entity.HasOne(d => d.Creator).WithMany(p => p.Groups)
+                .HasForeignKey(d => d.CreatedBy)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_group_chats_created_by");
+                .HasConstraintName("FK_Groups_CreatedBy");
         });
 
-        modelBuilder.Entity<group_chat_member>(entity =>
+        modelBuilder.Entity<GroupChat>(entity =>
         {
-            entity.HasKey(e => new { e.group_chat_id, e.user_id }).HasName("PK__group_ch__2FCDB96954BC89A1");
+            entity.HasKey(e => e.GroupChatId).HasName("PK__GroupCha__C9AA2EA1E855EB61");
 
-            entity.HasIndex(e => e.user_id, "idx_group_chat_members_user_id");
+            entity.HasIndex(e => e.CreatedBy, "IDX_GroupChats_CreatedBy");
 
-            entity.Property(e => e.group_chat_id)
-                .HasMaxLength(36)
-                .IsUnicode(false);
-            entity.Property(e => e.user_id)
-                .HasMaxLength(36)
-                .IsUnicode(false);
+            entity.Property(e => e.GroupChatId).ValueGeneratedNever();
+            entity.Property(e => e.ChatName).HasMaxLength(100);
+            entity.Property(e => e.ImageUrl).HasMaxLength(255);
 
-            entity.HasOne(d => d.group_chat).WithMany(p => p.group_chat_members)
-                .HasForeignKey(d => d.group_chat_id)
+            entity.HasOne(d => d.Creator).WithMany(p => p.GroupChats)
+                .HasForeignKey(d => d.CreatedBy)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_group_chat_members_group_chat_id");
-
-            entity.HasOne(d => d.user).WithMany(p => p.group_chat_members)
-                .HasForeignKey(d => d.user_id)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_group_chat_members_user_id");
+                .HasConstraintName("FK_GroupChats_CreatedBy");
         });
 
-        modelBuilder.Entity<message>(entity =>
+        modelBuilder.Entity<GroupChatMember>(entity =>
         {
-            entity.HasKey(e => e.message_id).HasName("PK__messages__0BBF6EE642C374DA");
+            entity.HasKey(e => new { e.GroupChatId, e.UserId }).HasName("PK__GroupCha__18D2A2654B9D4A10");
 
-            entity.HasIndex(e => e.group_chat_id, "idx_messages_group_chat_id");
+            entity.HasIndex(e => new { e.GroupChatId, e.Role }, "IDX_GroupChatMembers_GroupChatId_Role");
 
-            entity.HasIndex(e => e.receiver_id, "idx_messages_receiver_id");
+            entity.HasIndex(e => e.UserId, "IDX_GroupChatMembers_UserId");
 
-            entity.HasIndex(e => e.sender_id, "idx_messages_sender_id");
+            entity.Property(e => e.Role).HasMaxLength(50);
+            entity.Property(e => e.Status).HasMaxLength(50);
 
-            entity.HasIndex(e => e.sent_time, "idx_messages_sent_time");
-
-            entity.Property(e => e.message_id)
-                .HasMaxLength(36)
-                .IsUnicode(false);
-            entity.Property(e => e.group_chat_id)
-                .HasMaxLength(36)
-                .IsUnicode(false);
-            entity.Property(e => e.media_type).HasMaxLength(50);
-            entity.Property(e => e.media_url).HasMaxLength(255);
-            entity.Property(e => e.receiver_id)
-                .HasMaxLength(36)
-                .IsUnicode(false);
-            entity.Property(e => e.sender_id)
-                .HasMaxLength(36)
-                .IsUnicode(false);
-
-            entity.HasOne(d => d.group_chat).WithMany(p => p.messages)
-                .HasForeignKey(d => d.group_chat_id)
-                .HasConstraintName("fk_messages_group_chat_id");
-
-            entity.HasOne(d => d.receiver).WithMany(p => p.messagereceivers)
-                .HasForeignKey(d => d.receiver_id)
-                .HasConstraintName("fk_messages_receiver_id");
-
-            entity.HasOne(d => d.sender).WithMany(p => p.messagesenders)
-                .HasForeignKey(d => d.sender_id)
+            entity.HasOne(d => d.GroupChat).WithMany(p => p.GroupChatMembers)
+                .HasForeignKey(d => d.GroupChatId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_messages_sender_id");
+                .HasConstraintName("FK_GroupChatMembers_GroupChatId");
+
+            entity.HasOne(d => d.User).WithMany(p => p.GroupChatMembers)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_GroupChatMembers_UserId");
         });
 
-        modelBuilder.Entity<notification>(entity =>
+        modelBuilder.Entity<GroupMember>(entity =>
         {
-            entity.HasKey(e => e.notification_id).HasName("PK__notifica__E059842F3BEEC7F2");
+            entity.HasKey(e => new { e.GroupId, e.UserId }).HasName("PK__GroupMem__C5E27FAE9537C213");
 
-            entity.HasIndex(e => e.posted_at, "idx_notifications_posted_at");
+            entity.HasIndex(e => new { e.GroupId, e.Role }, "IDX_GroupMembers_GroupId_Role");
 
-            entity.HasIndex(e => e.type, "idx_notifications_type");
+            entity.HasIndex(e => e.Status, "IDX_GroupMembers_Status");
 
-            entity.HasIndex(e => e.user_id, "idx_notifications_user_id");
+            entity.HasIndex(e => e.UserId, "IDX_GroupMembers_UserId");
 
-            entity.Property(e => e.notification_id)
-                .HasMaxLength(36)
-                .IsUnicode(false);
-            entity.Property(e => e.related_message_id)
-                .HasMaxLength(36)
-                .IsUnicode(false);
-            entity.Property(e => e.related_post_id)
-                .HasMaxLength(36)
-                .IsUnicode(false);
-            entity.Property(e => e.related_user_id)
-                .HasMaxLength(36)
-                .IsUnicode(false);
-            entity.Property(e => e.type).HasMaxLength(50);
-            entity.Property(e => e.user_id)
-                .HasMaxLength(36)
-                .IsUnicode(false);
+            entity.Property(e => e.Role).HasMaxLength(50);
+            entity.Property(e => e.Status).HasMaxLength(50);
 
-            entity.HasOne(d => d.related_message).WithMany(p => p.notifications)
-                .HasForeignKey(d => d.related_message_id)
-                .HasConstraintName("fk_notifications_related_message_id");
-
-            entity.HasOne(d => d.related_post).WithMany(p => p.notifications)
-                .HasForeignKey(d => d.related_post_id)
-                .HasConstraintName("fk_notifications_related_post_id");
-
-            entity.HasOne(d => d.related_user).WithMany(p => p.notificationrelated_users)
-                .HasForeignKey(d => d.related_user_id)
+            entity.HasOne(d => d.Group).WithMany(p => p.GroupMembers)
+                .HasForeignKey(d => d.GroupId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_notifications_related_user_id");
+                .HasConstraintName("FK_GroupMembers_GroupId");
 
-            entity.HasOne(d => d.user).WithMany(p => p.notificationusers)
-                .HasForeignKey(d => d.user_id)
+            entity.HasOne(d => d.User).WithMany(p => p.GroupMembers)
+                .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_notifications_user_id");
+                .HasConstraintName("FK_GroupMembers_UserId");
         });
 
-        modelBuilder.Entity<post>(entity =>
+        modelBuilder.Entity<Media>(entity =>
         {
-            entity.HasKey(e => e.post_id).HasName("PK__posts__3ED78766278CA679");
+            entity.HasKey(e => e.MediaId).HasName("PK__Media__B2C2B5CF58E00B9C");
 
-            entity.HasIndex(e => new { e.user_id, e.posted_at }, "idx_posts_user_id_posted_at");
+            entity.HasIndex(e => e.MessageId, "IDX_Media_MessageId");
 
-            entity.Property(e => e.post_id)
-                .HasMaxLength(36)
-                .IsUnicode(false);
-            entity.Property(e => e.status).HasMaxLength(50);
-            entity.Property(e => e.user_id)
-                .HasMaxLength(36)
-                .IsUnicode(false);
+            entity.HasIndex(e => e.PostId, "IDX_Media_PostId");
 
-            entity.HasOne(d => d.user).WithMany(p => p.posts)
-                .HasForeignKey(d => d.user_id)
+            entity.HasIndex(e => e.UploadedAt, "IDX_Media_UploadedAt");
+
+            entity.HasIndex(e => e.UploadedBy, "IDX_Media_UploadedBy");
+
+            entity.Property(e => e.MediaId).ValueGeneratedNever();
+            entity.Property(e => e.MediaType).HasMaxLength(50);
+            entity.Property(e => e.MediaUrl).HasMaxLength(255);
+
+            entity.HasOne(d => d.Message).WithMany(p => p.Media)
+                .HasForeignKey(d => d.MessageId)
+                .HasConstraintName("FK_Media_MessageId");
+
+            entity.HasOne(d => d.Post).WithMany(p => p.Media)
+                .HasForeignKey(d => d.PostId)
+                .HasConstraintName("FK_Media_PostId");
+
+            entity.HasOne(d => d.UploadedByNavigation).WithMany(p => p.UploadedMedia)
+                .HasForeignKey(d => d.UploadedBy)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_posts_user_id");
+                .HasConstraintName("FK_Media_UploadedBy");
         });
 
-        modelBuilder.Entity<post_vote>(entity =>
+        modelBuilder.Entity<Message>(entity =>
         {
-            entity.HasKey(e => new { e.user_id, e.post_id }).HasName("PK__post_vot__CA534F79D639C874");
+            entity.HasKey(e => e.MessageId).HasName("PK__Messages__C87C0C9CBE070AB4");
 
-            entity.HasIndex(e => e.post_id, "idx_post_votes_post_id");
+            entity.HasIndex(e => new { e.GroupChatId, e.SentAt  }, "IDX_Messages_GroupChatId_SentTime");
 
-            entity.Property(e => e.user_id)
-                .HasMaxLength(36)
-                .IsUnicode(false);
-            entity.Property(e => e.post_id)
-                .HasMaxLength(36)
-                .IsUnicode(false);
-            entity.Property(e => e.vote_type).HasMaxLength(50);
+            entity.HasIndex(e => e.IsVisible, "IDX_Messages_IsVisible");
 
-            entity.HasOne(d => d.post).WithMany(p => p.post_votes)
-                .HasForeignKey(d => d.post_id)
+            entity.HasIndex(e => e.ReceiverId, "IDX_Messages_ReceiverId");
+
+            entity.HasIndex(e => e.SenderId, "IDX_Messages_SenderId");
+            
+            entity.Property(e => e.IsRead).HasDefaultValue(false);
+
+
+            entity.Property(e => e.MessageId).ValueGeneratedNever();
+            entity.Property(e => e.IsVisible).HasDefaultValue(true);
+
+            entity.HasOne(d => d.GroupChat).WithMany(p => p.Messages)
+                .HasForeignKey(d => d.GroupChatId)
+                .HasConstraintName("FK_Messages_GroupChatId");
+
+            entity.HasOne(d => d.Receiver).WithMany(p => p.ReceivedMessages)
+                .HasForeignKey(d => d.ReceiverId)
+                .HasConstraintName("FK_Messages_ReceiverId");
+
+            entity.HasOne(d => d.Sender).WithMany(p => p.SentMessages)
+                .HasForeignKey(d => d.SenderId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_post_votes_post_id");
-
-            entity.HasOne(d => d.user).WithMany(p => p.post_votes)
-                .HasForeignKey(d => d.user_id)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_post_votes_user_id");
+                .HasConstraintName("FK_Messages_SenderId");
         });
 
-        modelBuilder.Entity<user>(entity =>
+        modelBuilder.Entity<Notification>(entity =>
         {
-            entity.HasKey(e => e.user_id).HasName("PK__users__B9BE370FDF963B05");
+            entity.HasKey(e => e.NotificationId).HasName("PK__Notifica__20CF2E1204857B05");
 
-            entity.HasIndex(e => e.email, "UQ__users__AB6E616450DAD1D1").IsUnique();
+            entity.HasIndex(e => e.Type, "IDX_Notifications_Type");
 
-            entity.HasIndex(e => e.username, "UQ__users__F3DBC57275435824").IsUnique();
+            entity.HasIndex(e => new { e.UserId, e.NotifiedAt }, "IDX_Notifications_UserId_PostedAt");
 
-            entity.HasIndex(e => e.joined_at, "idx_users_joined_at");
+            entity.Property(e => e.NotificationId).ValueGeneratedNever();
+            entity.Property(e => e.Type).HasMaxLength(50);
 
-            entity.HasIndex(e => e.status, "idx_users_status");
+            entity.HasOne(d => d.RelatedMessage).WithMany(p => p.Notifications)
+                .HasForeignKey(d => d.RelatedMessageId)
+                .HasConstraintName("FK_Notifications_RelatedMessageId");
 
-            entity.Property(e => e.user_id)
-                .HasMaxLength(36)
-                .IsUnicode(false);
-            entity.Property(e => e.deleted_user_email).HasMaxLength(100);
-            entity.Property(e => e.email).HasMaxLength(100);
-            entity.Property(e => e.full_name).HasMaxLength(100);
-            entity.Property(e => e.gender).HasMaxLength(50);
-            entity.Property(e => e.image).HasMaxLength(255);
-            entity.Property(e => e.password_hash).HasMaxLength(255);
-            entity.Property(e => e.status).HasMaxLength(50);
-            entity.Property(e => e.username).HasMaxLength(50);
+            entity.HasOne(d => d.RelatedPost).WithMany(p => p.Notifications)
+                .HasForeignKey(d => d.RelatedPostId)
+                .HasConstraintName("FK_Notifications_RelatedPostId");
+
+            entity.HasOne(d => d.RelatedUser).WithMany(p => p.CreatedNotifications)
+                .HasForeignKey(d => d.RelatedUserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Notifications_RelatedUserId");
+
+            entity.HasOne(d => d.User).WithMany(p => p.ReceivedNotifications)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Notifications_UserId");
         });
 
-        modelBuilder.Entity<user_block>(entity =>
+        modelBuilder.Entity<Post>(entity =>
         {
-            entity.HasKey(e => new { e.blocker_id, e.blocked_id }).HasName("PK__user_blo__638690F315B6A534");
+            entity.HasKey(e => e.PostId).HasName("PK__Posts__AA126018B80AE7C9");
 
-            entity.HasIndex(e => e.blocker_id, "idx_user_blocks_blocker_id");
+            entity.HasIndex(e => new { e.GroupId, e.IsApproved, e.PostedAt }, "IDX_Posts_GroupId_IsApproved_PostedAt");
 
-            entity.Property(e => e.blocker_id)
-                .HasMaxLength(36)
-                .IsUnicode(false);
-            entity.Property(e => e.blocked_id)
-                .HasMaxLength(36)
-                .IsUnicode(false);
+            entity.HasIndex(e => e.IsVisible, "IDX_Posts_IsVisible");
 
-            entity.HasOne(d => d.blocked).WithMany(p => p.user_blockblockeds)
-                .HasForeignKey(d => d.blocked_id)
+            entity.HasIndex(e => e.PostedAt, "IDX_Posts_PostedAt");
+
+            entity.HasIndex(e => new { e.UserId, e.PostedAt }, "IDX_Posts_UserId_PostedAt");
+
+            entity.Property(e => e.PostId).ValueGeneratedNever();
+            entity.Property(e => e.IsApproved).HasDefaultValue(false);
+            entity.Property(e => e.IsVisible).HasDefaultValue(true);
+
+            entity.HasOne(d => d.Group).WithMany(p => p.Posts)
+                .HasForeignKey(d => d.GroupId)
+                .HasConstraintName("FK_Posts_GroupId");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Posts)
+                .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_user_blocks_blocked_id");
-
-            entity.HasOne(d => d.blocker).WithMany(p => p.user_blockblockers)
-                .HasForeignKey(d => d.blocker_id)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_user_blocks_blocker_id");
+                .HasConstraintName("FK_Posts_UserId");
         });
 
-        modelBuilder.Entity<user_follow>(entity =>
+        modelBuilder.Entity<PostVote>(entity =>
         {
-            entity.HasKey(e => new { e.follower_id, e.followed_id }).HasName("PK__user_fol__838707A392C5B5CF");
+            entity.HasKey(e => new { e.UserId, e.PostId }).HasName("PK__PostVote__8D29EA4D9834C106");
 
-            entity.HasIndex(e => e.followed_id, "idx_user_follows_followed_id");
+            entity.HasIndex(e => e.PostId, "IDX_PostVotes_PostId");
 
-            entity.Property(e => e.follower_id)
-                .HasMaxLength(36)
-                .IsUnicode(false);
-            entity.Property(e => e.followed_id)
-                .HasMaxLength(36)
-                .IsUnicode(false);
+            entity.HasIndex(e => e.UserId, "IDX_PostVotes_UserId");
 
-            entity.HasOne(d => d.followed).WithMany(p => p.user_followfolloweds)
-                .HasForeignKey(d => d.followed_id)
+            entity.Property(e => e.VoteType).HasMaxLength(50);
+
+            entity.HasOne(d => d.Post).WithMany(p => p.PostVotes)
+                .HasForeignKey(d => d.PostId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_user_follows_followed_id");
+                .HasConstraintName("FK_PostVotes_PostId");
 
-            entity.HasOne(d => d.follower).WithMany(p => p.user_followfollowers)
-                .HasForeignKey(d => d.follower_id)
+            entity.HasOne(d => d.User).WithMany(p => p.PostVotes)
+                .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_user_follows_follower_id");
+                .HasConstraintName("FK_PostVotes_UserId");
         });
 
-        modelBuilder.Entity<video_call>(entity =>
+        modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.call_id).HasName("PK__video_ca__427DCE6882AA82CC");
+            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CC4C89A5FCDE");
 
-            entity.HasIndex(e => e.caller_id, "idx_video_calls_caller_id");
+            entity.HasIndex(e => new { e.Status, e.JoinedAt }, "IDX_Users_Status_JoinedAt");
 
-            entity.HasIndex(e => e.group_chat_id, "idx_video_calls_group_chat_id");
+            entity.HasIndex(e => e.Username, "UQ__Users__536C85E4E68D6526").IsUnique();
 
-            entity.HasIndex(e => e.start_time, "idx_video_calls_start_time");
+            entity.HasIndex(e => e.Email, "UQ__Users__A9D10534C261CDB1").IsUnique();
 
-            entity.Property(e => e.call_id)
-                .HasMaxLength(36)
-                .IsUnicode(false);
-            entity.Property(e => e.caller_id)
-                .HasMaxLength(36)
-                .IsUnicode(false);
-            entity.Property(e => e.group_chat_id)
-                .HasMaxLength(36)
-                .IsUnicode(false);
-            entity.Property(e => e.receiver_id)
-                .HasMaxLength(36)
-                .IsUnicode(false);
-            entity.Property(e => e.status).HasMaxLength(50);
+            entity.Property(e => e.UserId).ValueGeneratedNever();
+            entity.Property(e => e.DeletedUserEmail).HasMaxLength(100);
+            entity.Property(e => e.Email).HasMaxLength(100);
+            entity.Property(e => e.FullName).HasMaxLength(100);
+            entity.Property(e => e.Gender).HasMaxLength(50);
+            entity.Property(e => e.Image).HasMaxLength(255);
+            entity.Property(e => e.PasswordHash).HasMaxLength(255);
+            entity.Property(e => e.Status).HasMaxLength(50);
+            entity.Property(e => e.Username).HasMaxLength(50);
+        });
 
-            entity.HasOne(d => d.caller).WithMany(p => p.video_callcallers)
-                .HasForeignKey(d => d.caller_id)
+        modelBuilder.Entity<UserFollow>(entity =>
+        {
+            entity.HasKey(e => new { e.FollowerId, e.FollowedId }).HasName("PK__UserFoll__F7A5FC9F1E4BC56C");
+
+            entity.HasIndex(e => e.FollowedId, "IDX_UserFollows_FollowedId");
+
+            entity.HasIndex(e => e.FollowerId, "IDX_UserFollows_FollowerId");
+
+            entity.HasOne(d => d.Followed).WithMany(p => p.Followers) // Sửa: Followed ánh xạ tới Followers
+                .HasForeignKey(d => d.FollowedId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_video_calls_caller_id");
+                .HasConstraintName("FK_UserFollows_FollowedId");
 
-            entity.HasOne(d => d.group_chat).WithMany(p => p.video_calls)
-                .HasForeignKey(d => d.group_chat_id)
-                .HasConstraintName("fk_video_calls_group_chat_id");
-
-            entity.HasOne(d => d.receiver).WithMany(p => p.video_callreceivers)
-                .HasForeignKey(d => d.receiver_id)
-                .HasConstraintName("fk_video_calls_receiver_id");
+            entity.HasOne(d => d.Follower).WithMany(p => p.Followings) // Sửa: Follower ánh xạ tới Followings
+                .HasForeignKey(d => d.FollowerId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_UserFollows_FollowerId");
         });
 
         OnModelCreatingPartial(modelBuilder);

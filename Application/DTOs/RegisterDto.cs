@@ -2,15 +2,15 @@ namespace Application.DTOs;
 
 public class RegisterDto
 {
-    public string username { get; set; } = null!;
+    public string Username { get; set; } = null!;
 
-    public string? email { get; set; }
+    public string? Email { get; set; }
 
-    public string password { get; set; } = null!;
+    public string Password { get; set; } = null!;
 
-    public string? full_name { get; set; }
+    public string? FullName { get; set; }
 
-    public DateOnly? birthday { get; set; }
+    public DateOnly? Birthday { get; set; }
 
-    public string? gender { get; set; }
+    public string? Gender { get; set; }
 }
