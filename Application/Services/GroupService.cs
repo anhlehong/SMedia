@@ -97,6 +97,22 @@ public class GroupService : IGroupService
             throw;
         }
     }
+    
+    public async Task<GroupDto[]> GetJoinedGroupsAsync(int page, int pageSize, Guid userId)
+    {
+        try
+        {
+            var groups = await _groupRepository.GetJoinedGroupsByUserAsync(page, pageSize, userId);
+            var groupDtos = groups.Select(g => g.Adapt<GroupDto>()).ToArray();
+            Console.WriteLine($"Đã lấy {groupDtos.Length} nhóm cho người dùng {userId}, trang {page}");
+            return groupDtos;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Lỗi khi lấy nhóm cho người dùng {userId}: {ex.Message}");
+            throw;
+        }
+    }
 
     public async Task<GroupDto> UpdateGroupAsync(Guid groupId, GroupUpdateDto groupDto, Guid userId)
     {

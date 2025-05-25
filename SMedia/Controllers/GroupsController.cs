@@ -86,6 +86,25 @@ public class GroupsController : ControllerBase
             return StatusCode(500, new { Error = "An error occurred while retrieving groups." });
         }
     }
+    
+    [HttpGet("my-groups")]
+    public async Task<ActionResult<GroupDto[]>> GetJoinedGroups([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+    {
+        try
+        {
+            if (!Guid.TryParse(User.FindFirst("user_id")?.Value, out var userId))
+                return Unauthorized(new { Error = "Token không hợp lệ: user_id không tồn tại hoặc không đúng định dạng." });
+
+            var groups = await _groupService.GetJoinedGroupsAsync(page, pageSize, userId);
+            return Ok(groups);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Lỗi khi lấy danh sách nhóm của người dùng: {ex.Message}");
+            return StatusCode(500, new { Error = "Đã xảy ra lỗi khi lấy danh sách nhóm của người dùng." });
+        }
+    }
+
 
     [HttpPut("{groupId}")]
     public async Task<ActionResult<GroupDto>> UpdateGroup(Guid groupId, [FromBody] GroupUpdateDto groupDto)
