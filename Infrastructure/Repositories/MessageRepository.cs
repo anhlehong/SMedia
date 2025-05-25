@@ -49,8 +49,14 @@ public class MessageRepository : IMessageRepository
             query = query.Where(m => m.SenderId == userId || m.ReceiverId == userId);
         }
 
+        // return await query
+        //     .OrderByDescending(m => m.SentAt)
+        //     .Skip(skip)
+        //     .Take(take)
+        //     .ToListAsync();
+        
         return await query
-            .OrderByDescending(m => m.SentAt)
+            .OrderBy(m => m.SentAt)
             .Skip(skip)
             .Take(take)
             .ToListAsync();

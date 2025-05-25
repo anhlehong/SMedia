@@ -19,8 +19,6 @@ public class MessageService : IMessageService
     {
         var message = messageDto.Adapt<Message>();
         message.SenderId = senderId;
-        message.SentAt = DateTime.UtcNow;
-        message.IsRead = false;
 
         var savedMessage = await _messageRepository.AddMessageAsync(message);
         return savedMessage.Adapt<MessageDto>();

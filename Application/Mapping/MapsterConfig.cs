@@ -9,19 +9,17 @@ public static class MapsterConfig
     public static void RegisterMappings()
     {
         TypeAdapterConfig.GlobalSettings.Compile();
-        
+
         TypeAdapterConfig<RegisterDto, User>.NewConfig()
             .Map(dest => dest.UserId, src => Guid.NewGuid().ToString())
             .Map(dest => dest.DeletedUserEmail, src => (string?)null)
             .Map(dest => dest.JoinedAt, src => DateTimeHelper.GetVietnamTime())
             .Map(dest => dest.Status, src => "active")
             .Map(dest => dest.Intro, src => (string?)null)
-            .Map(dest => dest.Image, 
+            .Map(dest => dest.Image,
                 src => "https://res.cloudinary.com/dapvvdxw7/image/upload/v1747159636/avatar_l2rwth.jpg")
             .Ignore(dest => dest.PasswordHash)
-            .AfterMapping((src, dest) => dest.SetPassword(src.Password))
-            .TwoWays()
-            .Ignore(dest => dest.PasswordHash); 
+            .AfterMapping((src, dest) => dest.SetPassword(src.Password));
         
         TypeAdapterConfig<MediaCreateDto, Media>.NewConfig()
             .Map(dest => dest.MediaId, src => Guid.NewGuid())
@@ -168,8 +166,9 @@ public static class MapsterConfig
             .Ignore(dest => dest.userName) 
             .Ignore(dest => dest.userAvatar);
 
-        TypeAdapterConfig<Message, MessageDto>.NewConfig()
-            .TwoWays();
+        TypeAdapterConfig<MessageDto, Message>.NewConfig()
+            .Map(dest => dest.SentAt, src => DateTimeHelper.GetVietnamTime())
+            .Map(dest => dest.IsRead, src => false);
         
         TypeAdapterConfig<Notification, NotificationDto>.NewConfig().TwoWays();
     }

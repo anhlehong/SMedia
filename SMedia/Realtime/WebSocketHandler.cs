@@ -108,6 +108,8 @@ public class WebSocketHandler
 
                                 var savedMessage =
                                     await messageService.SendMessageAsync(Guid.Parse(userId), messageDto);
+                                
+                                Console.WriteLine(JsonSerializer.Serialize(savedMessage));
 
                                 Log.Information("Received from {SenderId} to {ReceiverId}: {Message}", userId,
                                     messageObj.ReceiverId, messageObj.Content);
