@@ -119,7 +119,7 @@ public class CommentService : ICommentService
         foreach (var comment in comments)
         {
             var user = await _userRepository.GetByIdAsync(comment.UserId)
-                ?? throw new KeyNotFoundException("Người dùng không tồn tại");
+                ?? throw new KeyNotFoundException("User not existed");
             var commentDto = comment.Adapt<CommentDto>();
             commentDto.Username = user.Username;
             commentDtos.Add(commentDto);

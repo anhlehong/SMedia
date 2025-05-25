@@ -25,7 +25,7 @@ public class WebSocketHandler
         while (webSocket.State == WebSocketState.Open)
         {
             try
-            {
+            {   
                 var result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
                 if (result.MessageType == WebSocketMessageType.Text)
                 {
