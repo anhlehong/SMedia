@@ -8,30 +8,26 @@ public static class MapsterConfig
 {
     public static void RegisterMappings()
     {
-        // Đăng ký cấu hình ánh xạ cho RegisterDto -> user
-
+        TypeAdapterConfig.GlobalSettings.Compile();
+        
         TypeAdapterConfig<RegisterDto, User>.NewConfig()
-            .Map(dest => dest.Username, src => src.Username)
-            .Map(dest => dest.Email, src => src.Email)
-            .Map(dest => dest.FullName, src => src.FullName)
-            .Map(dest => dest.Birthday, src => src.Birthday)
-            .Map(dest => dest.Gender, src => src.Gender)
             .Map(dest => dest.UserId, src => Guid.NewGuid().ToString())
             .Map(dest => dest.DeletedUserEmail, src => (string?)null)
             .Map(dest => dest.JoinedAt, src => DateTimeHelper.GetVietnamTime())
             .Map(dest => dest.Status, src => "active")
             .Map(dest => dest.Intro, src => (string?)null)
-            .Map(dest => dest.Image,
+            .Map(dest => dest.Image, 
                 src => "https://res.cloudinary.com/dapvvdxw7/image/upload/v1747159636/avatar_l2rwth.jpg")
             .Ignore(dest => dest.PasswordHash)
-            .AfterMapping((src, dest) => dest.SetPassword(src.Password));
-
-        // MediaCreateDto -> Media
+            .AfterMapping((src, dest) => dest.SetPassword(src.Password))
+            .TwoWays()
+            .Ignore(dest => dest.PasswordHash); 
+        
         TypeAdapterConfig<MediaCreateDto, Media>.NewConfig()
             .Map(dest => dest.MediaId, src => Guid.NewGuid())
             .Map(dest => dest.UploadedAt, src => DateTimeHelper.GetVietnamTime())
             .Ignore(dest => dest.UploadedBy)
-            .Ignore(dest => dest.PostId);
+            .TwoWays();
 
         // PostCreateDto -> Post
         TypeAdapterConfig<(PostCreateDto Dto, Guid UserId), Post>.NewConfig()
@@ -42,8 +38,21 @@ public static class MapsterConfig
             .Map(dest => dest.GroupId, src => (Guid?)null)
             .Map(dest => dest.IsVisible, src => true)
             .Map(dest => dest.Content, src => src.Dto.Content)
+            .TwoWays()
             .Ignore(dest => dest.Media);
+        
 
+        TypeAdapterConfig<(PostCreateDto Dto, Guid UserId), Post>.NewConfig()
+            .Map(dest => dest.PostId, src => Guid.NewGuid())
+            .Map(dest => dest.UserId, src => src.UserId)
+            .Map(dest => dest.PostedAt, src => DateTimeHelper.GetVietnamTime())
+            .Map(dest => dest.IsApproved, src => true)
+            .Map(dest => dest.GroupId, src => (Guid?)null)
+            .Map(dest => dest.IsVisible, src => true)
+            .Map(dest => dest.Content, src => src.Dto.Content)
+            .Ignore(dest => dest.Media)
+            .TwoWays()
+            .Ignore(dest => dest.Media); 
         // GroupPostCreateDto -> Post
         TypeAdapterConfig<(GroupPostCreateDto Dto, Guid UserId), Post>.NewConfig()
             .Map(dest => dest.PostId, src => Guid.NewGuid())
@@ -149,46 +158,14 @@ public static class MapsterConfig
             .Map(dest => dest.PostedAt, src => src.PostedAt)
             .Map(dest => dest.ChildComments, src => src.ChildComments)
             .Map(dest => dest.Image, src => src.User.Image);
-        
+
         // Cấu hình ánh xạ Mapster
         TypeAdapterConfig.GlobalSettings.ForType<Post, PostImageDto>()
             .Map(dest => dest.Media, src => src.Media.Adapt<MediaDto[]>())
             .Map(dest => dest.PostedAt, src => src.PostedAt ?? DateTime.UtcNow)
             .Map(dest => dest.IsApproved, src => src.IsApproved ?? false)
             .Map(dest => dest.IsVisible, src => src.IsVisible ?? true)
-            .Ignore(dest => dest.userName) // Bỏ qua ánh xạ tự động cho userName
-            .Ignore(dest => dest.userAvatar); // Bỏ qua ánh xạ tự động cho userAvatar
-
-//         --------------------------------------------------------------------
-        // Ánh xạ cho MessageDto -> message
-        // TypeAdapterConfig<MessageDto, message>.NewConfig()
-        //     .Map(dest => dest.message_id, src => src.message_id ?? Guid.NewGuid().ToString()) // Tạo mới message_id nếu null
-        //     .Map(dest => dest.sender_id, src => src.sender_id)
-        //     .Map(dest => dest.receiver_id, src => src.receiver_id)
-        //     .Map(dest => dest.group_chat_id, src => src.group_chat_id)
-        //     .Map(dest => dest.content, src => src.content)
-        //     .Map(dest => dest.media_type, src => src.media_type)
-        //     .Map(dest => dest.media_url, src => src.media_url)
-        //     .Map(dest => dest.sent_time, src => src.sent_time ?? DateTime.UtcNow) // Gán mặc định nếu null
-        //     .Map(dest => dest.is_read, src => src.is_read ?? false); // Gán mặc định nếu null
-        //
-        // // Ánh xạ cho message -> MessageDto
-        // TypeAdapterConfig<message, MessageDto>.NewConfig()
-        //     .Map(dest => dest.message_id, src => src.message_id)
-        //     .Map(dest => dest.sender_id, src => src.sender_id)
-        //     .Map(dest => dest.receiver_id, src => src.receiver_id)
-        //     .Map(dest => dest.group_chat_id, src => src.group_chat_id)
-        //     .Map(dest => dest.content, src => src.content)
-        //     .Map(dest => dest.media_type, src => src.media_type)
-        //     .Map(dest => dest.media_url, src => src.media_url)
-        //     .Map(dest => dest.sent_time, src => src.sent_time)
-        //     .Map(dest => dest.is_read, src => src.is_read);
-
-
-        // không được xóa ------------------------------------------------------------------------------------------------------------
-        // không được xóa ------------------------------------------------------------------------------------------------------------
-        // không được xóa ------------------------------------------------------------------------------------------------------------
-        // Đảm bảo cấu hình được áp dụng toàn cục
-        TypeAdapterConfig.GlobalSettings.Compile();
+            .Ignore(dest => dest.userName) 
+            .Ignore(dest => dest.userAvatar); 
     }
 }

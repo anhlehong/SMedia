@@ -19,9 +19,9 @@ builder.Host.UseSerilog((context, configuration) =>
     configuration
         .WriteTo.Console(
             outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}")
-        .WriteTo.File("logs/log-.txt",
-            rollingInterval: RollingInterval.Day,
-            outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}")
+        // .WriteTo.File("logs/log-.txt",
+        //     rollingInterval: RollingInterval.Day,
+        //     outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}")
         .MinimumLevel.Information()
         .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Warning)
         .MinimumLevel.Override("Microsoft.AspNetCore", Serilog.Events.LogEventLevel.Warning)
@@ -34,11 +34,6 @@ builder.Host.UseSerilog((context, configuration) =>
 
 // Thêm các dịch vụ ứng dụng
 builder.Services.AddApplicationServices();
-
-// Thêm WebSocket services
-// builder.Services.AddSingleton<WebSocketConnectionManager>();
-// builder.Services.AddSingleton<WebSocketHandler>();
-
 builder.Services.AddRealtimeServices();
 
 // Cấu hình CORS

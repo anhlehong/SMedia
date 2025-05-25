@@ -54,4 +54,8 @@
       <None Remove="logs\log-20250525.txt" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="logs\" />
+    </ItemGroup>
+
 </Project>
