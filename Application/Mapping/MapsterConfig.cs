@@ -147,7 +147,8 @@ public static class MapsterConfig
             .Map(dest => dest.ParentCommentId, src => src.ParentCommentId)
             .Map(dest => dest.Content, src => src.Content)
             .Map(dest => dest.PostedAt, src => src.PostedAt)
-            .Map(dest => dest.ChildComments, src => src.ChildComments);
+            .Map(dest => dest.ChildComments, src => src.ChildComments)
+            .Map(dest => dest.Image, src => src.User.Image);
         
         // Cấu hình ánh xạ Mapster
         TypeAdapterConfig.GlobalSettings.ForType<Post, PostImageDto>()
