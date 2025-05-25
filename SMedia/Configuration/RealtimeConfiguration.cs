@@ -1,3 +1,6 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
 using SMedia.Realtime;
 
 
@@ -22,18 +25,21 @@ public static class RealtimeConfiguration
             {
                 if (context.WebSockets.IsWebSocketRequest)
                 {
-                    if (!context.User.Identity.IsAuthenticated)
+                    // fix_token: Lấy token từ query parameter thay vì header Authorization
+                    var token = context.Request.Query["token"].ToString();
+                    if (string.IsNullOrEmpty(token))
                     {
                         context.Response.StatusCode = 401;
-                        await context.Response.WriteAsync("Unauthorized");
+                        await context.Response.WriteAsync("Missing token in query parameter");
                         return;
                     }
 
-                    var userId = context.User.FindFirst("user_id")?.Value;
+                    // fix_token: Xác thực token thủ công thay vì dùng context.User
+                    var userId = ValidateToken(token, context.RequestServices);
                     if (string.IsNullOrEmpty(userId))
                     {
                         context.Response.StatusCode = 401;
-                        await context.Response.WriteAsync("Invalid userId in token");
+                        await context.Response.WriteAsync("Invalid token");
                         return;
                     }
 
@@ -56,5 +62,35 @@ public static class RealtimeConfiguration
         });
 
         return app;
+    }
+
+    // fix_token: Thêm phương thức ValidateToken để xác thực token từ query parameter
+    private static string ValidateToken(string token, IServiceProvider serviceProvider)
+    {
+        try
+        {
+            var jwtConfig = serviceProvider.GetRequiredService<Application.DTOs.JwtConfiguration>();
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.UTF8.GetBytes(jwtConfig.Key);
+
+            tokenHandler.ValidateToken(token, new TokenValidationParameters()
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = jwtConfig.Issuer,
+                ValidAudience = jwtConfig.Audience,
+                IssuerSigningKey = new SymmetricSecurityKey(key)
+            }, out SecurityToken validatedToken);
+
+            var jwtToken = (JwtSecurityToken)validatedToken;
+            return jwtToken.Claims.First(x => x.Type == "user_id").Value;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Token validation failed: {ex.Message}");
+            return null;
+        }
     }
 }
