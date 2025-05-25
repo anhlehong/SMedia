@@ -24,7 +24,7 @@ public class NotificationService : INotificationService
             RelatedUserId = relatedUserId,
             RelatedMessageId = relatedMessageId,
             Type = type,
-            NotifiedAt = DateTime.UtcNow,
+            NotifiedAt = DateTimeHelper.GetVietnamTime(),
             IsRead = false
         };
 

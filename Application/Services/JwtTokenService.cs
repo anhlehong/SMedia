@@ -33,7 +33,7 @@ public class JwtTokenService : IJwtTokenService
             issuer: _jwtConfig.Issuer,
             audience: _jwtConfig.Audience,
             claims: claims,
-            expires: DateTime.UtcNow.AddDays(30),
+            expires: DateTimeHelper.GetVietnamTime().AddDays(30),
             signingCredentials: creds);
 
         return new JwtSecurityTokenHandler().WriteToken(token);

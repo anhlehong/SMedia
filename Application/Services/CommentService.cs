@@ -51,7 +51,7 @@ public class CommentService : ICommentService
             UserId = userId,
             ParentCommentId = createDto.ParentCommentId,
             Content = createDto.Content,
-            PostedAt = DateTime.UtcNow
+            PostedAt = DateTimeHelper.GetVietnamTime()
         };
 
         await _commentRepository.AddAsync(comment);

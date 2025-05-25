@@ -160,7 +160,7 @@ public static class MapsterConfig
         // Cấu hình ánh xạ Mapster
         TypeAdapterConfig.GlobalSettings.ForType<Post, PostImageDto>()
             .Map(dest => dest.Media, src => src.Media.Adapt<MediaDto[]>())
-            .Map(dest => dest.PostedAt, src => src.PostedAt ?? DateTime.UtcNow)
+            .Map(dest => dest.PostedAt, src => src.PostedAt ?? DateTimeHelper.GetVietnamTime())
             .Map(dest => dest.IsApproved, src => src.IsApproved ?? false)
             .Map(dest => dest.IsVisible, src => src.IsVisible ?? true)
             .Ignore(dest => dest.userName) 

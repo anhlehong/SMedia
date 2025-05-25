@@ -44,7 +44,7 @@ public class EmailService : IEmailService
     public async Task<string> GenerateOtpAsync(string email)
     {
         var otp = GenerateRandomOtp();
-        var otpData = new { OTP = otp, Attempts = 0, CreatedAt = DateTime.UtcNow };
+        var otpData = new { OTP = otp, Attempts = 0, CreatedAt = DateTimeHelper.GetVietnamTime() };
 
         var key = $"otp_{email}";
         _memoryCache.Set(key, otpData, TimeSpan.FromMinutes(2));
@@ -69,7 +69,7 @@ public class EmailService : IEmailService
             return false;
         }
 
-        if (DateTime.UtcNow > createdAt.AddMinutes(2))
+        if (DateTimeHelper.GetVietnamTime() > createdAt.AddMinutes(2))
         {
             _memoryCache.Remove(key);
             return false;

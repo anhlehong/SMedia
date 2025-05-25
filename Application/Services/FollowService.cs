@@ -28,7 +28,7 @@ public class FollowService : IFollowService
         {
             FollowerId = followerId,
             FollowedId = followedId,
-            FollowedAt = DateTime.UtcNow
+            FollowedAt = DateTimeHelper.GetVietnamTime()
         };
 
         await _followRepository.AddFollowAsync(follow);

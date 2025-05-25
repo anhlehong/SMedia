@@ -287,7 +287,7 @@ namespace Application.Services
                 comment.CommentId = Guid.NewGuid();
                 comment.PostId = postId;
                 comment.UserId = userId;
-                comment.PostedAt = DateTime.UtcNow;
+                comment.PostedAt = DateTimeHelper.GetVietnamTime();
 
                 await _postRepository.CreateCommentAsync(comment);
                 Console.WriteLine($"Created comment {comment.CommentId} for post {postId}");
@@ -327,7 +327,7 @@ namespace Application.Services
                     UserId = userId,
                     PostId = postId,
                     VoteType = "Vote",
-                    VotedAt = DateTime.UtcNow
+                    VotedAt = DateTimeHelper.GetVietnamTime()
                 };
 
                 await _postRepository.CreateVoteAsync(vote);

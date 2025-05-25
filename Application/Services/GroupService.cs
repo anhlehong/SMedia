@@ -39,7 +39,7 @@ public class GroupService : IGroupService
                 GroupId = group.GroupId,
                 UserId = userId,
                 Role = "Admin",
-                JoinedAt = DateTime.UtcNow,
+                JoinedAt = DateTimeHelper.GetVietnamTime(),
                 Status = "Active"
             };
             await _groupRepository.AddMemberAsync(member);
@@ -211,7 +211,7 @@ public class GroupService : IGroupService
                 throw new InvalidOperationException("Member is not in pending status.");
 
             member.Status = approveDto.Approve ? "Active" : "Removed";
-            member.JoinedAt = approveDto.Approve ? DateTime.UtcNow : null;
+            member.JoinedAt = approveDto.Approve ? DateTimeHelper.GetVietnamTime() : null;
             await _groupRepository.UpdateMemberAsync(member);
 
             var memberDto = member.Adapt<GroupMemberDto>();
