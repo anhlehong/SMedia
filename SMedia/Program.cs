@@ -4,7 +4,6 @@ using SMedia.Configuration;
 using Serilog;
 using SMedia.Extensions;
 using SMedia.Hubs;
-using SMedia.WebSocketHandlers;
 using Microsoft.AspNetCore.Http;
 
 Env.Load();
@@ -37,8 +36,10 @@ builder.Host.UseSerilog((context, configuration) =>
 builder.Services.AddApplicationServices();
 
 // Thêm WebSocket services
-builder.Services.AddSingleton<WebSocketConnectionManager>();
-builder.Services.AddSingleton<WebSocketHandler>();
+// builder.Services.AddSingleton<WebSocketConnectionManager>();
+// builder.Services.AddSingleton<WebSocketHandler>();
+
+builder.Services.AddRealtimeServices();
 
 // Cấu hình CORS
 builder.Services.AddCors(options =>
@@ -74,8 +75,10 @@ if (app.Environment.IsDevelopment())
 app.UseCors("AllowFrontend");
 app.UseCustomHttpLogging();
 app.UseCustomHttpLogging();
-app.UseWebSockets(); 
-app.UseWebSocketHandler();
+
+app.UseWebSockets();
+app.UseRealtimeHandler();
+
 app.UseMiddleware<RequestResponseLoggingMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
