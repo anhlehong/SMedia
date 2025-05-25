@@ -7,6 +7,7 @@ public interface IGroupRepository
     Task<Group> CreateGroupAsync(Group group);
     Task<Group?> GetGroupByIdAsync(Guid groupId);
     Task<List<Group>> GetGroupsAsync(int page, int pageSize, Guid userId);
+    Task<List<Group>> GetJoinedGroupsByUserAsync(int page, int pageSize, Guid userId);
     Task<List<Group>> SearchGroupsAsync(string searchTerm, int page, int pageSize);
     Task UpdateGroupAsync(Group group);
     Task DeleteGroupAsync(Guid groupId);

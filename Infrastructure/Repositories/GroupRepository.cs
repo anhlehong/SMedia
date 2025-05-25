@@ -60,6 +60,34 @@ public class GroupRepository : IGroupRepository
         Console.WriteLine($"Retrieved {groups.Count} groups for user {userId}, page {page}, pageSize {pageSize}");
         return groups;
     }
+    
+    // public async Task<List<Group>> GetJoinedGroupsByUserAsync(int page, int pageSize, Guid userId)
+    // {
+    //     var groups = await _context.Groups
+    //         .Include(g => g.GroupMembers)
+    //         .Where(g => g.Visibility == "Public" || g.GroupMembers.Any(m => m.UserId == userId && m.Status == "Active"))
+    //         .OrderByDescending(g => g.CreatedAt)
+    //         .Skip((page - 1) * pageSize)
+    //         .Take(pageSize)
+    //         .ToListAsync();
+    //
+    //     Console.WriteLine($"Đã lấy {groups.Count} nhóm cho người dùng {userId}, trang {page}, kích thước trang {pageSize}");
+    //     Console.WriteLine(groups);
+    //     return groups;
+    // }
+    public async Task<List<Group>> GetJoinedGroupsByUserAsync(int page, int pageSize, Guid userId)
+    {
+        var groups = await _context.Groups
+            .Include(g => g.GroupMembers)
+            .Where(g => g.Visibility == "Public" && g.GroupMembers.Any(m => m.UserId == userId && m.Status == "Active"))
+            .OrderByDescending(g => g.CreatedAt)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        Console.WriteLine($"Đã lấy {groups.Count} nhóm cho người dùng {userId}, trang {page}, kích thước trang {pageSize}");
+        return groups;
+    }
 
     public async Task UpdateGroupAsync(Group group)
     {
