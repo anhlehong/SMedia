@@ -166,6 +166,11 @@ public static class MapsterConfig
             .Map(dest => dest.IsApproved, src => src.IsApproved ?? false)
             .Map(dest => dest.IsVisible, src => src.IsVisible ?? true)
             .Ignore(dest => dest.userName) 
-            .Ignore(dest => dest.userAvatar); 
+            .Ignore(dest => dest.userAvatar);
+
+        TypeAdapterConfig<Message, MessageDto>.NewConfig()
+            .TwoWays();
+        
+        TypeAdapterConfig<Notification, NotificationDto>.NewConfig().TwoWays();
     }
 }

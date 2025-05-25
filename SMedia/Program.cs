@@ -3,7 +3,6 @@ using DotNetEnv;
 using SMedia.Configuration;
 using Serilog;
 using SMedia.Extensions;
-using SMedia.Hubs;
 using Microsoft.AspNetCore.Http;
 
 Env.Load();
@@ -71,11 +70,11 @@ app.UseCors("AllowFrontend");
 app.UseCustomHttpLogging();
 app.UseCustomHttpLogging();
 
+app.UseAuthentication();
 app.UseWebSockets();
 app.UseRealtimeHandler();
 
 app.UseMiddleware<RequestResponseLoggingMiddleware>();
-app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 

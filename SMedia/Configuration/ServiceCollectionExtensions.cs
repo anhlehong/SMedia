@@ -45,13 +45,17 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IFollowService, FollowService>();
         services.AddScoped<ISearchService, SearchService>();
         services.AddScoped<ICommentService, CommentService>();
-            
+        services.AddScoped<IMessageService, MessageService>();
+        services.AddScoped<INotificationService, NotificationService>();
+        
         // Đăng ký các kho lưu trữ
         services.AddScoped<IGroupRepository, GroupRepository>();
         services.AddScoped<IPostRepository, PostRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IFollowRepository, FollowRepository>();
         services.AddScoped<ICommentRepository, CommentRepository>();
+        services.AddScoped<IMessageRepository, MessageRepository>();
+        services.AddScoped<INotificationRepository, NotificationRepository>();
         
         // Thêm Mapster
         services.AddMapster();

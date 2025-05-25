@@ -21,4 +21,11 @@ public class WebSocketConnectionManager
     {
         return _connections;
     }
+    
+    // fix1: Thêm phương thức để lấy WebSocket theo userId, dùng để gửi tin nhắn đến người nhận cụ thể
+    public WebSocket GetConnectionByUserId(string userId)
+    {
+        _connections.TryGetValue(userId, out var webSocket);
+        return webSocket;
+    }
 }

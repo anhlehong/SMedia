@@ -1,5 +1,6 @@
 using SMedia.Realtime;
 
+
 namespace SMedia.Configuration;
 
 public static class RealtimeConfiguration
@@ -7,7 +8,9 @@ public static class RealtimeConfiguration
     public static IServiceCollection AddRealtimeServices(this IServiceCollection services)
     {
         services.AddSingleton<WebSocketConnectionManager>();
-        services.AddSingleton<WebSocketHandler>();
+        services.AddSingleton<WebSocketHandler>(sp =>
+            new WebSocketHandler(sp.GetRequiredService<WebSocketConnectionManager>(), sp));
+
         return services;
     }
 
@@ -19,11 +22,18 @@ public static class RealtimeConfiguration
             {
                 if (context.WebSockets.IsWebSocketRequest)
                 {
-                    var userId = context.Request.Query["userId"];
+                    if (!context.User.Identity.IsAuthenticated)
+                    {
+                        context.Response.StatusCode = 401;
+                        await context.Response.WriteAsync("Unauthorized");
+                        return;
+                    }
+
+                    var userId = context.User.FindFirst("user_id")?.Value;
                     if (string.IsNullOrEmpty(userId))
                     {
-                        context.Response.StatusCode = 400;
-                        await context.Response.WriteAsync("Missing userId");
+                        context.Response.StatusCode = 401;
+                        await context.Response.WriteAsync("Invalid userId in token");
                         return;
                     }
 
