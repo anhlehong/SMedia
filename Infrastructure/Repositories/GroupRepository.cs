@@ -159,6 +159,7 @@ public class GroupRepository : IGroupRepository
         return await _context.GroupMembers
             .AsNoTracking()
             .Where(m => m.GroupId == groupId)
+            .Include(m => m.User)
             .ToListAsync();
     }
 

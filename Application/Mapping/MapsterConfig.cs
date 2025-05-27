@@ -100,7 +100,10 @@ public static class MapsterConfig
             .Map(dest => dest.Status, src => "Pending"); // Private group mặc định Pending
 
         // GroupMember -> GroupMemberDto
-        TypeAdapterConfig<GroupMember, GroupMemberDto>.NewConfig();
+        TypeAdapterConfig<GroupMember, GroupMemberDto>
+            .NewConfig()
+            .Map(dest => dest.Username, src => src.User.Username)
+            .Map(dest => dest.Image, src => src.User.Image ?? string.Empty);
 
         TypeAdapterConfig<Comment, PostDtos.StaticCommentDto>.NewConfig();
 

@@ -48,6 +48,16 @@ builder.Services.AddCors(options =>
     });
 });
 
+// builder.Services.AddCors(options =>
+// {
+//     options.AddPolicy("AllowAll", policy =>
+//     {
+//         policy.AllowAnyOrigin() 
+//             .AllowAnyHeader() 
+//             .AllowAnyMethod();
+//     });
+// });
+
 var app = builder.Build();
 
 
@@ -67,6 +77,7 @@ if (app.Environment.IsDevelopment())
 
 // Đăng ký middleware
 app.UseCors("AllowFrontend");
+// app.UseCors("AllowAll");
 app.UseCustomHttpLogging();
 app.UseCustomHttpLogging();
 
