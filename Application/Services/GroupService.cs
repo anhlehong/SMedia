@@ -96,7 +96,7 @@ public class GroupService : IGroupService
             throw;
         }
     }
-    
+
     public async Task<GroupDto[]> GetJoinedGroupsAsync(int page, int pageSize, Guid userId)
     {
         try
@@ -245,10 +245,11 @@ public class GroupService : IGroupService
 
             // Đặt bài viết của thành viên thành IsVisible = false
             await _postRepository.SetPostsInvisibleByUserInGroupAsync(userId, groupId);
-            
+
             // Xóa Comment của thành viên trong nhóm
             var comments = await _groupRepository.GetCommentsByUserAndGroupAsync(userId, groupId);
-            var childComments = await _groupRepository.GetChildCommentsAsync(comments.Select(c => c.CommentId).ToList());
+            var childComments =
+                await _groupRepository.GetChildCommentsAsync(comments.Select(c => c.CommentId).ToList());
             await _groupRepository.DeleteCommentsAsync(comments.Concat(childComments).ToList());
 
             // Xóa PostVote của thành viên trong nhóm
@@ -266,7 +267,7 @@ public class GroupService : IGroupService
             throw;
         }
     }
-    
+
     public async Task OutGroupAsync(Guid groupId, Guid userId, Guid adminId)
     {
         try
@@ -285,6 +286,19 @@ public class GroupService : IGroupService
             // Đặt bài viết của thành viên thành IsVisible = false
             await _postRepository.SetPostsInvisibleByUserInGroupAsync(userId, groupId);
 
+            // Xóa Comment của thành viên trong nhóm
+            var comments = await _groupRepository.GetCommentsByUserAndGroupAsync(userId, groupId);
+            var childComments =
+                await _groupRepository.GetChildCommentsAsync(comments.Select(c => c.CommentId).ToList());
+            await _groupRepository.DeleteCommentsAsync(comments.Concat(childComments).ToList());
+
+            // Xóa PostVote của thành viên trong nhóm
+            var postVotes = await _postRepository.GetPostVotesByUserAndGroupAsync(userId, groupId);
+            foreach (var vote in postVotes)
+            {
+                await _postRepository.DeleteVoteAsync(userId, vote.PostId);
+            }
+
             Console.WriteLine($"Removed member {userId} from group {groupId}, posts set invisible");
         }
         catch (Exception ex)
@@ -300,9 +314,9 @@ public class GroupService : IGroupService
         try
         {
             var group = await _groupRepository.GetGroupByIdAsync(groupId);
-            if(group == null)
+            if (group == null)
                 throw new KeyNotFoundException("Group not found.");
-            
+
             var member = await _groupRepository.GetGroupMemberAsync(userId, groupId);
             return member != null && member.Status == "Active";
         }
@@ -318,9 +332,9 @@ public class GroupService : IGroupService
         try
         {
             var group = await _groupRepository.GetGroupByIdAsync(groupId);
-            if(group == null)
+            if (group == null)
                 throw new KeyNotFoundException("Group not found.");
-            
+
             var members = await _groupRepository.GetMembersByGroupIdAsync(groupId);
             return members.Adapt<List<GroupMemberDto>>();
         }
@@ -339,14 +353,14 @@ public class GroupService : IGroupService
                 return Array.Empty<GroupDto>();
 
             var groups = await _groupRepository.SearchGroupsAsync(searchTerm, page, pageSize);
-            
+
             var groupDtos = groups.Select(g =>
             {
                 var dto = g.Adapt<GroupDto>();
                 dto.MemberCount = g.GroupMembers.Count(m => m.Status == "Active");
                 return dto;
             }).ToArray();
-            
+
             Console.WriteLine($"Search returned {groupDtos.Length} groups for search term '{searchTerm}', page {page}");
             return groupDtos;
         }
