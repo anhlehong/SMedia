@@ -17,4 +17,10 @@ public interface IGroupRepository
     Task<bool> IsGroupMemberAsync(Guid userId, Guid groupId);
     Task<bool> IsGroupAdminAsync(Guid userId, Guid groupId);
     Task<List<GroupMember>> GetMembersByGroupIdAsync(Guid groupId);
+
+    Task<List<Comment>> GetCommentsByUserAndGroupAsync(Guid userId, Guid groupId);
+
+    Task<List<Comment>> GetChildCommentsAsync(List<Guid> parentCommentIds);
+
+    Task DeleteCommentsAsync(List<Comment> comments);
 }

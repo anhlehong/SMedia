@@ -51,7 +51,7 @@ public class GroupRepository : IGroupRepository
     {
         var groups = await _context.Groups
             .Include(g => g.GroupMembers)
-            .Where(g => g.Visibility == "Public" || g.GroupMembers.Any(m => m.UserId == userId && m.Status == "Active"))
+            .Where(g => g.Visibility == "Public")
             .OrderByDescending(g => g.CreatedAt)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
@@ -61,20 +61,6 @@ public class GroupRepository : IGroupRepository
         return groups;
     }
     
-    // public async Task<List<Group>> GetJoinedGroupsByUserAsync(int page, int pageSize, Guid userId)
-    // {
-    //     var groups = await _context.Groups
-    //         .Include(g => g.GroupMembers)
-    //         .Where(g => g.Visibility == "Public" || g.GroupMembers.Any(m => m.UserId == userId && m.Status == "Active"))
-    //         .OrderByDescending(g => g.CreatedAt)
-    //         .Skip((page - 1) * pageSize)
-    //         .Take(pageSize)
-    //         .ToListAsync();
-    //
-    //     Console.WriteLine($"Đã lấy {groups.Count} nhóm cho người dùng {userId}, trang {page}, kích thước trang {pageSize}");
-    //     Console.WriteLine(groups);
-    //     return groups;
-    // }
     public async Task<List<Group>> GetJoinedGroupsByUserAsync(int page, int pageSize, Guid userId)
     {
         var groups = await _context.Groups
@@ -101,7 +87,7 @@ public class GroupRepository : IGroupRepository
         var group = await _context.Groups.FindAsync(groupId);
         if (group != null)
         {
-            _context.Groups.Remove(group);
+            group.Visibility = "Deleted";
             await _context.SaveChangesAsync();
             Console.WriteLine($"Deleted group {groupId}");
         }
@@ -177,5 +163,28 @@ public class GroupRepository : IGroupRepository
 
         Console.WriteLine($"Found {groups.Count} groups matching search term '{searchTerm}', page {page}, pageSize {pageSize}");
         return groups;
+    }
+    
+    public async Task<List<Comment>> GetCommentsByUserAndGroupAsync(Guid userId, Guid groupId)
+    {
+        return await _context.Comments
+            .Where(c => c.UserId == userId && c.Post.GroupId == groupId)
+            .ToListAsync();
+    }
+
+    public async Task<List<Comment>> GetChildCommentsAsync(List<Guid> parentCommentIds)
+    {
+        return await _context.Comments
+            .Where(c => c.ParentCommentId != null && parentCommentIds.Contains(c.ParentCommentId.Value))
+            .ToListAsync();
+    }
+
+    public async Task DeleteCommentsAsync(List<Comment> comments)
+    {
+        if (comments.Any())
+        {
+            _context.Comments.RemoveRange(comments);
+            await _context.SaveChangesAsync();
+        }
     }
 }

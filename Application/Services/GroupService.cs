@@ -65,7 +65,7 @@ public class GroupService : IGroupService
                 throw new KeyNotFoundException("Group not found.");
 
             var groupDto = group.Adapt<GroupDto>();
-            groupDto.MemberCount = group.GroupMembers?.Count ?? 0;
+            groupDto.MemberCount = group.GroupMembers?.Count(m => m.Status == "Active") ?? 0;
             groupDto.Admins = group.GroupMembers?
                 .Where(m => m.Role == "Admin")
                 .Select(m => m.UserId)
@@ -245,6 +245,18 @@ public class GroupService : IGroupService
 
             // Đặt bài viết của thành viên thành IsVisible = false
             await _postRepository.SetPostsInvisibleByUserInGroupAsync(userId, groupId);
+            
+            // Xóa Comment của thành viên trong nhóm
+            var comments = await _groupRepository.GetCommentsByUserAndGroupAsync(userId, groupId);
+            var childComments = await _groupRepository.GetChildCommentsAsync(comments.Select(c => c.CommentId).ToList());
+            await _groupRepository.DeleteCommentsAsync(comments.Concat(childComments).ToList());
+
+            // Xóa PostVote của thành viên trong nhóm
+            var postVotes = await _postRepository.GetPostVotesByUserAndGroupAsync(userId, groupId);
+            foreach (var vote in postVotes)
+            {
+                await _postRepository.DeleteVoteAsync(userId, vote.PostId);
+            }
 
             Console.WriteLine($"Removed member {userId} from group {groupId}, posts set invisible");
         }

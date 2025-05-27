@@ -21,4 +21,5 @@ public interface IPostRepository
     Task<bool> IsGroupAdminAsync(Guid userId, Guid groupId);
     Task SetPostsInvisibleByUserInGroupAsync(Guid userId, Guid groupId);
     Task<List<Post>> GetGroupPostsImageAsync(Guid groupId, int page, int pageSize);
+    Task<List<PostVote>> GetPostVotesByUserAndGroupAsync(Guid userId, Guid groupId);
 }

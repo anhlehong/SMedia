@@ -96,10 +96,11 @@ namespace Infrastructure.Repositories
                 .Take(pageSize)
                 .ToListAsync();
 
-            Console.WriteLine($"Retrieved {posts.Count} group posts for group {groupId}, page {page}, pageSize {pageSize}");
+            Console.WriteLine(
+                $"Retrieved {posts.Count} group posts for group {groupId}, page {page}, pageSize {pageSize}");
             return posts;
         }
-        
+
         public async Task<List<Post>> GetPendingGroupPostsAsync(Guid groupId, int page, int pageSize)
         {
             var posts = await _context.Posts
@@ -175,6 +176,13 @@ namespace Infrastructure.Repositories
                 await _context.SaveChangesAsync();
                 Console.WriteLine($"Deleted vote for post {postId} by user {userId}");
             }
+        }
+
+        public async Task<List<PostVote>> GetPostVotesByUserAndGroupAsync(Guid userId, Guid groupId)
+        {
+            return await _context.PostVotes
+                .Where(pv => pv.UserId == userId && pv.Post.GroupId == groupId)
+                .ToListAsync();
         }
 
         public async Task CreateMediaAsync(Media media)
