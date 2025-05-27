@@ -254,6 +254,33 @@ public class GroupService : IGroupService
             throw;
         }
     }
+    
+    public async Task OutGroupAsync(Guid groupId, Guid userId, Guid adminId)
+    {
+        try
+        {
+            var group = await _groupRepository.GetGroupByIdAsync(groupId);
+            if (group == null)
+                throw new KeyNotFoundException("Group not found.");
+
+            var member = await _groupRepository.GetGroupMemberAsync(userId, groupId);
+            if (member == null || member.Status != "Active")
+                throw new KeyNotFoundException("Member not found or not active.");
+
+            member.Status = "Removed";
+            await _groupRepository.UpdateMemberAsync(member);
+
+            // Đặt bài viết của thành viên thành IsVisible = false
+            await _postRepository.SetPostsInvisibleByUserInGroupAsync(userId, groupId);
+
+            Console.WriteLine($"Removed member {userId} from group {groupId}, posts set invisible");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error removing member {userId} from group {groupId}: {ex.Message}");
+            throw;
+        }
+    }
 
 
     public async Task<bool> IsMemberOfGroupAsync(Guid groupId, Guid userId)

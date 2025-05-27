@@ -11,6 +11,7 @@ public interface IGroupService
     Task<GroupDto[]> SearchGroupsAsync(string searchTerm, int page, int pageSize);
     Task<GroupDto> UpdateGroupAsync(Guid groupId, GroupUpdateDto groupDto, Guid userId);
     Task DeleteGroupAsync(Guid groupId, Guid userId);
+    Task OutGroupAsync(Guid groupId, Guid userId, Guid adminId);
     Task<GroupMemberDto> RequestJoinGroupAsync(GroupMemberRequestDto requestDto, Guid userId);
     Task<GroupMemberDto> ApproveMemberAsync(Guid groupId, GroupMemberApproveDto approveDto, Guid adminId);
     Task RemoveMemberAsync(Guid groupId, Guid userId, Guid adminId);

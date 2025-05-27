@@ -104,6 +104,33 @@ public class GroupMembersController : ControllerBase
             return StatusCode(500, new { Error = "An error occurred while removing the member." });
         }
     }
+    
+    [HttpDelete("{groupId}/members/{userId}/out-group")]
+    public async Task<IActionResult> OutGroup(Guid groupId, Guid userId)
+    {
+        try
+        {
+            if (!Guid.TryParse(User.FindFirst("user_id")?.Value, out var adminId))
+                return Unauthorized(new { Error = "Invalid token: user_id is missing or invalid." });
+
+            await _groupService.OutGroupAsync(groupId, userId, adminId);
+            return NoContent();
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(new { Error = ex.Message });
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            return Unauthorized(new { Error = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error removing member {userId} from group {groupId}: {ex.Message}");
+            return StatusCode(500, new { Error = "An error occurred while removing the member." });
+        }
+    }
+    
     [HttpGet("{groupId}/is-member-group")]
     public async Task<IActionResult> IsMemberOfGroup(Guid groupId)
     {
