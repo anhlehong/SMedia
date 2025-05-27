@@ -1,3 +1,4 @@
+using Application.DTOs;
 using Application.Interfaces.RepositoryInterfaces;
 using Domain.Entities;
 using Infrastructure.Data;
@@ -54,14 +55,14 @@ public class CommentRepository : ICommentRepository
     {
         return await _context.GroupMembers
             .AsNoTracking()
-            .AnyAsync(gm => gm.GroupId == groupId && gm.UserId == userId && gm.Status == "Active");
+            .AnyAsync(gm => gm.GroupId == groupId && gm.UserId == userId && gm.Status == GroupMemberStatuses.Active);
     }
 
     public async Task<bool> IsGroupAdminAsync(Guid userId, Guid groupId)
     {
         return await _context.GroupMembers
             .AsNoTracking()
-            .AnyAsync(gm => gm.GroupId == groupId && gm.UserId == userId && gm.Role == "Admin");
+            .AnyAsync(gm => gm.GroupId == groupId && gm.UserId == userId && gm.Role == GroupMemberRoles.Admin);
     }
 
     public async Task<List<Comment>> GetFlatCommentsByPostAsync(Guid postId, int skip, int take)

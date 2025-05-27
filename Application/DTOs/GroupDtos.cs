@@ -3,7 +3,7 @@ namespace Application.DTOs
     public class GroupCreateDto
     {
         public string GroupName { get; set; } = string.Empty;
-        public string Visibility { get; set; } = "Public"; // Public or Private
+        public string Visibility { get; set; } = GroupVisibility.Public;
         public string? Image { get; set; }
     }
 

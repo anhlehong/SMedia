@@ -14,7 +14,7 @@ public static class MapsterConfig
             .Map(dest => dest.UserId, src => Guid.NewGuid().ToString())
             .Map(dest => dest.DeletedUserEmail, src => (string?)null)
             .Map(dest => dest.JoinedAt, src => DateTimeHelper.GetVietnamTime())
-            .Map(dest => dest.Status, src => "active")
+            .Map(dest => dest.Status, src => UserStatus.Active)
             .Map(dest => dest.Intro, src => (string?)null)
             .Map(dest => dest.Image,
                 src => "https://res.cloudinary.com/dapvvdxw7/image/upload/v1747159636/avatar_l2rwth.jpg")
@@ -64,7 +64,7 @@ public static class MapsterConfig
 
         // Post -> PostDto
         TypeAdapterConfig<Post, PostDto>.NewConfig()
-            .Map(dest => dest.VoteCount, src => src.PostVotes.Count(v => v.VoteType == "Vote"))
+            .Map(dest => dest.VoteCount, src => src.PostVotes.Count(v => v.VoteType == VoteType.Vote))
             .Map(dest => dest.IsVotedByCurrentUser, src => false)
             .Map(dest => dest.CommentCount, src => src.Comments.Count);
 
@@ -89,15 +89,17 @@ public static class MapsterConfig
 
         // Group -> GroupDto
         TypeAdapterConfig<Group, GroupDto>.NewConfig()
-            .Map(dest => dest.MemberCount, src => src.GroupMembers.Count(m => m.Status == "Active"));
+            .Map(dest => dest.MemberCount, src => src.GroupMembers.Count(m => m.Status == GroupMemberStatuses.Active));
 
         // GroupMemberRequestDto -> GroupMember
         TypeAdapterConfig<(GroupMemberRequestDto Dto, Guid UserId), GroupMember>.NewConfig()
             .Map(dest => dest.GroupId, src => src.Dto.GroupId)
             .Map(dest => dest.UserId, src => src.UserId)
-            .Map(dest => dest.Role, src => "Member")
+            .Map(dest => dest.Role, src => GroupMemberRoles.Member)
             .Map(dest => dest.JoinedAt, src => DateTimeHelper.GetVietnamTime())
-            .Map(dest => dest.Status, src => "Pending"); // Private group mặc định Pending
+            .Map(dest => dest.Status, src => GroupMemberStatuses.Pending)
+            .Ignore(dest => dest.Group)
+            .Ignore(dest => dest.User);
 
         // GroupMember -> GroupMemberDto
         TypeAdapterConfig<GroupMember, GroupMemberDto>

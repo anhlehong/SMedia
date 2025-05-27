@@ -1,3 +1,4 @@
+using Application.DTOs;
 using Application.Interfaces.RepositoryInterfaces;
 using Domain.Entities;
 using Infrastructure.Data;
@@ -51,7 +52,7 @@ public class GroupRepository : IGroupRepository
     {
         var groups = await _context.Groups
             .Include(g => g.GroupMembers)
-            .Where(g => g.Visibility == "Public")
+            .Where(g => g.Visibility == GroupVisibility.Public)
             .OrderByDescending(g => g.CreatedAt)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
@@ -65,7 +66,7 @@ public class GroupRepository : IGroupRepository
     {
         var groups = await _context.Groups
             .Include(g => g.GroupMembers)
-            .Where(g => g.Visibility == "Public" && g.GroupMembers.Any(m => m.UserId == userId && m.Status == "Active"))
+            .Where(g => g.Visibility == GroupVisibility.Public && g.GroupMembers.Any(m => m.UserId == userId && m.Status == GroupMemberStatuses.Active))
             .OrderByDescending(g => g.CreatedAt)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
@@ -87,7 +88,7 @@ public class GroupRepository : IGroupRepository
         var group = await _context.Groups.FindAsync(groupId);
         if (group != null)
         {
-            group.Visibility = "Deleted";
+            group.Visibility = GroupVisibility.Deleted;
             await _context.SaveChangesAsync();
             Console.WriteLine($"Deleted group {groupId}");
         }
@@ -97,11 +98,40 @@ public class GroupRepository : IGroupRepository
         }
     }
 
+    
     public async Task AddMemberAsync(GroupMember member)
     {
-        _context.GroupMembers.Add(member);
-        await _context.SaveChangesAsync();
-        Console.WriteLine($"Added member {member.UserId} to group {member.GroupId}, status: {member.Status}");
+        await using var transaction = await _context.Database.BeginTransactionAsync();
+        try
+        {
+            var trackedEntity = _context.ChangeTracker.Entries<GroupMember>()
+                .FirstOrDefault(e => e.Entity.GroupId == member.GroupId && e.Entity.UserId == member.UserId);
+    
+            if (trackedEntity != null)
+            {
+                Console.WriteLine($"Member with GroupId: {member.GroupId}, UserId: {member.UserId} is already tracked.");
+                await transaction.RollbackAsync();
+                return;
+            }
+    
+            var existing = await _context.GroupMembers
+                .FirstOrDefaultAsync(m => m.GroupId == member.GroupId && m.UserId == member.UserId);
+            if (existing != null)
+            {
+                Console.WriteLine($"Member with GroupId: {member.GroupId}, UserId: {member.UserId} already exists in database.");
+                await transaction.RollbackAsync();
+                return;
+            }
+    
+            await _context.GroupMembers.AddAsync(member);
+            await _context.SaveChangesAsync();
+            await transaction.CommitAsync();
+        }
+        catch
+        {
+            await transaction.RollbackAsync();
+            throw;
+        }
     }
 
     public async Task<GroupMember?> GetGroupMemberAsync(Guid userId, Guid groupId)
@@ -127,7 +157,7 @@ public class GroupRepository : IGroupRepository
     public async Task<bool> IsGroupMemberAsync(Guid userId, Guid groupId)
     {
         var isMember = await _context.GroupMembers
-            .AnyAsync(m => m.GroupId == groupId && m.UserId == userId && m.Status == "Active");
+            .AnyAsync(m => m.GroupId == groupId && m.UserId == userId && m.Status == GroupMemberStatuses.Active);
         Console.WriteLine($"User {userId} is {(isMember ? "" : "not")} a member of group {groupId}");
         return isMember;
     }
@@ -135,7 +165,7 @@ public class GroupRepository : IGroupRepository
     public async Task<bool> IsGroupAdminAsync(Guid userId, Guid groupId)
     {
         var isAdmin = await _context.GroupMembers
-            .AnyAsync(m => m.GroupId == groupId && m.UserId == userId && m.Role == "Admin" && m.Status == "Active");
+            .AnyAsync(m => m.GroupId == groupId && m.UserId == userId && m.Role == GroupMemberRoles.Admin && m.Status == GroupMemberStatuses.Active);
         Console.WriteLine($"User {userId} is {(isAdmin ? "" : "not")} an admin of group {groupId}");
         return isAdmin;
     }

@@ -1,5 +1,8 @@
+using System.Text.Json;
 using Application.DTOs;
 using Application.Interfaces.ServiceInterfaces;
+using Newtonsoft.Json;
+using JsonSerializer = Newtonsoft.Json.JsonSerializer;
 
 namespace Application.Services;
 
@@ -26,7 +29,7 @@ public class GroupService : IGroupService
         try
         {
             // Kiểm tra Visibility hợp lệ
-            if (groupCreateDto.Visibility != "Public" && groupCreateDto.Visibility != "Private")
+            if (groupCreateDto.Visibility != GroupVisibility.Public && groupCreateDto.Visibility != GroupVisibility.Private)
                 throw new ArgumentException("Visibility must be 'Public' or 'Private'.");
 
             // Sửa: Dùng Mapster để ánh xạ, đặt tên biến rõ ràng
@@ -38,9 +41,9 @@ public class GroupService : IGroupService
             {
                 GroupId = group.GroupId,
                 UserId = userId,
-                Role = "Admin",
+                Role = GroupMemberRoles.Admin,
                 JoinedAt = DateTimeHelper.GetVietnamTime(),
-                Status = "Active"
+                Status = GroupMemberStatuses.Active,
             };
             await _groupRepository.AddMemberAsync(member);
 
@@ -65,9 +68,9 @@ public class GroupService : IGroupService
                 throw new KeyNotFoundException("Group not found.");
 
             var groupDto = group.Adapt<GroupDto>();
-            groupDto.MemberCount = group.GroupMembers?.Count(m => m.Status == "Active") ?? 0;
+            groupDto.MemberCount = group.GroupMembers?.Count(m => m.Status == GroupMemberStatuses.Active) ?? 0;
             groupDto.Admins = group.GroupMembers?
-                .Where(m => m.Role == "Admin")
+                .Where(m => m.Role == GroupMemberRoles.Admin)
                 .Select(m => m.UserId)
                 .ToList() ?? new List<Guid>();
 
@@ -165,30 +168,82 @@ public class GroupService : IGroupService
     {
         try
         {
+            // Kiểm tra dữ liệu đầu vào
+            if (requestDto == null || requestDto.GroupId == Guid.Empty)
+            {
+                Console.WriteLine($"Invalid requestDto or GroupId: {System.Text.Json.JsonSerializer.Serialize(requestDto, new JsonSerializerOptions { WriteIndented = true })}");                throw new ArgumentException("Invalid group ID.");
+            }
+    
+            if (userId == Guid.Empty)
+            {
+                Console.WriteLine($"Invalid userId: {userId}");
+                throw new ArgumentException("Invalid user ID.");
+            }
+    
+            // Lấy thông tin nhóm
             var group = await _groupRepository.GetGroupByIdAsync(requestDto.GroupId);
             if (group == null)
                 throw new KeyNotFoundException("Group not found.");
-
+    
+            // Kiểm tra Visibility
+            if (string.IsNullOrEmpty(group.Visibility))
+            {
+                Console.WriteLine($"Group {requestDto.GroupId} has null or empty Visibility.");
+                throw new InvalidOperationException("Group visibility is not set.");
+            }
+    
+            // Lấy thông tin thành viên hiện có
             var existingMember = await _groupRepository.GetGroupMemberAsync(userId, requestDto.GroupId);
-            if (existingMember != null && existingMember.Status == "Active")
-                throw new InvalidOperationException("User is already a member of the group.");
-
+    
+            if (existingMember != null)
+            {
+                if (existingMember.Status == GroupMemberStatuses.Active)
+                    throw new InvalidOperationException("User is already a member of the group.");
+    
+                if (existingMember.Status == GroupMemberStatuses.Removed || existingMember.Status ==  GroupMemberStatuses.Pending)
+                {
+                    if (string.Equals(group.Visibility, GroupVisibility.Public, StringComparison.OrdinalIgnoreCase))
+                        existingMember.Status = GroupMemberStatuses.Active;
+    
+                    await _groupRepository.UpdateMemberAsync(existingMember);
+    
+                    var memberDto = existingMember.Adapt<GroupMemberDto>();
+                    if (memberDto == null)
+                        throw new InvalidOperationException("Failed to map existingMember to GroupMemberDto.");
+    
+                    return memberDto;
+                }
+    
+                throw new InvalidOperationException($"User has invalid membership status: {existingMember.Status}");
+            }
+    
+            // Ánh xạ sang GroupMember cho trường hợp mới
             var member = (requestDto, userId).Adapt<GroupMember>();
-            if (group.Visibility == "Public")
-                member.Status = "Active"; // Public group tự động Active
-
+            if (member == null)
+            {
+                Console.WriteLine("Failed to map requestDto and userId to GroupMember.");
+                throw new InvalidOperationException("Failed to map requestDto to GroupMember.");
+            }
+    
+            if (string.Equals(group.Visibility, GroupVisibility.Public, StringComparison.OrdinalIgnoreCase))
+                member.Status = GroupMemberStatuses.Active;
+    
             await _groupRepository.AddMemberAsync(member);
-
-            var memberDto = member.Adapt<GroupMemberDto>();
-            Console.WriteLine($"User {userId} requested to join group {requestDto.GroupId}, status: {member.Status}");
-            return memberDto;
+    
+            var newMemberDto = member.Adapt<GroupMemberDto>();
+            if (newMemberDto == null)
+                throw new InvalidOperationException("Failed to map GroupMember to GroupMemberDto.");
+    
+            return newMemberDto;
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error requesting join group {requestDto.GroupId} for user {userId}: {ex.Message}");
+            Console.WriteLine(
+                $"Error requesting join group {requestDto?.GroupId} for user {userId}: {ex.Message}\nStackTrace: {ex.StackTrace}\nInnerException: {ex.InnerException?.Message}");
             throw;
         }
     }
+    
 
     public async Task<GroupMemberDto> ApproveMemberAsync(Guid groupId, GroupMemberApproveDto approveDto, Guid adminId)
     {
@@ -206,10 +261,10 @@ public class GroupService : IGroupService
             if (member == null)
                 throw new KeyNotFoundException("Member request not found.");
 
-            if (member.Status != "Pending")
+            if (member.Status != GroupMemberStatuses.Pending)
                 throw new InvalidOperationException("Member is not in pending status.");
 
-            member.Status = approveDto.Approve ? "Active" : "Removed";
+            member.Status = approveDto.Approve ? GroupMemberStatuses.Active : GroupMemberStatuses.Removed;
             member.JoinedAt = approveDto.Approve ? DateTimeHelper.GetVietnamTime() : null;
             await _groupRepository.UpdateMemberAsync(member);
 
@@ -237,10 +292,10 @@ public class GroupService : IGroupService
                 throw new UnauthorizedAccessException("User is not an admin of the group.");
 
             var member = await _groupRepository.GetGroupMemberAsync(userId, groupId);
-            if (member == null || member.Status != "Active")
+            if (member == null || member.Status != GroupMemberStatuses.Active)
                 throw new KeyNotFoundException("Member not found or not active.");
 
-            member.Status = "Removed";
+            member.Status = GroupMemberStatuses.Removed;
             await _groupRepository.UpdateMemberAsync(member);
 
             // Đặt bài viết của thành viên thành IsVisible = false
@@ -277,10 +332,10 @@ public class GroupService : IGroupService
                 throw new KeyNotFoundException("Group not found.");
 
             var member = await _groupRepository.GetGroupMemberAsync(userId, groupId);
-            if (member == null || member.Status != "Active")
+            if (member == null || member.Status != GroupMemberStatuses.Active)
                 throw new KeyNotFoundException("Member not found or not active.");
 
-            member.Status = "Removed";
+            member.Status = GroupMemberStatuses.Removed;
             await _groupRepository.UpdateMemberAsync(member);
 
             // Đặt bài viết của thành viên thành IsVisible = false
@@ -318,7 +373,7 @@ public class GroupService : IGroupService
                 throw new KeyNotFoundException("Group not found.");
 
             var member = await _groupRepository.GetGroupMemberAsync(userId, groupId);
-            return member != null && member.Status == "Active";
+            return member != null && member.Status == GroupMemberStatuses.Active;
         }
         catch (Exception e)
         {
@@ -357,7 +412,7 @@ public class GroupService : IGroupService
             var groupDtos = groups.Select(g =>
             {
                 var dto = g.Adapt<GroupDto>();
-                dto.MemberCount = g.GroupMembers.Count(m => m.Status == "Active");
+                dto.MemberCount = g.GroupMembers.Count(m => m.Status == GroupMemberStatuses.Active);
                 return dto;
             }).ToArray();
 

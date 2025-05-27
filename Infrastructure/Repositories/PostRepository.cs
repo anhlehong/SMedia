@@ -1,3 +1,4 @@
+using Application.DTOs;
 using Application.Interfaces.RepositoryInterfaces;
 using Domain.Entities;
 using Infrastructure.Data;
@@ -205,7 +206,7 @@ namespace Infrastructure.Repositories
         public async Task<bool> IsGroupMemberAsync(Guid userId, Guid groupId)
         {
             var isMember = await _context.GroupMembers
-                .AnyAsync(m => m.GroupId == groupId && m.UserId == userId && m.Status == "Active");
+                .AnyAsync(m => m.GroupId == groupId && m.UserId == userId && m.Status == GroupMemberStatuses.Active);
             Console.WriteLine($"User {userId} is {(isMember ? "" : "not")} a member of group {groupId}");
             return isMember;
         }
@@ -213,7 +214,7 @@ namespace Infrastructure.Repositories
         public async Task<bool> IsGroupAdminAsync(Guid userId, Guid groupId)
         {
             var isAdmin = await _context.GroupMembers
-                .AnyAsync(m => m.GroupId == groupId && m.UserId == userId && m.Role == "Admin" && m.Status == "Active");
+                .AnyAsync(m => m.GroupId == groupId && m.UserId == userId && m.Role == GroupMemberRoles.Admin && m.Status == GroupMemberStatuses.Active);
             Console.WriteLine($"User {userId} is {(isAdmin ? "" : "not")} an admin of group {groupId}");
             return isAdmin;
         }

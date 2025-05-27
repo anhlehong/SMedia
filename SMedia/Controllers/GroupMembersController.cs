@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Security.Claims;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Application.DTOs;
 using Application.Interfaces.ServiceInterfaces;
@@ -21,6 +22,7 @@ public class GroupMembersController : ControllerBase
         _groupService = groupService;
     }
 
+
     [HttpPost("request")]
     public async Task<ActionResult<GroupMemberDto>> RequestJoinGroup([FromBody] GroupMemberRequestDto requestDto)
     {
@@ -29,9 +31,12 @@ public class GroupMembersController : ControllerBase
             if (!Guid.TryParse(User.FindFirst("user_id")?.Value, out var userId))
                 return Unauthorized(new { Error = "Invalid token: user_id is missing or invalid." });
 
+            // Log dữ liệu đầu vào
+            string jsonString = JsonSerializer.Serialize(requestDto, new JsonSerializerOptions { WriteIndented = true });
+            Console.WriteLine($"jsonString: \n, {jsonString}");
+
             var member = await _groupService.RequestJoinGroupAsync(requestDto, userId);
-            return CreatedAtAction(nameof(RequestJoinGroup), new { groupId = member.GroupId, userId = member.UserId },
-                member);
+            return Ok(member);
         }
         catch (KeyNotFoundException ex)
         {
@@ -43,7 +48,7 @@ public class GroupMembersController : ControllerBase
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error requesting join group {requestDto.GroupId}: {ex.Message}");
+            Console.WriteLine($"Error requesting join group {requestDto?.GroupId}: {ex.Message}\nStackTrace: {ex.StackTrace}\nInnerException: {ex.InnerException?.Message}");
             return StatusCode(500, new { Error = "An error occurred while requesting to join the group." });
         }
     }

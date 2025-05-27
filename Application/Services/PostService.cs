@@ -6,6 +6,7 @@ using Domain.Entities;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.DTOs;
 
 namespace Application.Services
 {
@@ -102,7 +103,7 @@ namespace Application.Services
 
                 var postDto = post.Adapt<PostDto>();
                 postDto.IsVotedByCurrentUser =
-                    post.PostVotes.Any(v => v.UserId == currentUserId && v.VoteType == "Vote");
+                    post.PostVotes.Any(v => v.UserId == currentUserId && v.VoteType == VoteType.Vote);
                 Console.WriteLine($"Retrieved post {postId} for user {currentUserId}");
                 return postDto;
             }
@@ -121,7 +122,7 @@ namespace Application.Services
                 var postDtos = posts.Select(p =>
                 {
                     var dto = p.Adapt<PostDto>();
-                    dto.IsVotedByCurrentUser = p.PostVotes.Any(v => v.UserId == currentUserId && v.VoteType == "Vote");
+                    dto.IsVotedByCurrentUser = p.PostVotes.Any(v => v.UserId == currentUserId && v.VoteType == VoteType.Vote);
                     return dto;
                 }).ToArray();
                 Console.WriteLine($"Retrieved {postDtos.Length} user posts for user {userId}, page {page}");
