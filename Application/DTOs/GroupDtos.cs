@@ -16,6 +16,7 @@ namespace Application.DTOs
         public DateTime CreatedAt { get; set; }
         public string? Image { get; set; }
         public int MemberCount { get; set; }
+        public List<Guid> Admins { get; set; } = new List<Guid>();
     }
 
     public class GroupUpdateDto

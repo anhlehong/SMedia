@@ -64,14 +64,13 @@ public class GroupService : IGroupService
             if (group == null)
                 throw new KeyNotFoundException("Group not found.");
 
-            if (group.Visibility == "Private")
-            {
-                var isMember = await _groupRepository.IsGroupMemberAsync(userId, groupId);
-                if (!isMember)
-                    throw new UnauthorizedAccessException("User is not a member of the private group.");
-            }
-
             var groupDto = group.Adapt<GroupDto>();
+            groupDto.MemberCount = group.GroupMembers?.Count ?? 0;
+            groupDto.Admins = group.GroupMembers?
+                .Where(m => m.Role == "Admin")
+                .Select(m => m.UserId)
+                .ToList() ?? new List<Guid>();
+
             Console.WriteLine($"Retrieved group {groupId} for user {userId}");
             return groupDto;
         }

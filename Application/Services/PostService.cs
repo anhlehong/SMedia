@@ -57,6 +57,10 @@ namespace Application.Services
                 var post = (postDto, userId).Adapt<Post>();
 
                 await _postRepository.CreatePostAsync(post);
+                
+                var isAdmin = await _postRepository.IsGroupAdminAsync(userId, postDto.GroupId);
+                if (isAdmin)
+                    post.IsApproved = true;
 
                 foreach (var mediaDto in postDto.Media)
                 {
