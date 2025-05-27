@@ -56,11 +56,11 @@ namespace Application.Services
 
                 var post = (postDto, userId).Adapt<Post>();
 
-                await _postRepository.CreatePostAsync(post);
-                
                 var isAdmin = await _postRepository.IsGroupAdminAsync(userId, postDto.GroupId);
                 if (isAdmin)
                     post.IsApproved = true;
+
+                await _postRepository.CreatePostAsync(post);
 
                 foreach (var mediaDto in postDto.Media)
                 {
@@ -92,6 +92,7 @@ namespace Application.Services
                     Console.WriteLine($"Post {postId} not found");
                     return null;
                 }
+
                 if (post.GroupId.HasValue)
                 {
                     var isMember = await _postRepository.IsGroupMemberAsync(currentUserId, post.GroupId.Value);
@@ -100,7 +101,8 @@ namespace Application.Services
                 }
 
                 var postDto = post.Adapt<PostDto>();
-                postDto.IsVotedByCurrentUser = post.PostVotes.Any(v => v.UserId == currentUserId && v.VoteType == "Vote");
+                postDto.IsVotedByCurrentUser =
+                    post.PostVotes.Any(v => v.UserId == currentUserId && v.VoteType == "Vote");
                 Console.WriteLine($"Retrieved post {postId} for user {currentUserId}");
                 return postDto;
             }
@@ -151,7 +153,7 @@ namespace Application.Services
                     dto.CommentCount = p.Comments.Count;
                     return dto;
                 }).ToArray();
-            
+
                 Console.WriteLine($"Retrieved {postDtos.Length} group posts for group {groupId}, page {page}");
                 return postDtos;
             }
@@ -200,7 +202,8 @@ namespace Application.Services
                     throw new InvalidOperationException("Failed to retrieve updated post.");
 
                 var resultDto = updatedPost.Adapt<PostDto>();
-                resultDto.IsVotedByCurrentUser = updatedPost.PostVotes.Any(v => v.UserId == userId && v.VoteType == "Vote");
+                resultDto.IsVotedByCurrentUser =
+                    updatedPost.PostVotes.Any(v => v.UserId == userId && v.VoteType == "Vote");
                 Console.WriteLine($"Updated post {postId} for user {userId}");
                 return resultDto;
             }
@@ -210,7 +213,7 @@ namespace Application.Services
                 throw;
             }
         }
-        
+
         public async Task<PostDto> ApproveGroupPostAsync(Guid groupId, GroupPostApproveDto approveDto, Guid adminId)
         {
             try
@@ -224,7 +227,8 @@ namespace Application.Services
                     throw new KeyNotFoundException("Post not found in the group.");
 
                 if (post.IsApproved == approveDto.Approve)
-                    throw new InvalidOperationException($"Post is already {(approveDto.Approve ? "approved" : "rejected")}.");
+                    throw new InvalidOperationException(
+                        $"Post is already {(approveDto.Approve ? "approved" : "rejected")}.");
 
                 post.IsApproved = approveDto.Approve;
                 post.IsVisible = approveDto.Approve; // Nếu rejected, set IsVisible = false
@@ -273,7 +277,8 @@ namespace Application.Services
             }
         }
 
-        public async Task<StaticCommentDto> CreateCommentAsync(Guid postId, StaticCommentCreateDto commentDto, Guid userId)
+        public async Task<StaticCommentDto> CreateCommentAsync(Guid postId, StaticCommentCreateDto commentDto,
+            Guid userId)
         {
             try
             {
@@ -342,7 +347,9 @@ namespace Application.Services
                 Console.WriteLine($"Error voting on post {postId}: {ex.Message}");
                 throw;
             }
-        }        public async Task<PostDto[]> GetPendingGroupPostsAsync(Guid groupId, int page, int pageSize, Guid currentUserId)
+        }
+
+        public async Task<PostDto[]> GetPendingGroupPostsAsync(Guid groupId, int page, int pageSize, Guid currentUserId)
         {
             try
             {
@@ -369,7 +376,8 @@ namespace Application.Services
             }
         }
 
-        public async Task<PostDto> UpdateGroupPostVisibilityAsync(Guid groupId, GroupPostVisibilityDto visibilityDto, Guid adminId)
+        public async Task<PostDto> UpdateGroupPostVisibilityAsync(Guid groupId, GroupPostVisibilityDto visibilityDto,
+            Guid adminId)
         {
             try
             {
@@ -382,19 +390,22 @@ namespace Application.Services
                     throw new KeyNotFoundException("Post not found in the group.");
 
                 if (post.IsVisible == visibilityDto.IsVisible)
-                    throw new InvalidOperationException($"Post visibility is already set to {(visibilityDto.IsVisible ? "visible" : "hidden")}.");
+                    throw new InvalidOperationException(
+                        $"Post visibility is already set to {(visibilityDto.IsVisible ? "visible" : "hidden")}.");
 
                 post.IsVisible = visibilityDto.IsVisible;
                 await _postRepository.UpdatePostAsync(post);
 
                 var postDto = post.Adapt<PostDto>();
                 postDto.IsVotedByCurrentUser = post.PostVotes.Any(v => v.UserId == adminId && v.VoteType == "Vote");
-                Console.WriteLine($"Updated visibility for post {visibilityDto.PostId} in group {groupId}, visibility: {post.IsVisible}");
+                Console.WriteLine(
+                    $"Updated visibility for post {visibilityDto.PostId} in group {groupId}, visibility: {post.IsVisible}");
                 return postDto;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error updating visibility for post {visibilityDto.PostId} in group {groupId}: {ex.Message}");
+                Console.WriteLine(
+                    $"Error updating visibility for post {visibilityDto.PostId} in group {groupId}: {ex.Message}");
                 throw;
             }
         }
